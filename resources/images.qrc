@@ -28,5 +28,11 @@
         <file>Pictures/weatherForecast_back.png</file>
         <file>Pictures/weatherForecast_background.png</file>
         <file>Pictures/welcome_background.gif</file>
+        <file>Pictures/faceLog_addUserBackground.png</file>
+        <file>Pictures/faceLog_background.png</file>
+        <file>Pictures/faceLog_button.png</file>
+        <file>Pictures/faceLog_findImage.png</file>
+        <file>Pictures/faceLog_sample.png</file>
+        <file>Pictures/faceLog_textEdit.png</file>
     </qresource>
 </RCC>

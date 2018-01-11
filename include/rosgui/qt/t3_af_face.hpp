@@ -4,6 +4,8 @@
 #include "t3_af_config.hpp"
 #include <QDialog>
 
+#include "t3_af_facelog.hpp"
+
 namespace Ui {
 class T3_AF_face;
 }
@@ -17,6 +19,7 @@ public:
     ~T3_AF_face();
 
     void exitToMainWindow();
+    void enterFaceLog();
 
 private slots:
     void timeUpdate();

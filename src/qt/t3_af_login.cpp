@@ -25,8 +25,10 @@ T3_AF_logIn::T3_AF_logIn(QDialog *welcome, QWidget *parent) :
     ui->_passwordLineEdit_->setText("666");
     ui->_passwordLineEdit_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
     ui->_returnPushBtn_->setText("退出");
+    ui->_returnPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_returnPushBtn_->setFlat(true);
     ui->_logInPushBtn_->setText("确定");
+    ui->_logInPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_logInPushBtn_->setFlat(true);
     //EditLine限制
     QRegExp regx_("[a-zA-Z0-9]+$");

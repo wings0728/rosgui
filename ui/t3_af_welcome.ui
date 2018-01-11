@@ -63,23 +63,9 @@
     <string>_logoLabel_</string>
    </property>
   </widget>
-  <widget class="QLabel" name="_123">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>340</y>
-     <width>54</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>_123</string>
-   </property>
-  </widget>
   <zorder>_gifLabel_</zorder>
   <zorder>_enterSystemPushBtn_</zorder>
   <zorder>_dateTimeLabel_</zorder>
-  <zorder>_123</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

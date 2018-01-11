@@ -12,12 +12,12 @@ T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     this->move(0, 0);
     this->resize(800, 450);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
-    this->setAttribute(Qt::WA_DeleteOnClose,true);
     ui->_dateLabel_->setText("");
     ui->_dateLabel_->setStyleSheet("color:white");
     ui->_timeLabel_->setText("");
     ui->_timeLabel_->setStyleSheet("color:white");
     ui->_exitPushBtn_->setText("");
+    ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/face_back.png)");
     ui->_faceGifLabel_->setText("");
     ui->_faceGifLabel_->setStyleSheet("border-image:url(:/Pictures/face_gif.png)");
@@ -41,6 +41,7 @@ T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_face::exitToMainWindow);
+    connect(ui->_enterFaceLogPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceLog);
     //日志
     T3LOG("5+ 人脸界面构造");
 }
@@ -67,6 +68,14 @@ void T3_AF_face::exitToMainWindow()
     _mainWindow->show();
     this->close();
     delete this;
+}
+
+//enterFaceLog
+void T3_AF_face::enterFaceLog()
+{
+    T3_AF_faceLog *faceLog_ = new T3_AF_faceLog(this);
+    faceLog_->show();
+    this->close();
 }
 
 //界面析构函数
