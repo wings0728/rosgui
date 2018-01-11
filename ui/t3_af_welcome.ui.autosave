@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>T3_AF_welcome</class>
+ <widget class="QDialog" name="T3_AF_welcome">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>T3_AF_welcome</string>
+  </property>
+  <widget class="QPushButton" name="_enterSystemPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>450</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>1</horstretch>
+     <verstretch>1</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>_enterSystemPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_dateTimeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>250</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_dateTimeLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_gifLabel_">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>450</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_logoLabel_</string>
+   </property>
+  </widget>
+  <zorder>_gifLabel_</zorder>
+  <zorder>_enterSystemPushBtn_</zorder>
+  <zorder>_dateTimeLabel_</zorder>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

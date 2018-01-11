@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>T3_AF_robotInfo</class>
+ <widget class="QDialog" name="T3_AF_robotInfo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="_exitPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>745</x>
+     <y>8</y>
+     <width>30</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_exitPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_timeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>50</y>
+     <width>130</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>35</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_timeLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_dateLabel_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>30</y>
+     <width>130</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_dateLabel_</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>T3_AF_face</class>
+ <widget class="QDialog" name="T3_AF_face">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="_timeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>50</y>
+     <width>130</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>35</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_timeLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_dateLabel_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>30</y>
+     <width>130</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_dateLabel_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_exitPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>745</x>
+     <y>8</y>
+     <width>30</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_exitPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_faceGifLabel_">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>140</y>
+     <width>160</width>
+     <height>190</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>_faceGifLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_textLabel_">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>360</y>
+     <width>160</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>_textLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_squareLabel_">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>105</y>
+     <width>535</width>
+     <height>270</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>_squareLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_videoLabel_">
+   <property name="geometry">
+    <rect>
+     <x>231</x>
+     <y>106</y>
+     <width>357</width>
+     <height>267</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_videoLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_logBackgroundLabel_">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>105</y>
+     <width>175</width>
+     <height>270</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_logBackgroundLabel_</string>
+   </property>
+  </widget>
+  <zorder>_timeLabel_</zorder>
+  <zorder>_dateLabel_</zorder>
+  <zorder>_exitPushBtn_</zorder>
+  <zorder>_faceGifLabel_</zorder>
+  <zorder>_textLabel_</zorder>
+  <zorder>_logBackgroundLabel_</zorder>
+  <zorder>_videoLabel_</zorder>
+  <zorder>_squareLabel_</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>T3_AF_mainWindow</class>
+ <widget class="QDialog" name="T3_AF_mainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>455</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QPushButton" name="_exitPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>745</x>
+     <y>8</y>
+     <width>30</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_mapBackgroundLabel_">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>95</y>
+     <width>390</width>
+     <height>300</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_mapBackgroundLabel_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_facePushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>140</y>
+     <width>160</width>
+     <height>190</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>_facePushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_robotInfoPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>615</x>
+     <y>115</y>
+     <width>150</width>
+     <height>270</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>_robotInfoPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_textLabel_">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>360</y>
+     <width>160</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_textLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_dateLabel_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>30</y>
+     <width>130</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_dateLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_timeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>50</y>
+     <width>130</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>35</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_timeLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_windForceLabel_">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>20</y>
+     <width>50</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_windForceLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_windDirectionLabel_">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>20</y>
+     <width>55</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_windDirectionLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_wetLabel_">
+   <property name="geometry">
+    <rect>
+     <x>535</x>
+     <y>20</y>
+     <width>50</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_wetLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_wetTitleLabel_">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>20</y>
+     <width>55</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_wetLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_qualityTitleLabel_">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>50</y>
+     <width>55</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_qualityTitleLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_qualityLabel_">
+   <property name="geometry">
+    <rect>
+     <x>535</x>
+     <y>50</y>
+     <width>50</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_qualityLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_sunriseTitleLabel_">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>35</y>
+     <width>55</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_sunriseTitleLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_sunriseLabel_">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>35</y>
+     <width>50</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_sunriseLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_sunsetTitleLabel_">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>50</y>
+     <width>55</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_sunriseTitleLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_sunsetLabel_">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>50</y>
+     <width>50</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_sunriseTitleLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_pm25TitleLabel_">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>35</y>
+     <width>55</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_pm25TitleLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_pm25Label_">
+   <property name="geometry">
+    <rect>
+     <x>535</x>
+     <y>35</y>
+     <width>50</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_wetLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_tempraturePushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>15</y>
+     <width>140</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>30</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_tempraturePushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_mapPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>125</y>
+     <width>330</width>
+     <height>230</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_mapPusnBtn_</string>
+   </property>
+  </widget>
+  <zorder>_exitPushBtn_</zorder>
+  <zorder>_facePushBtn_</zorder>
+  <zorder>_robotInfoPushBtn_</zorder>
+  <zorder>_textLabel_</zorder>
+  <zorder>_dateLabel_</zorder>
+  <zorder>_timeLabel_</zorder>
+  <zorder>_windForceLabel_</zorder>
+  <zorder>_windDirectionLabel_</zorder>
+  <zorder>_wetLabel_</zorder>
+  <zorder>_wetTitleLabel_</zorder>
+  <zorder>_qualityTitleLabel_</zorder>
+  <zorder>_qualityLabel_</zorder>
+  <zorder>_sunriseTitleLabel_</zorder>
+  <zorder>_sunriseLabel_</zorder>
+  <zorder>_sunsetTitleLabel_</zorder>
+  <zorder>_sunsetLabel_</zorder>
+  <zorder>_pm25TitleLabel_</zorder>
+  <zorder>_pm25Label_</zorder>
+  <zorder>_tempraturePushBtn_</zorder>
+  <zorder>_mapBackgroundLabel_</zorder>
+  <zorder>_mapPushBtn_</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

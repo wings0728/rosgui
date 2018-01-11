@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>T3_AF_logIn</class>
+ <widget class="QDialog" name="T3_AF_logIn">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="_logLabel_">
+   <property name="geometry">
+    <rect>
+     <x>245</x>
+     <y>60</y>
+     <width>310</width>
+     <height>330</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>_logLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="_userNameLineEdit_">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>170</y>
+     <width>230</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_userNameLineEdit_</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="_passwordLineEdit_">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>255</y>
+     <width>230</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_passwordLineEdit_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_userNameLabel_">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>145</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_userNameLabel_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_passwordLabel_">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>230</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_passwordLabel_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_logInPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>305</y>
+     <width>95</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_logInPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_returnPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>305</y>
+     <width>95</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_returnPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_titleLabel_">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>75</y>
+     <width>130</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="text">
+    <string>_titleLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_dateTimeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>419</y>
+     <width>150</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_dateTimeLabel_</string>
+   </property>
+  </widget>
+  <zorder>_logLabel_</zorder>
+  <zorder>_passwordLineEdit_</zorder>
+  <zorder>_userNameLabel_</zorder>
+  <zorder>_passwordLabel_</zorder>
+  <zorder>_logInPushBtn_</zorder>
+  <zorder>_titleLabel_</zorder>
+  <zorder>_dateTimeLabel_</zorder>
+  <zorder>_userNameLineEdit_</zorder>
+  <zorder>_returnPushBtn_</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/icon.png</file>
+        <file>Pictures/confirmExit_background.png</file>
+        <file>Pictures/confirmExit_label.png</file>
+        <file>Pictures/confirmExit_no.png</file>
+        <file>Pictures/confirmExit_yes.png</file>
+        <file>Pictures/face_back.png</file>
+        <file>Pictures/face_background.png</file>
+        <file>Pictures/face_gif.png</file>
+        <file>Pictures/face_logBackground.png</file>
+        <file>Pictures/face_square.png</file>
+        <file>Pictures/face_text.png</file>
+        <file>Pictures/logIn_background.png</file>
+        <file>Pictures/logIn_logBackground.png</file>
+        <file>Pictures/mainWindow_back.png</file>
+        <file>Pictures/mainWindow_background.png</file>
+        <file>Pictures/mainWindow_face.png</file>
+        <file>Pictures/mainWindow_map.png</file>
+        <file>Pictures/mainWindow_mapBackground.png</file>
+        <file>Pictures/mainWindow_robotInfo.png</file>
+        <file>Pictures/mainWindow_text.png</file>
+        <file>Pictures/map_back.png</file>
+        <file>Pictures/map_background.png</file>
+        <file>Pictures/map_column.png</file>
+        <file>Pictures/robotInfo_back.png</file>
+        <file>Pictures/robotInfo_background.png</file>
+        <file>Pictures/weatherForecast_back.png</file>
+        <file>Pictures/weatherForecast_background.png</file>
+        <file>Pictures/welcome_background.gif</file>
+    </qresource>
+</RCC>

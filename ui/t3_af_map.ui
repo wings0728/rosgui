@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>T3_AF_map</class>
+ <widget class="QDialog" name="T3_AF_map">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="_dateTimeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>420</y>
+     <width>150</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>_dateTImeLabel_</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_exitPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>745</x>
+     <y>8</y>
+     <width>30</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_exitPushBtn_</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_mapColumnLabel_">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>90</y>
+     <width>461</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_mapColumnLabel_</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
