@@ -13,7 +13,6 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     ui->_enterSystemPushBtn_->setText("");
     ui->_enterSystemPushBtn_->setFocusPolicy(Qt::NoFocus);
-    ui->_123->setText("456");
     ui->_enterSystemPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
     ui->_gifLabel_->setText("");
     ui->_dateTimeLabel_->setText("");

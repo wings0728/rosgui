@@ -18,17 +18,22 @@ T3_AF_mainWindow::T3_AF_mainWindow(QDialog *welcome, QWidget *parent) :
     ui->_timeLabel_->setText("");
     ui->_timeLabel_->setStyleSheet("color:white");
     ui->_exitPushBtn_->setText("");
+    ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_back.png)");
     ui->_facePushBtn_->setText("");
+    ui->_facePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_facePushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_face.png)");
     ui->_mapBackgroundLabel_->setText("");
     ui->_mapBackgroundLabel_->setStyleSheet("border-image:url(:/Pictures/mainWindow_mapBackground.png)");
     ui->_robotInfoPushBtn_->setText("");
+    ui->_robotInfoPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_robotInfoPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_robotInfo.png)");
     ui->_textLabel_->setText("");
     ui->_textLabel_->setStyleSheet("border-image:url(:/Pictures/mainWindow_text.png)");
     ui->_tempraturePushBtn_->setText("");
+    ui->_tempraturePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_tempraturePushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
+    ui->_tempratureLabel_->setText("");
     ui->_sunriseTitleLabel_->setText("日出");
     ui->_sunriseTitleLabel_->setStyleSheet("color:white");
     ui->_sunriseLabel_->setText("");
@@ -54,6 +59,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(QDialog *welcome, QWidget *parent) :
     ui->_qualityTitleLabel_->setText("空气质量");
     ui->_qualityTitleLabel_->setStyleSheet("color:white");
     ui->_mapPushBtn_->setText("");
+    ui->_mapPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
@@ -90,7 +96,8 @@ void T3_AF_mainWindow::timeUpdate()
 void T3_AF_mainWindow::weatherUpdate(Today today)
 {
     QString temprature_ = today._temprature_ + "℃";
-    ui->_tempraturePushBtn_->setText(temprature_);
+    //ui->_tempraturePushBtn_->setText(temprature_);
+    ui->_tempratureLabel_->setText(temprature_);
     ui->_wetLabel_->setText(today._wet_);
     ui->_windDirectionLabel_->setText(today._windDirection_);
     ui->_windForceLabel_->setText(today._windForce_);

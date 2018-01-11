@@ -17,6 +17,7 @@ T3_AF_robotInfo::T3_AF_robotInfo(QDialog *mainWindow, QWidget *parent) :
     ui->_timeLabel_->setText("");
     ui->_timeLabel_->setStyleSheet("color:white");
     ui->_exitPushBtn_->setText("");
+    ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/robotInfo_back.png)");
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");

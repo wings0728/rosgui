@@ -13,6 +13,7 @@ T3_AF_weatherForecast::T3_AF_weatherForecast(QDialog *mainWindow, QWidget *paren
     this->resize(800, 450);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     ui->_exitPushBtn_->setText("");
+    ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/weatherForecast_back.png)");
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:rgb(7, 221, 225)");

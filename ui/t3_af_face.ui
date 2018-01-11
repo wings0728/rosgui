@@ -139,6 +139,19 @@
     <string>_logBackgroundLabel_</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="_enterFaceLogPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>380</y>
+     <width>80</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>_enterFaceLogPushBtn_</string>
+   </property>
+  </widget>
   <zorder>_timeLabel_</zorder>
   <zorder>_dateLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
@@ -147,6 +160,7 @@
   <zorder>_logBackgroundLabel_</zorder>
   <zorder>_videoLabel_</zorder>
   <zorder>_squareLabel_</zorder>
+  <zorder>_enterFaceLogPushBtn_</zorder>
  </widget>
  <resources/>
  <connections/>

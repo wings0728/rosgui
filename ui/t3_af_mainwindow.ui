@@ -457,6 +457,31 @@
     <string>_mapPusnBtn_</string>
    </property>
   </widget>
+  <widget class="QLabel" name="_tempratureLabel_">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>15</y>
+     <width>140</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>30</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>_temperatureLabel_</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>_tempraturePushBtn_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_facePushBtn_</zorder>
   <zorder>_robotInfoPushBtn_</zorder>
@@ -475,9 +500,9 @@
   <zorder>_sunsetLabel_</zorder>
   <zorder>_pm25TitleLabel_</zorder>
   <zorder>_pm25Label_</zorder>
-  <zorder>_tempraturePushBtn_</zorder>
   <zorder>_mapBackgroundLabel_</zorder>
   <zorder>_mapPushBtn_</zorder>
+  <zorder>_tempratureLabel_</zorder>
  </widget>
  <resources/>
  <connections/>

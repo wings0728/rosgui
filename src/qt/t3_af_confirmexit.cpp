@@ -15,8 +15,10 @@ T3_AF_confirmExit::T3_AF_confirmExit(QDialog *welcome, QDialog *mainWindow, QWid
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     ui->_yesPushBtn_->setText("");
+    ui->_yesPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_yesPushBtn_->setStyleSheet("border-image:url(:/Pictures/confirmExit_yes.png)");
     ui->_noPushBtn_->setText("");
+    ui->_noPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_noPushBtn_->setStyleSheet("border-image:url(:/Pictures/confirmExit_no.png)");
     ui->_confirmLabel_->setText("");
     ui->_confirmLabel_->setStyleSheet("border-image:url(:/Pictures/confirmExit_label.png)");
