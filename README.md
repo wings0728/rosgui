@@ -3,16 +3,19 @@
 > 主要方法：
 - public:
 
-**构造函数** QNode(int argc, char** argv );
+> `QNode(int argc, char** argv );`
+构造函数
 
-**初始化** bool init();
+> `bool init();`
+*初始化*
 
 - 信号:
 
-**ros关闭** void rosShutdown();
+> `void rosShutdown();`
+*ros系统关闭*
     
-**坐标点更新** void poseUpdated();
-
+> `void poseUpdated();`
+*坐标点更新*
 
 > 使用方法：
 - 包含qnode.hpp
