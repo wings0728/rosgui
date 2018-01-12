@@ -2,9 +2,10 @@
 #include "ui_t3_af_welcome.h"
 
 //界面构造函数
-T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
+T3_AF_welcome::T3_AF_welcome(int argc, char** argv, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::T3_AF_welcome)
+    ui(new Ui::T3_AF_welcome),
+    qnode(argc,argv)
 {
     //界面布局初始化
     ui->setupUi(this);
@@ -35,6 +36,11 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_enterSystemPushBtn_, &QPushButton::clicked, this, &T3_AF_welcome::enterSystem);
+    //----------jason code
+    qnode.init();
+    QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
+    QObject::connect(&qnode, SIGNAL(poseUpdated()), this, SLOT(rosUpdate()));
+    //----------jason end
     //日志
     T3LOG("1+ 欢迎界面构造");
 }
@@ -57,6 +63,16 @@ void T3_AF_welcome::timeUpdate()
     QString dataTimeStr_ = dateTime_.toString("yyyy-MM-dd hh:mm:ss dddd");
     ui->_dateTimeLabel_->setText(dataTimeStr_);
 }
+
+//----------------jason code
+///
+/// \brief when ros update, will load the function
+///
+void T3_AF_welcome::rosUpdate()
+{
+  T3LOG("%f %f %f",qnode._robotPose[0], qnode._robotPose[1], qnode._robotPose[2]);
+}
+//----------------jason end
 
 //界面析构函数
 T3_AF_welcome::~T3_AF_welcome()

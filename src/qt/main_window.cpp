@@ -28,7 +28,7 @@ using namespace Qt;
 
 MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 	: QMainWindow(parent)
-	, qnode(argc,argv)
+  , qnode(argc,argv)
 {
 	ui.setupUi(this); // Calling this incidentally connects all ui's triggers to on_...() callbacks in this class.
     QObject::connect(ui.actionAbout_Qt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt())); // qApp is a global variable for the application
@@ -41,8 +41,8 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 	/*********************
 	** Logging
 	**********************/
-	ui.view_logging->setModel(qnode.loggingModel());
-    QObject::connect(&qnode, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
+//	ui.view_logging->setModel(qnode.loggingModel());
+    QObject::connect(&qnode, SIGNAL(poseUpdated()), this, SLOT(updateLoggingView()));
 
     /*********************
     ** Auto Start
@@ -113,6 +113,7 @@ void MainWindow::on_checkbox_use_environment_stateChanged(int state) {
  * the user can always see the latest log message.
  */
 void MainWindow::updateLoggingView() {
+    T3LOG("%f %f %f",qnode._robotPose[0], qnode._robotPose[1], qnode._robotPose[2]);
         ui.view_logging->scrollToBottom();
 }
 

@@ -23,9 +23,9 @@ int main(int argc, char **argv) {
     ** Qt
     **********************/
     QApplication app(argc, argv);
-    rosgui::MainWindow w(argc,argv);
+//    rosgui::MainWindow w(argc,argv);
 //    w.show();
-    T3_AF_welcome welcome_;
+    T3_AF_welcome welcome_(argc, argv);
     welcome_.show();
     app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
     int result = app.exec();
