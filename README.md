@@ -3,14 +3,15 @@
 > 主要方法：
 - public:
 
--- **构造函数**QNode(int argc, char** argv );
+**构造函数** QNode(int argc, char** argv );
 
--- **初始化**bool init();
+**初始化** bool init();
+
 - 信号:
 
--- **ros关闭：**void rosShutdown();
+**ros关闭** void rosShutdown();
     
--- **坐标点更新：**void poseUpdated();
+**坐标点更新** void poseUpdated();
 
 
 > 使用方法：
