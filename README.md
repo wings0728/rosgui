@@ -7,8 +7,8 @@
 - 当有数据更新时，会有**signals：poseUpdated()**, 坐标点数组为**std::vector<double> _robotPose**;当信号被触发时，可以写一个槽来调用_robotPose，查看最新坐标点。
 - 当ros被关闭时，会有**signals：rosShutdown()**，可以写对应的槽函数来做相应处理。
 > example:
+- hpp
 ```cpp
-//hpp
 namespace Ui {
 class T3_AF_welcome;
 }
@@ -29,8 +29,9 @@ private:
     Ui::T3_AF_welcome *ui;
     rosgui::QNode qnode;
 };
-
-//cpp
+```
+- cpp
+```cpp
 T3_AF_welcome::T3_AF_welcome(int argc, char** argv, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::T3_AF_welcome),
