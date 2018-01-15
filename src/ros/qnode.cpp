@@ -28,9 +28,13 @@ namespace rosgui {
 ** Implementation
 *****************************************************************************/
 
-QNode::QNode(int argc, char** argv ) :
-  init_argc(argc),
-  init_argv(argv)
+QNode * QNode::getInstance()
+{
+  static QNode qnode;
+  return &qnode;
+}
+
+QNode::QNode()
 {
   _robotPose.push_back(0.0);
   _robotPose.push_back(0.0);
@@ -45,8 +49,10 @@ QNode::~QNode() {
 	wait();
 }
 
-bool QNode::init() {
-	ros::init(init_argc,init_argv,"rosgui");
+bool QNode::init(int argc, char** argv ) {
+  init_argc = argc;
+  init_argv = argv;
+  ros::init(init_argc,init_argv,"rosgui");
 	if ( ! ros::master::check() ) {
 		return false;
 	}
@@ -59,22 +65,22 @@ bool QNode::init() {
 	return true;
 }
 
-bool QNode::init(const std::string &master_url, const std::string &host_url) {
-	std::map<std::string,std::string> remappings;
-	remappings["__master"] = master_url;
-	remappings["__hostname"] = host_url;
-	ros::init(remappings,"rosgui");
-	if ( ! ros::master::check() ) {
-		return false;
-	}
-	ros::start(); // explicitly needed since our nodehandle is going out of scope.
-	ros::NodeHandle n;
-	// Add your ros communications here.
-	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
-  getParam(n);
-	start();
-	return true;
-}
+//bool QNode::init(const std::string &master_url, const std::string &host_url) {
+//	std::map<std::string,std::string> remappings;
+//	remappings["__master"] = master_url;
+//	remappings["__hostname"] = host_url;
+//	ros::init(remappings,"rosgui");
+//	if ( ! ros::master::check() ) {
+//		return false;
+//	}
+//	ros::start(); // explicitly needed since our nodehandle is going out of scope.
+//	ros::NodeHandle n;
+//	// Add your ros communications here.
+//	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
+//  getParam(n);
+//	start();
+//	return true;
+//}
 
 void QNode::getParam(ros::NodeHandle n)
 {

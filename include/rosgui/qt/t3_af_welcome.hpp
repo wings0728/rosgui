@@ -17,7 +17,7 @@ class T3_AF_welcome : public QDialog
     Q_OBJECT
 
 public:
-    explicit T3_AF_welcome(int argc, char** argv, QWidget *parent = 0);
+    explicit T3_AF_welcome(QWidget *parent = 0);
     ~T3_AF_welcome();
 
     void enterSystem();
@@ -29,7 +29,7 @@ private slots:
 //--------------jason end
 private:
     Ui::T3_AF_welcome *ui;
-    rosgui::QNode qnode;
+    rosgui::QNode *qnode;
 };
 
 #endif // T3_AF_WELCOME_H

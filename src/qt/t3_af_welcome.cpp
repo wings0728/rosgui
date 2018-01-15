@@ -2,10 +2,9 @@
 #include "ui_t3_af_welcome.h"
 
 //界面构造函数
-T3_AF_welcome::T3_AF_welcome(int argc, char** argv, QWidget *parent) :
+T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::T3_AF_welcome),
-    qnode(argc,argv)
+    ui(new Ui::T3_AF_welcome)
 {
     //界面布局初始化
     ui->setupUi(this);
@@ -37,9 +36,9 @@ T3_AF_welcome::T3_AF_welcome(int argc, char** argv, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_enterSystemPushBtn_, &QPushButton::clicked, this, &T3_AF_welcome::enterSystem);
     //----------jason code
-    qnode.init();
-    QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
-    QObject::connect(&qnode, SIGNAL(poseUpdated()), this, SLOT(rosUpdate()));
+    qnode = rosgui::QNode::getInstance();
+    QObject::connect(qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
+    QObject::connect(qnode, SIGNAL(poseUpdated()), this, SLOT(rosUpdate()));
     //----------jason end
     //日志
     T3LOG("1+ 欢迎界面构造");
@@ -70,7 +69,7 @@ void T3_AF_welcome::timeUpdate()
 ///
 void T3_AF_welcome::rosUpdate()
 {
-  T3LOG("%f %f %f",qnode._robotPose[0], qnode._robotPose[1], qnode._robotPose[2]);
+  T3LOG("%f %f %f",qnode->_robotPose[0], qnode->_robotPose[1], qnode->_robotPose[2]);
 }
 //----------------jason end
 
