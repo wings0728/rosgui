@@ -6,6 +6,7 @@
 
 //#include "t3_af_login.h"
 #include "t3_af_mainwindow.hpp"
+#include "../ros/qnode.hpp"
 
 namespace Ui {
 class T3_AF_welcome;
@@ -23,9 +24,12 @@ public:
 
 private slots:
     void timeUpdate();
-
+//--------------jason code
+    void rosUpdate();
+//--------------jason end
 private:
     Ui::T3_AF_welcome *ui;
+    rosgui::QNode *qnode;
 };
 
 #endif // T3_AF_WELCOME_H
