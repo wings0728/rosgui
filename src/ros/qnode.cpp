@@ -52,6 +52,7 @@ QNode::~QNode() {
 bool QNode::init(int argc, char** argv ) {
   init_argc = argc;
   init_argv = argv;
+
   ros::init(init_argc,init_argv,"rosgui");
 	if ( ! ros::master::check() ) {
 		return false;
@@ -175,6 +176,17 @@ void QNode::log( const LogLevel &level, const std::string &msg) {
   logging_model.setData(logging_model.index(logging_model.rowCount()-1),new_row);
 //  Q_EMIT loggingUpdated(); // used to readjust the scrollbar
   Q_EMIT poseUpdated();
+}
+
+///
+/// \brief QNode::goalUpdate
+/// \param pose x
+/// \param pose y
+/// \param pose_oritation z
+///
+void QNode::goalUpdate(float x, float y, float z)
+{
+
 }
 
 }  // namespace rosgui

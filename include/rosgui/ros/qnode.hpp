@@ -61,6 +61,8 @@ Q_SIGNALS:
     void rosShutdown();
     void poseUpdated();
 
+public slots:
+    void goalUpdate(float x, float y, float z);
 
 private:
   int init_argc;
