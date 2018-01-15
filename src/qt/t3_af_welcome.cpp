@@ -1,6 +1,8 @@
 #include "../../include/rosgui/qt/t3_af_welcome.hpp"
 #include "ui_t3_af_welcome.h"
 
+#include <QVBoxLayout>
+
 //界面构造函数
 T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     QDialog(parent),
