@@ -29,6 +29,8 @@ T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     ui->_videoLabel_->setStyleSheet("color:white");
     ui->_logBackgroundLabel_->setText("");
     ui->_logBackgroundLabel_->setStyleSheet("border-image:url(:/Pictures/face_logBackground.png)");
+    ui->_morePushBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_enterFaceLogPushBtn_->setFocusPolicy(Qt::NoFocus);
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
     animation_->setDuration(300);

@@ -15,5 +15,6 @@
 #include <stdio.h>
 
 #define T3LOG(format, ...) qDebug(format , ##__VA_ARGS__);
+#define kMapScal 1.0
 
 #endif // T3_AF_CONFIG_H

@@ -1,11 +1,13 @@
 #include "../../include/rosgui/qt/t3_af_map.hpp"
 #include "ui_t3_af_map.h"
 
+
 //界面构造函数
 T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     QDialog(parent),
     _mainWindow(mainWindow),
-    ui(new Ui::T3_AF_map)
+    ui(new Ui::T3_AF_map),
+    _pos_(6, 0.0)
 {
     //界面布局初始化
     ui->setupUi(this);
@@ -17,7 +19,12 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:rgb(7, 221, 225)");
-    ui->_mapColumnLabel_->setText("");
+    _qnode = rosgui::QNode::getInstance();
+    _mapStartX = 25.0;
+    _mapStartY = 35.0;
+    _mapWidth = 560.0;
+    _mapHeight = 370.0;
+    _scale = kMapScal;
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
     animation_->setDuration(300);
@@ -30,8 +37,10 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
+    connect(ui->_testPushBtn_, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     //日志
     T3LOG("7+ 导航界面构造");
+
 }
 
 //显示时间
@@ -47,6 +56,12 @@ void T3_AF_map::paintEvent(QPaintEvent *)
 {
     QPainter paint_(this);
     paint_.drawPixmap(0, 0, this->width(), this->height(), QPixmap(":/Pictures/map_background.png"));
+    paint_.drawPixmap(_mapStartX, _mapStartY, _mapWidth, _mapHeight, QPixmap(":/Pictures/map_realMap.pgm"));
+    paint_.setRenderHint(QPainter::Antialiasing, true);
+    paint_.setPen(QPen(Qt::blue, 4));
+    paint_.drawLine(_pos_[0], _pos_[1], _pos_[2], _pos_[3]);
+    paint_.drawLine(_pos_[2], _pos_[3], _pos_[4], _pos_[5]);
+    paint_.drawLine(_pos_[4], _pos_[5], _pos_[0], _pos_[1]);
 }
 
 //退出
@@ -56,6 +71,42 @@ void T3_AF_map::exitToMainWindow()
     this->close();
     delete this;
 }
+
+//getPoint
+void T3_AF_map::getPoint()
+{
+    qDebug() << _qnode->_robotPose[0] << _qnode->_robotPose[1] << _qnode->_robotPose[2];
+    float angle = _qnode->_robotPose[2];
+    float a = 3.0;
+    float b = 10.0;
+    //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
+    _pos_[0] = (_mapStartX+_qnode->_robotPose[1]*_scale)-a*cos(angle);
+    _pos_[1] = (_mapStartY+_mapHeight-_qnode->_robotPose[0]*_scale)+a*sin(angle);
+    _pos_[2] = (_mapStartX+_qnode->_robotPose[1]*_scale)-b*sin(angle);
+    _pos_[3] = (_mapStartY+_mapHeight-_qnode->_robotPose[0]*_scale)-b*cos(angle);
+    _pos_[4] = (_mapStartX+_qnode->_robotPose[1]*_scale)+a*cos(angle);
+    _pos_[5] = (_mapStartY+_mapHeight-_qnode->_robotPose[0]*_scale)-a*sin(angle);
+    qDebug() << angle
+             << _pos_[0]
+             << _pos_[1]
+             << _pos_[2]
+             << _pos_[3]
+             << _pos_[4]
+             << _pos_[5];
+    update();
+}
+
+//show robot - current
+//void T3_AF_map::showRobot(vector<int> pose)
+//{
+//    //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
+//    QPainter paint_(ui->_routeLabel_);
+//    paint_.setRenderHint(QPainter::Antialiasing, true);
+//    paint_.setPen(QPen(Qt::blue, 4));
+//    paint_.drawLine(pose[0], pose[1], pose[2], pose[3]);
+//    paint_.drawLine(pose[2], pose[3], pose[4], pose[5]);
+//    paint_.drawLine(pose[4], pose[5], pose[0], pose[1]);
+//}
 
 //界面析构函数
 T3_AF_map::~T3_AF_map()

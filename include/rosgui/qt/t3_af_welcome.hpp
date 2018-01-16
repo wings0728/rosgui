@@ -6,7 +6,7 @@
 
 //#include "t3_af_login.h"
 #include "t3_af_mainwindow.hpp"
-#include "../ros/qnode.hpp"
+
 
 namespace Ui {
 class T3_AF_welcome;

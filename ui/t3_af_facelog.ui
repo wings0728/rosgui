@@ -93,17 +93,17 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="_getImagePushBtn_">
+  <widget class="QPushButton" name="_addNewUserPushBtn_">
    <property name="geometry">
     <rect>
-     <x>740</x>
-     <y>240</y>
+     <x>750</x>
+     <y>250</y>
      <width>30</width>
      <height>30</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/Pictures/faceLog_findImage.png)</string>
+    <string notr="true">border-image:url(:/Pictures/faceLog_addNew.png)</string>
    </property>
    <property name="text">
     <string/>
@@ -340,14 +340,33 @@
   <widget class="QPushButton" name="_exitPushBtn_">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>420</y>
-     <width>16</width>
-     <height>26</height>
+     <x>770</x>
+     <y>2</y>
+     <width>29</width>
+     <height>25</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/faceLog_back.png)</string>
+   </property>
    <property name="text">
-    <string>_exitPushBtn_</string>
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_getImagePushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>250</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/faceLog_image.png)</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <zorder>_backgroundLabel_</zorder>
@@ -356,7 +375,7 @@
   <zorder>_ageLineEdit_</zorder>
   <zorder>_userTypeLineEdit_</zorder>
   <zorder>_imageAddressLineEdit_</zorder>
-  <zorder>_getImagePushBtn_</zorder>
+  <zorder>_addNewUserPushBtn_</zorder>
   <zorder>_checkPushBtn_</zorder>
   <zorder>_clearPushBtn_</zorder>
   <zorder>_searchByNameLineEdit_</zorder>
@@ -368,6 +387,7 @@
   <zorder>_userImageLabel_</zorder>
   <zorder>_dateTimeLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
+  <zorder>_getImagePushBtn_</zorder>
  </widget>
  <resources/>
  <connections/>

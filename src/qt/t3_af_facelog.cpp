@@ -15,6 +15,8 @@ T3_AF_faceLog::T3_AF_faceLog(QDialog *face, QWidget *parent) :
   ui->_getImagePushBtn_->setFocusPolicy(Qt::NoFocus);
   ui->_checkPushBtn_->setFocusPolicy(Qt::NoFocus);
   ui->_clearPushBtn_->setFocusPolicy(Qt::NoFocus);
+  ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
+  ui->_addNewUserPushBtn_->setFocusPolicy(Qt::NoFocus);
   //界面浮现动画
   QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
   animation_->setDuration(300);
