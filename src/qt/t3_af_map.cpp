@@ -76,11 +76,6 @@ void T3_AF_map::exitToMainWindow()
 //getPoint
 void T3_AF_map::getPoint()
 {
-    //test
-//    _qnode->_robotPose[0] = ui->_x_->text().toFloat();
-//    _qnode->_robotPose[1] = ui->_y_->text().toFloat();
-//    _qnode->_robotPose[2] = ui->_w_->text().toFloat();
-    //tast done
     qDebug() << "robotpose[0]:" << _qnode->_robotPose[0] << "\n"
              << "robotpose[1]:" << _qnode->_robotPose[1] << "\n"
              << "robotpose[2]:" << _qnode->_robotPose[2] << "\n"
@@ -108,18 +103,6 @@ void T3_AF_map::getPoint()
              <<"cy:" << _pos_[5] <<"\n" <<"\n";
     update();
 }
-
-//show robot - current
-//void T3_AF_map::showRobot(vector<int> pose)
-//{
-//    //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
-//    QPainter paint_(ui->_routeLabel_);
-//    paint_.setRenderHint(QPainter::Antialiasing, true);
-//    paint_.setPen(QPen(Qt::blue, 4));
-//    paint_.drawLine(pose[0], pose[1], pose[2], pose[3]);
-//    paint_.drawLine(pose[2], pose[3], pose[4], pose[5]);
-//    paint_.drawLine(pose[4], pose[5], pose[0], pose[1]);
-//}
 
 //界面析构函数
 T3_AF_map::~T3_AF_map()

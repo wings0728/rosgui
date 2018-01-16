@@ -25,7 +25,6 @@ public:
 
     void exitToMainWindow();
     void getPoint();
-    //void showRobot(vector<int> pose);
 
     vector<float> _pos_;
 

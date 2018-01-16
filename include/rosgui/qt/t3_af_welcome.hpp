@@ -24,12 +24,10 @@ public:
 
 private slots:
     void timeUpdate();
-//--------------jason code
-    void rosUpdate();
-//--------------jason end
+
 private:
     Ui::T3_AF_welcome *ui;
-    rosgui::QNode *qnode;
+    QDialog *mw;
 };
 
 #endif // T3_AF_WELCOME_H
