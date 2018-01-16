@@ -22,8 +22,8 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = 25.0;
     _mapStartY = 35.0;
-    _mapWidth = 560.0;
-    _mapHeight = 370.0;
+    _mapWidth = 360.0;
+    _mapHeight = 360.0;
     _scale = kMapScal;
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
@@ -38,6 +38,7 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
+    //connect(ui->_testPushBtn_, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     //日志
     T3LOG("7+ 导航界面构造");
 
@@ -75,7 +76,14 @@ void T3_AF_map::exitToMainWindow()
 //getPoint
 void T3_AF_map::getPoint()
 {
-    qDebug() << _qnode->_robotPose[0] << _qnode->_robotPose[1] << _qnode->_robotPose[2];
+    //test
+//    _qnode->_robotPose[0] = ui->_x_->text().toFloat();
+//    _qnode->_robotPose[1] = ui->_y_->text().toFloat();
+//    _qnode->_robotPose[2] = ui->_w_->text().toFloat();
+    //tast done
+    qDebug() << "robotpose[0]:" << _qnode->_robotPose[0] << "\n"
+             << "robotpose[1]:" << _qnode->_robotPose[1] << "\n"
+             << "robotpose[2]:" << _qnode->_robotPose[2];
     float angle = _qnode->_robotPose[2];
     float a = 3.0;
     float b = 10.0;
@@ -86,13 +94,13 @@ void T3_AF_map::getPoint()
     _pos_[3] = (_mapStartY+_mapHeight-_qnode->_robotPose[0]*_scale)-b*cos(angle);
     _pos_[4] = (_mapStartX+_qnode->_robotPose[1]*_scale)+a*cos(angle);
     _pos_[5] = (_mapStartY+_mapHeight-_qnode->_robotPose[0]*_scale)-a*sin(angle);
-    qDebug() << angle
-             << _pos_[0]
-             << _pos_[1]
-             << _pos_[2]
-             << _pos_[3]
-             << _pos_[4]
-             << _pos_[5];
+    qDebug() <<"angle:" << angle <<"\n"
+             <<"ax:" << _pos_[0] <<"\n"
+             <<"ay:" << _pos_[1] <<"\n"
+             <<"bx:" << _pos_[2] <<"\n"
+             <<"by:" << _pos_[3] <<"\n"
+             <<"cx:" << _pos_[4] <<"\n"
+             <<"cy:" << _pos_[5] <<"\n" <<"\n";
     update();
 }
 
