@@ -34,5 +34,6 @@
         <file>Pictures/faceLog_findImage.png</file>
         <file>Pictures/faceLog_sample.png</file>
         <file>Pictures/faceLog_textEdit.png</file>
+        <file>Pictures/map_realMap.pgm</file>
     </qresource>
 </RCC>
