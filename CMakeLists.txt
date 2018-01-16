@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 #  libqt5-dev
   roscpp
   qt_build
+  t3_description
 )
 
 ################################################
