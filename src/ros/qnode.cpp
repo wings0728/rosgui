@@ -40,6 +40,7 @@ QNode::QNode()
   _robotPose.push_back(0.0);
   _robotPose.push_back(0.0);
   _robotPose.push_back(0.0);
+  _robotPose.push_back(0.0);
 }
 
 QNode::~QNode() {
@@ -93,7 +94,7 @@ void QNode::getParam(ros::NodeHandle n)
   //get pose topic
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
 //  ROS_WARN("set param");
-  T3LOG(_robotPoseTopicName.c_str());
+//  T3LOG(_robotPoseTopicName.c_str());
 //  std::count << "set param" << std::endl;
 }
 
@@ -104,12 +105,15 @@ void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
   {
     ROS_WARN("Received initial pose with empty frame_id.  You should always supply a frame_id.");
   }
-  tf::Pose currentPose_;
-  tf::poseMsgToTF(msg.pose.pose, currentPose_);
-  _robotPose[0] = currentPose_.getOrigin().x();
-  _robotPose[1] = currentPose_.getOrigin().y();
-  _robotPose[2] = currentPose_.getRotation().z();
-  std::string pose;
+//  tf::Pose currentPose_;
+//  tf::poseMsgToTF(msg.pose.pose, currentPose_);
+  _robotPose[0] = msg.pose.pose.position.x;
+  _robotPose[1] = msg.pose.pose.position.y;
+  _robotPose[2] = msg.pose.pose.orientation.z;
+  _robotPose[3] = msg.pose.pose.orientation.w;
+//  T3LOG(_robotPose[2]);
+//  qDebug() << "oritation:" << msg.pose.pose.orientation.z;
+//  std::string pose;
 //  pose += _robotPose[0];
 //  pose += ", ";
 //  pose += _robotPose[1];

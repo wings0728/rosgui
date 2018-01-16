@@ -83,8 +83,13 @@ void T3_AF_map::getPoint()
     //tast done
     qDebug() << "robotpose[0]:" << _qnode->_robotPose[0] << "\n"
              << "robotpose[1]:" << _qnode->_robotPose[1] << "\n"
-             << "robotpose[2]:" << _qnode->_robotPose[2];
-    float angle = _qnode->_robotPose[2];
+             << "robotpose[2]:" << _qnode->_robotPose[2] << "\n"
+             << "robotpose[3]:" << _qnode->_robotPose[3];
+    //---------jason code
+    float z = _qnode->_robotPose[2];
+    float w = _qnode->_robotPose[3];
+    //---------jason end
+    float angle = atan2(2 * w * z, 1 - 2 * z * z);
     float a = 3.0;
     float b = 10.0;
     //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy

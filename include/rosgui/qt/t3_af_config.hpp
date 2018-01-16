@@ -16,5 +16,6 @@
 
 #define T3LOG(format, ...) qDebug(format , ##__VA_ARGS__);
 #define kMapScal 9.0
+#define kPi 3.141592653
 
 #endif // T3_AF_CONFIG_H
