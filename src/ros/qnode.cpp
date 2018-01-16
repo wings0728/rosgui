@@ -17,6 +17,7 @@
 #include <sstream>
 #include "../../include/rosgui/ros/qnode.hpp"
 #include <tf/tf.h>
+#include "t3_description/goal.h"
 
 /*****************************************************************************
 ** Namespaces
@@ -61,6 +62,7 @@ bool QNode::init(int argc, char** argv ) {
 	ros::NodeHandle n;
 	// Add your ros communications here.
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
+  _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
   getParam(n);
 	start();
 	return true;
@@ -179,14 +181,18 @@ void QNode::log( const LogLevel &level, const std::string &msg) {
 }
 
 ///
-/// \brief QNode::goalUpdate
+/// \brief when goal update, publish it.
 /// \param pose x
 /// \param pose y
 /// \param pose_oritation z
 ///
 void QNode::goalUpdate(float x, float y, float z)
 {
-
+  t3_description::goal goalMsg_;
+  goalMsg_.x = x;
+  goalMsg_.y = y;
+  goalMsg_.z = z;
+  _robotGoal.publish(goalMsg_);
 }
 
 }  // namespace rosgui

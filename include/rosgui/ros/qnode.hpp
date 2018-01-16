@@ -68,6 +68,7 @@ private:
   int init_argc;
   char** init_argv;
 	ros::Publisher chatter_publisher;
+  ros::Publisher _robotGoal;
   ros::Subscriber _robotPoseSub;
     QStringListModel logging_model;
 //    ros::NodeHandle _privateNh;
