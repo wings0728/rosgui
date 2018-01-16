@@ -71,7 +71,7 @@ void T3_AF_welcome::timeUpdate()
 ///
 void T3_AF_welcome::rosUpdate()
 {
-  T3LOG("%f %f %f",qnode->_robotPose[0], qnode->_robotPose[1], qnode->_robotPose[2]);
+  //T3LOG("%f %f %f",qnode->_robotPose[0], qnode->_robotPose[1], qnode->_robotPose[2]);
 }
 //----------------jason end
 
