@@ -37,7 +37,7 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
-    connect(ui->_testPushBtn_, &QPushButton::clicked, this, &T3_AF_map::getPoint);
+    connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
     //日志
     T3LOG("7+ 导航界面构造");
 
