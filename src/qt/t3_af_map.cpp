@@ -26,6 +26,10 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     _mapWidth = 360.0;
     _mapHeight = 360.0;
     _scale = kMapScal;
+    _startX = 0;
+    _startY = 0;
+    _moveX = 0;
+    _moveY = 0;
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
     animation_->setDuration(300);
@@ -39,7 +43,6 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
-    //connect(ui->_testPushBtn_, &QPushButton::clicked, this, &T3_AF_map::sendPos);
     //日志
     T3LOG("7+ 导航界面构造");
 
@@ -64,16 +67,50 @@ void T3_AF_map::paintEvent(QPaintEvent *)
     paint_.drawLine(_pos_[0], _pos_[1], _pos_[2], _pos_[3]);
     paint_.drawLine(_pos_[2], _pos_[3], _pos_[4], _pos_[5]);
     paint_.drawLine(_pos_[4], _pos_[5], _pos_[0], _pos_[1]);
+    paint_.setPen(QPen(Qt::green, 3));
+    if((_startX > 0) & (_startY > 0) & (_moveX > 0) & (_moveY) > 0)
+    {
+        paint_.drawLine(_startX, _startY, _moveX, _moveY);
+    }
 }
 
 //mouseMoveEvent
-void T3_AF_map::mouseMoveEvent(QMouseEvent *)
+void T3_AF_map::mouseMoveEvent(QMouseEvent *m)
 {
-
+    _moveX = m->x();
+    _moveY = m->y();
+    update();
 }
 
+//mousePressEvent
+void T3_AF_map::mousePressEvent(QMouseEvent *p)
+{
+    _startX = p->x();
+    _startY = p->y();
+    update();
+}
 
+void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
+{
+    getTarget();
+    _startX = 0;
+    _startY = 0;
+    _moveX = 0;
+    _moveY = 0;
+    update();
+    qDebug() << "all clear";
+}
 
+void T3_AF_map::getTarget()
+{
+    if((_moveX > 0) & (_moveY > 0))
+    {
+        float y = (_startX - _mapStartX)/kMapScal;
+        float x = (_mapStartY + _mapHeight - _startY)/kMapScal;
+        float a = atan2(_startX - _moveX, _startY - _moveY);
+        _qnode->goalUpdate(x, y, a);
+    }
+}
 
 //退出
 void T3_AF_map::exitToMainWindow()
@@ -114,11 +151,6 @@ void T3_AF_map::getPoint()
     ui->_showConnectStatus_->setText("连接");
     update();
 }
-
-//sendPos
-//void T3_AF_map::sendPos()
-//{
-//}
 
 //界面析构函数
 T3_AF_map::~T3_AF_map()

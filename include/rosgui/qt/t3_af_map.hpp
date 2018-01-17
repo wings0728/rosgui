@@ -26,9 +26,12 @@ public:
 
     void exitToMainWindow();
     void getPoint();
-    //void sendPos();
+    void getTarget();
 
     vector<float> _pos_;
+
+signals:
+    //void sendPose(float x, float y, float a);
 
 private slots:
     void timeUpdate();
@@ -37,13 +40,19 @@ private:
     Ui::T3_AF_map *ui;
     QDialog *_mainWindow;
     void paintEvent(QPaintEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *m);
+    void mousePressEvent(QMouseEvent *p);
+    void mouseReleaseEvent(QMouseEvent *r);
     rosgui::QNode *_qnode;
     float _mapStartX;
     float _mapStartY;
     float _mapWidth;
     float _mapHeight;
     float _scale;
+    int _startX;
+    int _startY;
+    int _moveX;
+    int _moveY;
 };
 
 #endif // T3_AF_MAP_H
