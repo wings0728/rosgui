@@ -56,13 +56,16 @@ public:
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
 
+  void goalUpdate(float x, float y, float z);
+  void operationMode(bool isManual = true);
+
 Q_SIGNALS:
 	void loggingUpdated();
     void rosShutdown();
     void poseUpdated();
 
-public slots:
-    void goalUpdate(float x, float y, float z);
+
+
 
 private:
   int init_argc;
