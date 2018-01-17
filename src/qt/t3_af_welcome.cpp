@@ -50,7 +50,6 @@ void T3_AF_welcome::enterSystem()
     T3_AF_mainWindow *mainWindow_ = new T3_AF_mainWindow(this);
     mainWindow_->show();
     this->close();
-
 }
 
 //显示时间

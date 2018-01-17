@@ -5,6 +5,7 @@
 #include <QDialog>
 
 #include <QMessageBox>
+#include <QMouseEvent>
 #include <math.h>
 #include <vector>
 using std::vector;
@@ -25,6 +26,7 @@ public:
 
     void exitToMainWindow();
     void getPoint();
+    //void sendPos();
 
     vector<float> _pos_;
 
@@ -35,6 +37,7 @@ private:
     Ui::T3_AF_map *ui;
     QDialog *_mainWindow;
     void paintEvent(QPaintEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     rosgui::QNode *_qnode;
     float _mapStartX;
     float _mapStartY;
