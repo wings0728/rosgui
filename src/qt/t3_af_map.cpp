@@ -118,6 +118,7 @@ void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
     _moveX = 0;
     _moveY = 0;
     update();
+
 }
 
 void T3_AF_map::getTarget()
