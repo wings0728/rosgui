@@ -98,7 +98,7 @@ void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
     _moveX = 0;
     _moveY = 0;
     update();
-    qDebug() << "all clear";
+//    qDebug() << "all clear";
 }
 
 void T3_AF_map::getTarget()
