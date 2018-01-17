@@ -19,6 +19,7 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:rgb(7, 221, 225)");
+    ui->_showConnectStatus_->setText("未连接");
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = 25.0;
     _mapStartY = 35.0;
@@ -38,7 +39,7 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
-    //connect(ui->_testPushBtn_, &QPushButton::clicked, this, &T3_AF_map::getPoint);
+    //connect(ui->_testPushBtn_, &QPushButton::clicked, this, &T3_AF_map::sendPos);
     //日志
     T3LOG("7+ 导航界面构造");
 
@@ -64,6 +65,15 @@ void T3_AF_map::paintEvent(QPaintEvent *)
     paint_.drawLine(_pos_[2], _pos_[3], _pos_[4], _pos_[5]);
     paint_.drawLine(_pos_[4], _pos_[5], _pos_[0], _pos_[1]);
 }
+
+//mouseMoveEvent
+void T3_AF_map::mouseMoveEvent(QMouseEvent *)
+{
+
+}
+
+
+
 
 //退出
 void T3_AF_map::exitToMainWindow()
@@ -101,8 +111,14 @@ void T3_AF_map::getPoint()
              <<"by:" << _pos_[3] <<"\n"
              <<"cx:" << _pos_[4] <<"\n"
              <<"cy:" << _pos_[5] <<"\n" <<"\n";
+    ui->_showConnectStatus_->setText("连接");
     update();
 }
+
+//sendPos
+//void T3_AF_map::sendPos()
+//{
+//}
 
 //界面析构函数
 T3_AF_map::~T3_AF_map()

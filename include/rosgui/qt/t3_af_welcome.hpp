@@ -27,7 +27,6 @@ private slots:
 
 private:
     Ui::T3_AF_welcome *ui;
-    QDialog *mw;
 };
 
 #endif // T3_AF_WELCOME_H
