@@ -198,5 +198,14 @@ void QNode::goalUpdate(float x, float y, float z)
   goalMsg_.z = z;
   _robotGoal.publish(goalMsg_);
 }
+///
+/// \brief QNode::operationMode
+/// \param isManual
+///
+void QNode::operationMode(bool isManual)
+{
+    qDebug() << isManual;
+}
+
 
 }  // namespace rosgui

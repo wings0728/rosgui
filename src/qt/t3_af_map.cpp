@@ -20,6 +20,9 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:rgb(7, 221, 225)");
     ui->_showConnectStatus_->setText("未连接");
+    ui->_changePushBtn_->setText("自动模式");
+    ui->_changePushBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_changePushBtn_->setCheckable(true);
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = 25.0;
     _mapStartY = 35.0;
@@ -43,9 +46,26 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
+    connect(ui->_changePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
     //日志
     T3LOG("7+ 导航界面构造");
+}
 
+//test
+void T3_AF_map::autoMode()
+{
+    bool mode;
+    if(ui->_changePushBtn_->isChecked())
+    {
+        mode = true;
+        ui->_changePushBtn_->setText("手动模式");
+    }
+    else
+    {
+        mode = false;
+        ui->_changePushBtn_->setText("自动模式");
+    }
+    _qnode->operationMode(mode);
 }
 
 //显示时间
@@ -98,7 +118,6 @@ void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
     _moveX = 0;
     _moveY = 0;
     update();
-    qDebug() << "all clear";
 }
 
 void T3_AF_map::getTarget()

@@ -28,13 +28,13 @@ public:
     void getPoint();
     void getTarget();
 
+
     vector<float> _pos_;
 
-signals:
-    //void sendPose(float x, float y, float a);
 
 private slots:
     void timeUpdate();
+    void autoMode();
 
 private:
     Ui::T3_AF_map *ui;
