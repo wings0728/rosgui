@@ -9,6 +9,12 @@
 > `bool init(int argc, char** argv);`
 *初始化*
 
+> `std::vector<double> getRobotPose();`
+*返回值表示机器人相对于开机位置的坐标，其中包含4个变量，分别对应x,y,z,w, Z和W能组成机器人角度*
+
+> `std::vector<double> getMapOrigin();`
+*返回值表示地图原点相对于坐标系原点的偏移，其中包含3个变量，分别对应x,y,z, Z为机器人朝向（初始为0）*
+
 - 信号:
 
 > `void rosShutdown();`
@@ -17,13 +23,6 @@
 > `void poseUpdated();`
 *坐标点更新*
 
-- 变量:
-
-> `std::vector<double> _robotPose`
-*表示机器人相对于开机位置的坐标，其中包含4个变量，分别对应x,y,z,w, Z和W能组成机器人角度*
-
-> `std::vector<double> _mapOrigin`
-*表示地图原点相对于坐标系原点的偏移，其中包含3个变量，分别对应x,y,z, Z为机器人朝向（初始为0）*
 
 > 使用方法：
 - 包含qnode.hpp
