@@ -17,6 +17,8 @@
 > `void poseUpdated();`
 *坐标点更新*
 
+- 变量:
+
 > `std::vector<double> _robotPose`
 *表示机器人相对于开机位置的坐标，其中包含4个变量，分别对应x,y,z,w, Z和W能组成机器人角度*
 
