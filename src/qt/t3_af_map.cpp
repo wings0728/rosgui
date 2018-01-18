@@ -8,7 +8,9 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     _mainWindow(mainWindow),
     ui(new Ui::T3_AF_map),
     _pos_(6, -2.0),
-    _arrow_(6, 0.0)
+    _arrow_(6, 0.0),
+    _robotPose(4, 0.0),
+    _mapOrigin(3, 0.0)
 {
     //界面布局初始化
     ui->setupUi(this);
@@ -180,18 +182,20 @@ void T3_AF_map::getPoint()
 //    _qnode->_robotPose[2] = ui->_a->text().toFloat();
 //    _qnode->_robotPose[3] = 0;
     //test fin.
-    qDebug() << "robotpose[0]:" << _qnode->_robotPose[0] << "\n"
-             << "robotpose[1]:" << _qnode->_robotPose[1] << "\n"
-             << "robotpose[2]:" << _qnode->_robotPose[2] << "\n"
-             << "robotpose[3]:" << _qnode->_robotPose[3];
+  _robotPose = _qnode->getRobotPose();
+  _mapOrigin = _qnode->getMapOrigin();
+    qDebug() << "robotpose[0]:" << _robotPose[0] << "\n"
+             << "robotpose[1]:" << _robotPose[1] << "\n"
+             << "robotpose[2]:" << _robotPose[2] << "\n"
+             << "robotpose[3]:" << _robotPose[3];
     //---------jason code
-    float x = _qnode->_robotPose[0];
-    float y = _qnode->_robotPose[1];
-    float z = _qnode->_robotPose[2];
-    float w = _qnode->_robotPose[3];
+    float x = _robotPose[0];
+    float y = _robotPose[1];
+    float z = _robotPose[2];
+    float w = _robotPose[3];
     //temp...
-    _originX = 0.0;
-    _originY = 0.0;
+    _originX = _mapOrigin[0];
+    _originY = _mapOrigin[1];
     //---------jason end
     float px = _mapStartX + (x - _originX) * kMapScal;
     float py = _mapStartY + _mapHeight - (y - _originY)*kMapScal;

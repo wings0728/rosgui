@@ -229,5 +229,19 @@ void QNode::operationMode(bool isManual)
     qDebug() << isManual;
 }
 
+//***********************get set*********************//
+std::vector<double> QNode::getRobotPose()
+{
+  std::vector<double> tempPose(_robotPose);
+  return tempPose;
+}
+
+std::vector<double> QNode::getMapOrigin()
+{
+  std::vector<double> tempOrigin(_mapOrigin);
+  return tempOrigin;
+}
 
 }  // namespace rosgui
+
+

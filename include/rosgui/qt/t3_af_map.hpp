@@ -60,6 +60,8 @@ private:
     float _originY;
     QList<float> _pathX;
     QList<float> _pathY;
+    vector<double> _robotPose;
+    vector<double> _mapOrigin;
 };
 
 #endif // T3_AF_MAP_H
