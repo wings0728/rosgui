@@ -171,6 +171,19 @@
     <string>更多</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="_vocalPushBtn_">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>70</y>
+     <width>80</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>vocal</string>
+   </property>
+  </widget>
   <zorder>_timeLabel_</zorder>
   <zorder>_dateLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
@@ -181,6 +194,7 @@
   <zorder>_squareLabel_</zorder>
   <zorder>_enterFaceLogPushBtn_</zorder>
   <zorder>_morePushBtn_</zorder>
+  <zorder>_vocalPushBtn_</zorder>
  </widget>
  <resources/>
  <connections/>

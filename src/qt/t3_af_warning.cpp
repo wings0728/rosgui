@@ -36,6 +36,11 @@ void T3_AF_warning::closeThis()
     delete this;
 }
 
+void T3_AF_warning::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+}
+
 T3_AF_warning::~T3_AF_warning()
 {
     delete ui;

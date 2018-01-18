@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QMovie>
 #include "t3_af_getweather.hpp"
+#include <QCloseEvent>
 
 //T3LOG
 #include <QDebug>
@@ -15,6 +16,8 @@
 #include <stdio.h>
 
 #define T3LOG(format, ...) qDebug(format , ##__VA_ARGS__);
+
+//k
 #define kMapScal 9.0
 #define kPi 3.141592653
 

@@ -12,7 +12,7 @@ T3_AF_confirmExit::T3_AF_confirmExit(QDialog *welcome, QDialog *mainWindow, QWid
     ui->setupUi(this);
     this->move(0, 0);
     this->resize(800, 450);
-    this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     ui->_yesPushBtn_->setText("");
     ui->_yesPushBtn_->setFocusPolicy(Qt::NoFocus);
@@ -57,6 +57,11 @@ void T3_AF_confirmExit::doNotExit()
 {
     this->close();
     delete this;
+}
+
+void T3_AF_confirmExit::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
 }
 
 //界面析构函数

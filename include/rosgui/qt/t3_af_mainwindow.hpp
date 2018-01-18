@@ -36,7 +36,8 @@ private:
     Ui::T3_AF_mainWindow *ui;
     QDialog *_welcome;
     void paintEvent(QPaintEvent *event);
-   T3_AF_getWeather *_weather;
+    T3_AF_getWeather *_weather;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // T3_AF_MAINWINDOW_H
