@@ -18,7 +18,7 @@
 #include "../../include/rosgui/ros/qnode.hpp"
 #include <tf/tf.h>
 #include "t3_description/goal.h"
-
+#include "yaml-cpp/yaml.h"
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -35,12 +35,10 @@ QNode * QNode::getInstance()
   return &qnode;
 }
 
-QNode::QNode()
+QNode::QNode():
+  _mapOrigin(3, 0.0),
+  _robotPose(4, 0.0)
 {
-  _robotPose.push_back(0.0);
-  _robotPose.push_back(0.0);
-  _robotPose.push_back(0.0);
-  _robotPose.push_back(0.0);
 }
 
 QNode::~QNode() {
@@ -61,10 +59,11 @@ bool QNode::init(int argc, char** argv ) {
 	}
 	ros::start(); // explicitly needed since our nodehandle is going out of scope.
 	ros::NodeHandle n;
+  ros::NodeHandle pn("~");
 	// Add your ros communications here.
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
-  getParam(n);
+  getParam(pn);
 	start();
 	return true;
 }
@@ -86,10 +85,33 @@ bool QNode::init(int argc, char** argv ) {
 //	return true;
 //}
 
-void QNode::getParam(ros::NodeHandle n)
+void QNode::getParam(ros::NodeHandle& n)
 {
+//  double tempX;
   //get param
   n.param("robotPoseTopicName", _robotPoseTopicName, std::string("/odometry/filtered_map"));
+  n.param("originX", _mapOrigin[0], 0.0);
+  n.param("originY", _mapOrigin[1], 0.0);
+  n.param("originZ", _mapOrigin[2], 0.0);
+
+  qDebug() << "x:" << _mapOrigin[0] << " y:" << _mapOrigin[1] << " z:" << _mapOrigin[2];
+//  std::string fname(init_argv[1]);
+//  std::ifstream fin(fname.c_str());
+//  if (fin.fail()) {
+//    ROS_ERROR("Map_server could not open %s.", fname.c_str());
+//    exit(-1);
+//  }
+//  YAML::Parser parser(fin);
+//  YAML::Node doc;
+//  parser.GetNextDocument(doc);
+//  try {
+//              doc["origin"][0] >> _mapOrigin[0];
+//              doc["origin"][1] >> _mapOrigin[1];
+//              doc["origin"][2] >> _mapOrigin[2];
+//            } catch (YAML::InvalidScalar) {
+//              ROS_ERROR("The map does not contain an origin tag or it is invalid.");
+//              exit(-1);
+//            }
 //  _robotPoseTopicName = "odometry/filtered_map";
   //get pose topic
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);

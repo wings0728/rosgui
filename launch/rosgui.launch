@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="rosgui" type="rosgui" name="rosgui" output="screen">
+    <param name="robotPoseTopicName" type="string" value="/odometry/filtered_map" />
+    <param name="originX" value="5.0" />
+    <param name="originY" value="5.0" />
+    <param name="originZ" value="0.0" />
+  </node>
+</launch>

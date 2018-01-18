@@ -38,6 +38,7 @@ class QNode : public QThread {
     Q_OBJECT
 public:
   std::vector<double> _robotPose;
+  std::vector<double> _mapOrigin;
   static QNode * getInstance();
   bool init(int argc, char** argv );
 	void run();
@@ -82,7 +83,7 @@ private:
 
 //    bool init(const std::string &master_url, const std::string &host_url);
 
-    void getParam(ros::NodeHandle n);
+    void getParam(ros::NodeHandle& n);
     void getPoseCallback(const nav_msgs::Odometry& msg);
 };
 
