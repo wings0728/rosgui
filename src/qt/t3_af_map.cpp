@@ -47,9 +47,9 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
-    //connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
+    connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
-    connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
+    //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     connect(ui->_changePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
     //日志
     T3LOG("7+ 导航界面构造");
@@ -159,7 +159,7 @@ void T3_AF_map::getTarget()
         float x = (_startX - _mapStartX)/kMapScal + _originX;
         float y = (_mapStartY + _mapHeight - _startY)/kMapScal + _originY;
         float a = atan2(_startY - _moveY, _moveX - _startX);
-        //_qnode->goalUpdate(x, y, a);
+        _qnode->goalUpdate(x, y, a);
     }
 }
 
@@ -175,10 +175,10 @@ void T3_AF_map::exitToMainWindow()
 void T3_AF_map::getPoint()
 {
     //test
-    _qnode->_robotPose[0] = ui->_x->text().toFloat();
-    _qnode->_robotPose[1] = ui->_y->text().toFloat();
-    _qnode->_robotPose[2] = ui->_a->text().toFloat();
-    _qnode->_robotPose[3] = 0;
+//    _qnode->_robotPose[0] = ui->_x->text().toFloat();
+//    _qnode->_robotPose[1] = ui->_y->text().toFloat();
+//    _qnode->_robotPose[2] = ui->_a->text().toFloat();
+//    _qnode->_robotPose[3] = 0;
     //test fin.
     qDebug() << "robotpose[0]:" << _qnode->_robotPose[0] << "\n"
              << "robotpose[1]:" << _qnode->_robotPose[1] << "\n"
@@ -199,7 +199,7 @@ void T3_AF_map::getPoint()
     _pathY.append(py);
     float angle = atan2(2 * w * z, 1 - 2 * z * z);
     //test
-    angle = z;
+//    angle = z;
     //test fin.
     float cShort = 3.0;
     float cLong = 10.0;
