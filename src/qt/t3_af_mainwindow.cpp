@@ -153,6 +153,12 @@ void T3_AF_mainWindow::toRobotInfo()
     this->close();
 }
 
+//
+void T3_AF_mainWindow::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+}
+
 //界面析构函数
 T3_AF_mainWindow::~T3_AF_mainWindow()
 {

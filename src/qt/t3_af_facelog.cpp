@@ -51,6 +51,12 @@ void T3_AF_faceLog::exitToFace()
     delete this;
 }
 
+void T3_AF_faceLog::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+}
+
+
 //界面析构函数
 T3_AF_faceLog::~T3_AF_faceLog()
 {

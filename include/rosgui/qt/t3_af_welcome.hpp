@@ -27,6 +27,7 @@ private slots:
 
 private:
     Ui::T3_AF_welcome *ui;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // T3_AF_WELCOME_H

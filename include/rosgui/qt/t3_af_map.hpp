@@ -4,7 +4,7 @@
 #include "t3_af_config.hpp"
 #include <QDialog>
 
-#include <QMessageBox>
+#include <QList>
 #include <QMouseEvent>
 #include <math.h>
 #include <vector>
@@ -30,6 +30,9 @@ public:
 
 
     vector<float> _pos_;
+    vector<float> _arrow_;
+
+    void pathClear();
 
 
 private slots:
@@ -43,16 +46,20 @@ private:
     void mouseMoveEvent(QMouseEvent *m);
     void mousePressEvent(QMouseEvent *p);
     void mouseReleaseEvent(QMouseEvent *r);
+    void closeEvent(QCloseEvent *event);
     rosgui::QNode *_qnode;
     float _mapStartX;
     float _mapStartY;
     float _mapWidth;
     float _mapHeight;
-    float _scale;
     int _startX;
     int _startY;
     int _moveX;
     int _moveY;
+    float _originX;
+    float _originY;
+    QList<float> _pathX;
+    QList<float> _pathY;
 };
 
 #endif // T3_AF_MAP_H

@@ -1,6 +1,8 @@
 #include "../../include/rosgui/qt/t3_af_face.hpp"
 #include "ui_t3_af_face.h"
 
+
+
 //界面构造函数
 T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     QDialog(parent),
@@ -31,6 +33,7 @@ T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     ui->_logBackgroundLabel_->setStyleSheet("border-image:url(:/Pictures/face_logBackground.png)");
     ui->_morePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_enterFaceLogPushBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_vocalPushBtn_->setFocusPolicy(Qt::NoFocus);
     //界面浮现动画
     QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
     animation_->setDuration(300);
@@ -44,6 +47,8 @@ T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_face::exitToMainWindow);
     connect(ui->_enterFaceLogPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceLog);
+    connect(ui->_morePushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceHistory);
+    connect(ui->_vocalPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterVocalText);
     //日志
     T3LOG("5+ 人脸界面构造");
 }
@@ -78,6 +83,24 @@ void T3_AF_face::enterFaceLog()
     T3_AF_faceLog *faceLog_ = new T3_AF_faceLog(this);
     faceLog_->show();
     this->close();
+}
+
+//enterFaceHistory
+void T3_AF_face::enterFaceHistory()
+{
+    T3_AF_faceHistory *faceHistory_ = new T3_AF_faceHistory;
+    faceHistory_->show();
+}
+
+void T3_AF_face::enterVocalText()
+{
+    T3_AF_vocalText *vocalText_ = new T3_AF_vocalText;
+    vocalText_->show();
+}
+
+void T3_AF_face::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
 }
 
 //界面析构函数

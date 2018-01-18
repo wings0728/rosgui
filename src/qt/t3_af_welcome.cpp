@@ -60,6 +60,13 @@ void T3_AF_welcome::timeUpdate()
     ui->_dateTimeLabel_->setText(dataTimeStr_);
 }
 
+//
+void T3_AF_welcome::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+}
+
+
 //界面析构函数
 T3_AF_welcome::~T3_AF_welcome()
 {
