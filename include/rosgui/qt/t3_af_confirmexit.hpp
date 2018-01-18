@@ -24,6 +24,7 @@ private:
     QDialog *_welcome;
     QDialog *_mainWindow;
     void paintEvent(QPaintEvent *enent);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // T3_AF_CONFIRMEXIT_H

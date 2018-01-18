@@ -24,6 +24,7 @@ private Q_SLOTS:
 private:
   Ui::T3_AF_faceLog *ui;
   QDialog *_face;
+  void closeEvent(QCloseEvent *event);
 };
 
 #endif // T3_AF_FACELOG_H

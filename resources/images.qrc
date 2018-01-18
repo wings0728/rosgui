@@ -34,10 +34,10 @@
         <file>Pictures/faceLog_sample.png</file>
         <file>Pictures/faceLog_textEdit.png</file>
         <file>Pictures/map_realMap.pgm</file>
-        <file>Pictures/faceLog2_background.png</file>
         <file>Pictures/faceLog_image.png</file>
         <file>Pictures/faceLog_addNew.png</file>
         <file>Pictures/faceLog_back.png</file>
         <file>Pictures/warning_background.png</file>
+        <file>Pictures/faceHistory_background.png</file>
     </qresource>
 </RCC>
