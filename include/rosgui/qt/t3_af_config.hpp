@@ -21,5 +21,6 @@
 //k
 #define kMapScal 9.0
 #define kPi 3.141592653
+#define kDelay 500000
 
 #endif // T3_AF_CONFIG_H

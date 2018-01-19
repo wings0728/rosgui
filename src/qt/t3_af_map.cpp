@@ -15,8 +15,9 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(_father->_width_, _father->_height_);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
     ui->_exitPushBtn_->setText("");
@@ -69,14 +70,14 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _originX = 0.0;
     _originY = 0.0;
     //界面浮现动画
-    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-    animation_->setDuration(300);
-    animation_->setStartValue(0);
-    animation_->setEndValue(1);
-    animation_->start();
+//    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
+//    animation_->setDuration(150);
+//    animation_->setStartValue(0);
+//    animation_->setEndValue(1);
+//    animation_->start();
     //定时器
     QTimer *timer_ = new QTimer(this);
-    timer_->start(200);
+    timer_->start(100);
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
@@ -200,6 +201,9 @@ void T3_AF_map::getTarget()
 void T3_AF_map::exitToMainWindow()
 {
     _mainWindow->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->close();
     delete this;
 }

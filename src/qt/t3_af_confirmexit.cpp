@@ -11,8 +11,9 @@ T3_AF_confirmExit::T3_AF_confirmExit(T3Dialog *welcome, T3Dialog *mainWindow, QW
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(_father->_width_, _father->_height_);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->showFullScreen();
@@ -39,7 +40,7 @@ T3_AF_confirmExit::T3_AF_confirmExit(T3Dialog *welcome, T3Dialog *mainWindow, QW
                                 this->height()*0.1778);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-//    animation_->setDuration(200);
+//    animation_->setDuration(50);
 //    animation_->setStartValue(0);
 //    animation_->setEndValue(0.9);
 //    animation_->start();
@@ -62,6 +63,9 @@ void T3_AF_confirmExit::confirmExit()
 {
     _welcome->show();
     this->close();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     _mainWindow->close();
     delete this;
     delete _mainWindow;

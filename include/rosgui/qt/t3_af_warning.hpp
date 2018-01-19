@@ -2,13 +2,13 @@
 #define T3_AF_WARNING_H
 
 #include "t3_af_config.hpp"
-#include <QDialog>
+#include "T3Dialog.hpp"
 
 namespace Ui {
 class T3_AF_warning;
 }
 
-class T3_AF_warning : public QDialog
+class T3_AF_warning : public T3Dialog
 {
     Q_OBJECT
 
@@ -21,6 +21,7 @@ private slots:
 
 private:
     Ui::T3_AF_warning *ui;
+    T3Dialog *_father;
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);

@@ -4,16 +4,19 @@
 
 
 //界面构造函数
-T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
-    QDialog(parent),
+T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
+    T3Dialog(parent),
     _mainWindow(mainWindow),
     ui(new Ui::T3_AF_face)
 {
+    _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(800, 450);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
+    this->showFullScreen();
     ui->_dateLabel_->setText("");
     ui->_dateLabel_->setStyleSheet("color:white");
     ui->_timeLabel_->setText("");
@@ -34,15 +37,61 @@ T3_AF_face::T3_AF_face(QDialog *mainWindow, QWidget *parent) :
     ui->_morePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_enterFaceLogPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_vocalPushBtn_->setFocusPolicy(Qt::NoFocus);
+    //size
+    ui->_dateLabel_->setGeometry(this->width()*0.0688,
+                                 this->height()*0.0667,
+                                 this->width()*0.1625,
+                                 this->height()*0.0667);
+    ui->_enterFaceLogPushBtn_->setGeometry(this->width()*0.7875,
+                                           this->height()*0.8444,
+                                           this->width()*0.1000,
+                                           this->height()*0.0578);
+    ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
+                                   this->height()*0.0178,
+                                   this->width()*0.0375,
+                                   this->height()*0.0600);
+    ui->_faceGifLabel_->setGeometry(this->width()*0.0375,
+                                    this->height()*0.3111,
+                                    this->width()*0.2000,
+                                    this->height()*0.4222);
+    ui->_logBackgroundLabel_->setGeometry(this->width()*0.7375,
+                                          this->height()*0.2333,
+                                          this->width()*0.2188,
+                                          this->height()*0.6000);
+    ui->_morePushBtn_->setGeometry(this->width()*0.8813,
+                                   this->height()*0.2333,
+                                   this->width()*0.0750,
+                                   this->height()*0.0889);
+    ui->_squareLabel_->setGeometry(this->width()*0.2875,
+                                   this->height()*0.2333,
+                                   this->width()*0.6688,
+                                   this->height()*0.6000);
+    ui->_textLabel_->setGeometry(this->width()*0.0375,
+                                 this->height()*0.8000,
+                                 this->width()*0.2000,
+                                 this->height()*0.0889);
+    ui->_timeLabel_->setGeometry(this->width()*0.0688,
+                                 this->height()*0.1111,
+                                 this->width()*0.1625,
+                                 this->height()*0.1778);
+    ui->_videoLabel_->setGeometry(this->width()*0.2888,
+                                  this->height()*0.2356,
+                                  this->width()*0.4463,
+                                  this->height()*0.5933);
+    ui->_vocalPushBtn_->setGeometry(this->width()*0.7875,
+                                    this->height()*0.1556,
+                                    this->width()*0.1000,
+                                    this->height()*0.0578);
+
     //界面浮现动画
-    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-    animation_->setDuration(300);
-    animation_->setStartValue(0);
-    animation_->setEndValue(1);
-    animation_->start();
+//    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
+//    animation_->setDuration(150);
+//    animation_->setStartValue(0);
+//    animation_->setEndValue(1);
+//    animation_->start();
     //定时器
     QTimer *timer_ = new QTimer(this);
-    timer_->start(200);
+    timer_->start(100);
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_face::exitToMainWindow);
@@ -73,6 +122,9 @@ void T3_AF_face::paintEvent(QPaintEvent *)
 void T3_AF_face::exitToMainWindow()
 {
     _mainWindow->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->close();
     delete this;
 }
@@ -82,6 +134,9 @@ void T3_AF_face::enterFaceLog()
 {
     T3_AF_faceLog *faceLog_ = new T3_AF_faceLog(this);
     faceLog_->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->hide();
 }
 

@@ -12,8 +12,9 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     //test FIN.
     //界面布局初始化
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(_father->_width_, _father->_height_);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
     ui->_enterSystemPushBtn_->setGeometry(0, 0, this->width(), this->height());
@@ -27,7 +28,7 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     ui->_dateTimeLabel_->setStyleSheet("color:white");
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-//    animation_->setDuration(750);
+//    animation_->setDuration(300);
 //    animation_->setStartValue(0);
 //    animation_->setEndValue(1);
 //    animation_->start();
@@ -55,6 +56,11 @@ void T3_AF_welcome::enterSystem()
 
     T3_AF_mainWindow *mainWindow_ = new T3_AF_mainWindow(this);
     mainWindow_->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
+    qDebug("delay done");
+
     this->hide();
 }
 
