@@ -2,24 +2,37 @@
 #include "ui_t3_af_warning.h"
 
 T3_AF_warning::T3_AF_warning(QWidget *parent) :
-    QDialog(parent),
+    T3Dialog(parent),
     ui(new Ui::T3_AF_warning)
 {
+    _father = new T3Dialog;
     //
     T3LOG("*+ warning create");
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(800, 450);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
+    this->showFullScreen();
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
+    //size
+    ui->_warningLabel_->setGeometry(this->width()*0.2125,
+                                    this->height()*0.7111,
+                                    this->width()*0.5750,
+                                    this->height()*0.1000);
+    ui->_exitPushBtn_->setGeometry(this->width()*0.0000,
+                                   this->height()*0.0000,
+                                   this->width()*1.0000,
+                                   this->height()*1.0000);
+    //func
     connect(ui->_exitPushBtn_, SIGNAL(clicked()), this, SLOT(closeThis()));
-    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-    animation_->setDuration(100);
-    animation_->setStartValue(0);
-    //
-    animation_->setEndValue(0.9);
-    animation_->start();
+//    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
+//    animation_->setDuration(50);
+//    animation_->setStartValue(0);
+//    //
+//    animation_->setEndValue(0.9);
+//    animation_->start();
     //
     ui->_warningLabel_->setText("warning label");
 }

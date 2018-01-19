@@ -15,8 +15,9 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(_father->_width_, _father->_height_);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
     ui->_exitPushBtn_->setText("");
@@ -69,18 +70,19 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _originX = 0.0;
     _originY = 0.0;
     //界面浮现动画
-    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-    animation_->setDuration(300);
-    animation_->setStartValue(0);
-    animation_->setEndValue(1);
-    animation_->start();
+//    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
+//    animation_->setDuration(150);
+//    animation_->setStartValue(0);
+//    animation_->setEndValue(1);
+//    animation_->start();
     //定时器
     QTimer *timer_ = new QTimer(this);
-    timer_->start(200);
+    timer_->start(100);
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
+    connect(_qnode, &rosgui::QNode::globalPlanGet, this, &T3_AF_map::routeUpdate);
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
@@ -133,6 +135,15 @@ void T3_AF_map::paintEvent(QPaintEvent *)
             paint_.drawLine(_pathX.at(i), _pathY.at(i), _pathX.at(i+1), _pathY.at(i+1));
         }
     }
+    //route
+    paint_.setPen(QPen(Qt::green, 4));
+    if(_route.size() > 1)
+    {
+            for(int i = 0; i<_route.size()-1; i++)
+        {
+            paint_.drawLine(_route.at(i).first, _route.at(i).second, _route.at(i+1).first, _route.at(i+1).second);
+        }
+    }
     //path fin
     paint_.setPen(QPen(Qt::green, 2));
     if((_startX > 0) & (_startY > 0) & (_moveX > 0) & (_moveY) > 0)
@@ -147,6 +158,7 @@ void T3_AF_map::pathClear()
 {
     _pathX.clear();
     _pathY.clear();
+    _route.clear();
     update();
 }
 
@@ -200,6 +212,9 @@ void T3_AF_map::getTarget()
 void T3_AF_map::exitToMainWindow()
 {
     _mainWindow->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->close();
     delete this;
 }
@@ -253,6 +268,12 @@ void T3_AF_map::getPoint()
              <<"cx:" << _pos_[4] <<"\n"
              <<"cy:" << _pos_[5] <<"\n" <<"\n";
     ui->_showConnectStatus_->setText("连接");
+    update();
+}
+
+void T3_AF_map::routeUpdate()
+{
+    _qnode->getGlobalPlan(_route);
     update();
 }
 

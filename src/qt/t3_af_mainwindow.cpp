@@ -10,8 +10,9 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
-    this->move(0, 0);
-    this->resize(_father->_width_, _father->_height_);
+    this->setGeometry(0, 0, _father->_width_, _father->_height_);
+//    this->move(0, 0);
+//    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
     _weather = new T3_AF_getWeather;
@@ -157,7 +158,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
 
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-//    animation_->setDuration(300);
+//    animation_->setDuration(150);
 //    animation_->setStartValue(0);
 //    animation_->setEndValue(1);
 //    animation_->start();
@@ -220,6 +221,9 @@ void T3_AF_mainWindow::toFace()
 {
     T3_AF_face *face_ = new T3_AF_face(this);
     face_->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->hide();
 }
 
@@ -228,6 +232,9 @@ void T3_AF_mainWindow::toWeatherForecast()
 {
     T3_AF_weatherForecast *weatherForecast_ = new T3_AF_weatherForecast(this);
     weatherForecast_->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->hide();
 }
 
@@ -236,6 +243,7 @@ void T3_AF_mainWindow::toMap()
 {
     T3_AF_map *map_ = new T3_AF_map(this);
     map_->show();
+    for(int idx = 0; idx < kDelay; idx++){}
     this->hide();
 }
 
@@ -244,6 +252,9 @@ void T3_AF_mainWindow::toRobotInfo()
 {
     T3_AF_robotInfo *robotInfo_ = new T3_AF_robotInfo(this);
     robotInfo_->show();
+
+    for(int idx = 0; idx < kDelay; idx++){}
+
     this->hide();
 }
 
