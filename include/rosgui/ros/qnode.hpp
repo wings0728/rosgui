@@ -23,7 +23,7 @@
 #include <vector>
 #include <nav_msgs/Odometry.h>
 #include "../qt/t3_af_config.hpp"
-
+#include "nav_msgs/Path.h"
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -62,12 +62,13 @@ public:
 
   std::vector<double> getRobotPose();
   std::vector<double> getMapOrigin();
+  void getGlobalPlan(QList<std::pair<double, double> >& plan);
 
 Q_SIGNALS:
 	void loggingUpdated();
   void rosShutdown();
   void poseUpdated();
-
+  void globalPlanGet();
 
 
 
@@ -77,11 +78,13 @@ private:
 	ros::Publisher chatter_publisher;
   ros::Publisher _robotGoal;
   ros::Subscriber _robotPoseSub;
+  ros::Subscriber _globalPlanSub;
   QStringListModel logging_model;
   //robot pose
   std::vector<double> _robotPose;
   //map origin pose
   std::vector<double> _mapOrigin;
+  QList<std::pair<double, double> > globalPlan;
 //    ros::NodeHandle _privateNh;
   std::string _robotPoseTopicName;
   QNode();
@@ -92,6 +95,7 @@ private:
 
     void getParam(ros::NodeHandle& n);
     void getPoseCallback(const nav_msgs::Odometry& msg);
+    void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
 };
 
 }  // namespace rosgui

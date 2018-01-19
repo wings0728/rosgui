@@ -19,6 +19,7 @@
 #include <tf/tf.h>
 #include "t3_description/goal.h"
 #include "yaml-cpp/yaml.h"
+
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -115,11 +116,13 @@ void QNode::getParam(ros::NodeHandle& n)
 //  _robotPoseTopicName = "odometry/filtered_map";
   //get pose topic
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
+  _globalPlanSub = n.subscribe("TrajectoryPlannerROS/global_plan", 1000, &QNode::getGlobalPlanCallback, this);
 //  ROS_WARN("set param");
 //  T3LOG(_robotPoseTopicName.c_str());
 //  std::count << "set param" << std::endl;
 }
 
+//**********************call back********************//
 
 void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
 {
@@ -127,27 +130,32 @@ void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
   {
     ROS_WARN("Received initial pose with empty frame_id.  You should always supply a frame_id.");
   }
-//  tf::Pose currentPose_;
-//  tf::poseMsgToTF(msg.pose.pose, currentPose_);
+
   _robotPose[0] = msg.pose.pose.position.x;
   _robotPose[1] = msg.pose.pose.position.y;
   _robotPose[2] = msg.pose.pose.orientation.z;
   _robotPose[3] = msg.pose.pose.orientation.w;
-//  T3LOG(_robotPose[2]);
-//  qDebug() << "oritation:" << msg.pose.pose.orientation.z;
-//  std::string pose;
-//  pose += _robotPose[0];
-//  pose += ", ";
-//  pose += _robotPose[1];
-//  pose += ", ";
-//  pose += _robotPose[2];
-//  pose = "123";
-//  log(Info,pose);
-//  std::count << "get pose" << std::endl;
-//  T3LOG("%f",_robotPose[0]);
-//  T3LOG("%f",_robotPose[1]);
-//  T3LOG("%f",_robotPose[2]);
+
   Q_EMIT poseUpdated();
+}
+
+///
+/// \brief getGlobalPlanCallback
+/// \param pathMsg
+///
+void QNode::getGlobalPlanCallback(const nav_msgs::Path& pathMsg)
+{
+  if(pathMsg.header.frame_id == "")
+    {
+      // This should be removed at some point
+      ROS_WARN("Received path with empty frame_id.  You should always supply a frame_id.");
+    }
+  int pathSize = pathMsg.poses.size();
+  std::vector<geometry_msgs::PoseStamped> path(pathSize);
+  for(unsigned int i=0; i < pathSize; i++){
+    path[i] = pathMsg.poses[i];
+    ROS_INFO("%f %f",path[i].pose.position.x, path[i].pose.position.y);
+  }
 }
 
 void QNode::run() {

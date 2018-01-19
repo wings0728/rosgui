@@ -3,8 +3,8 @@
 
 //界面构造函数
 T3_AF_logIn::T3_AF_logIn(QDialog *welcome, QWidget *parent) :
-    QDialog(parent),
     ui(new Ui::T3_AF_logIn),
+    QDialog(parent),
     _welcome(welcome)
 {
     //界面布局初始化
