@@ -41,6 +41,17 @@ void T3_AF_warning::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void T3_AF_warning::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
+}
+
 T3_AF_warning::~T3_AF_warning()
 {
     delete ui;

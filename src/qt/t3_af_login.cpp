@@ -105,10 +105,10 @@ void T3_AF_logIn::logIn()
     }
     else
     {
-        T3_AF_mainWindow *_mainWindow = new T3_AF_mainWindow(_welcome);
-        _mainWindow->show();
-        this->close();
-        delete this;
+//        T3_AF_mainWindow *_mainWindow = new T3_AF_mainWindow(_welcome);
+//        _mainWindow->show();
+//        this->close();
+//        delete this;
     }
 }
 

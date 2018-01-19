@@ -21,6 +21,7 @@ public:
 private:
     Ui::T3_AF_faceHistory *ui;
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // T3_AF_FACEHISTORY_H

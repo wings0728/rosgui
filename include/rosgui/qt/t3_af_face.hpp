@@ -35,6 +35,7 @@ private:
     QDialog *_mainWindow;
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // T3_AF_FACE_H

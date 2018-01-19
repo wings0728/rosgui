@@ -21,6 +21,7 @@ public:
 private:
     Ui::T3_AF_vocalText *ui;
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // T3_AF_VOCALTEXT_H

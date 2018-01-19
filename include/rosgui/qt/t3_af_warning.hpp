@@ -23,6 +23,7 @@ private:
     Ui::T3_AF_warning *ui;
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // T3_AF_WARNING_H

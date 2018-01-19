@@ -25,6 +25,7 @@ private:
   Ui::T3_AF_faceLog *ui;
   QDialog *_face;
   void closeEvent(QCloseEvent *event);
+  void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // T3_AF_FACELOG_H
