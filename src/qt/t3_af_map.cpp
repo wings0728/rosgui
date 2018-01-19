@@ -82,6 +82,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
+    connect(_qnode, &rosgui::QNode::globalPlanGet, this, &T3_AF_map::routeUpdate);
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
@@ -134,6 +135,15 @@ void T3_AF_map::paintEvent(QPaintEvent *)
             paint_.drawLine(_pathX.at(i), _pathY.at(i), _pathX.at(i+1), _pathY.at(i+1));
         }
     }
+    //route
+    paint_.setPen(QPen(Qt::green, 4));
+    if(_route.size() > 1)
+    {
+            for(int i = 0; i<_route.size()-1; i++)
+        {
+            paint_.drawLine(_route.at(i).first, _route.at(i).second, _route.at(i+1).first, _route.at(i+1).second);
+        }
+    }
     //path fin
     paint_.setPen(QPen(Qt::green, 2));
     if((_startX > 0) & (_startY > 0) & (_moveX > 0) & (_moveY) > 0)
@@ -148,6 +158,7 @@ void T3_AF_map::pathClear()
 {
     _pathX.clear();
     _pathY.clear();
+    _route.clear();
     update();
 }
 
@@ -257,6 +268,12 @@ void T3_AF_map::getPoint()
              <<"cx:" << _pos_[4] <<"\n"
              <<"cy:" << _pos_[5] <<"\n" <<"\n";
     ui->_showConnectStatus_->setText("连接");
+    update();
+}
+
+void T3_AF_map::routeUpdate()
+{
+    _qnode->getGlobalPlan(_route);
     update();
 }
 

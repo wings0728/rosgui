@@ -10,6 +10,7 @@
 #include <vector>
 using std::vector;
 
+
 #include "../ros/qnode.hpp"
 
 namespace Ui {
@@ -27,6 +28,7 @@ public:
     void exitToMainWindow();
     void getPoint();
     void getTarget();
+    void routeUpdate();
 
 
     vector<float> _pos_;
@@ -62,6 +64,7 @@ private:
     float _originY;
     QList<float> _pathX;
     QList<float> _pathY;
+    QList<std::pair<double, double> > _route;
     vector<double> _robotPose;
     vector<double> _mapOrigin;
     float _scale;
