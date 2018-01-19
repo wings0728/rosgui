@@ -23,7 +23,7 @@
 #include <vector>
 #include <nav_msgs/Odometry.h>
 #include "../qt/t3_af_config.hpp"
-
+#include "nav_msgs/Path.h"
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -37,7 +37,8 @@ namespace rosgui {
 class QNode : public QThread {
     Q_OBJECT
 public:
-  std::vector<double> _robotPose;
+
+
   static QNode * getInstance();
   bool init(int argc, char** argv );
 	void run();
@@ -59,11 +60,15 @@ public:
   void goalUpdate(float x, float y, float z);
   void operationMode(bool isManual = true);
 
+  std::vector<double> getRobotPose();
+  std::vector<double> getMapOrigin();
+  void getGlobalPlan(QList<std::pair<double, double> >& plan);
+
 Q_SIGNALS:
 	void loggingUpdated();
-    void rosShutdown();
-    void poseUpdated();
-
+  void rosShutdown();
+  void poseUpdated();
+  void globalPlanGet();
 
 
 
@@ -73,17 +78,24 @@ private:
 	ros::Publisher chatter_publisher;
   ros::Publisher _robotGoal;
   ros::Subscriber _robotPoseSub;
-    QStringListModel logging_model;
+  ros::Subscriber _globalPlanSub;
+  QStringListModel logging_model;
+  //robot pose
+  std::vector<double> _robotPose;
+  //map origin pose
+  std::vector<double> _mapOrigin;
+  QList<std::pair<double, double> > globalPlan;
 //    ros::NodeHandle _privateNh;
-    std::string _robotPoseTopicName;
-    QNode();
-    virtual ~QNode();
+  std::string _robotPoseTopicName;
+  QNode();
+  virtual ~QNode();
 
 
 //    bool init(const std::string &master_url, const std::string &host_url);
 
-    void getParam(ros::NodeHandle n);
+    void getParam(ros::NodeHandle& n);
     void getPoseCallback(const nav_msgs::Odometry& msg);
+    void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
 };
 
 }  // namespace rosgui
