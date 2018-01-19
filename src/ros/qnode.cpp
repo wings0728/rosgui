@@ -91,6 +91,7 @@ void QNode::getParam(ros::NodeHandle& n)
 //  double tempX;
   //get param
   n.param("robotPoseTopicName", _robotPoseTopicName, std::string("/odometry/filtered_map"));
+  n.param("globalPlanTopicName", _globalPlanTopicName, std::string("/TrajectoryPlannerROS/global_plan"));
   n.param("originX", _mapOrigin[0], 0.0);
   n.param("originY", _mapOrigin[1], 0.0);
   n.param("originZ", _mapOrigin[2], 0.0);
@@ -116,7 +117,7 @@ void QNode::getParam(ros::NodeHandle& n)
 //  _robotPoseTopicName = "odometry/filtered_map";
   //get pose topic
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
-  _globalPlanSub = n.subscribe("TrajectoryPlannerROS/global_plan", 1000, &QNode::getGlobalPlanCallback, this);
+  _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
 //  ROS_WARN("set param");
 //  T3LOG(_robotPoseTopicName.c_str());
 //  std::count << "set param" << std::endl;
@@ -150,12 +151,15 @@ void QNode::getGlobalPlanCallback(const nav_msgs::Path& pathMsg)
       // This should be removed at some point
       ROS_WARN("Received path with empty frame_id.  You should always supply a frame_id.");
     }
+  _globalPlan.clear();
   int pathSize = pathMsg.poses.size();
-  std::vector<geometry_msgs::PoseStamped> path(pathSize);
-  for(unsigned int i=0; i < pathSize; i++){
-    path[i] = pathMsg.poses[i];
-    ROS_INFO("%f %f",path[i].pose.position.x, path[i].pose.position.y);
+  for(unsigned int i=0; i < pathSize; i++)
+  {
+    geometry_msgs::PoseStamped pose = pathMsg.poses[i];
+    _globalPlan.append(std::make_pair(pose.pose.position.x, pose.pose.position.y));
   }
+
+  Q_EMIT globalPlanGet();
 }
 
 void QNode::run() {
@@ -248,6 +252,18 @@ std::vector<double> QNode::getMapOrigin()
 {
   std::vector<double> tempOrigin(_mapOrigin);
   return tempOrigin;
+}
+
+bool QNode::getGlobalPlan(QList<std::pair<double, double> >& plan)
+{
+  if(_globalPlan.isEmpty()) return false;
+  int size = _globalPlan.size();
+  for(int idx; idx < size; idx++)
+  {
+    plan.append(_globalPlan[idx]);
+  }
+  return true;
+//  plan.operator =(_globalPlan);
 }
 
 }  // namespace rosgui

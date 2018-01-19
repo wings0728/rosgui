@@ -62,7 +62,7 @@ public:
 
   std::vector<double> getRobotPose();
   std::vector<double> getMapOrigin();
-  void getGlobalPlan(QList<std::pair<double, double> >& plan);
+  bool getGlobalPlan(QList<std::pair<double, double> >& plan);
 
 Q_SIGNALS:
 	void loggingUpdated();
@@ -84,9 +84,10 @@ private:
   std::vector<double> _robotPose;
   //map origin pose
   std::vector<double> _mapOrigin;
-  QList<std::pair<double, double> > globalPlan;
+  QList<std::pair<double, double> > _globalPlan;
 //    ros::NodeHandle _privateNh;
   std::string _robotPoseTopicName;
+  std::string _globalPlanTopicName;
   QNode();
   virtual ~QNode();
 
