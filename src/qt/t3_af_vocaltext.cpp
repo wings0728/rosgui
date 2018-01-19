@@ -19,7 +19,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     animation_->setEndValue(0.9);
     animation_->start();
     //
-    T3LOG("vocalText deleted");
+    T3LOG("vocalText created");
 }
 
 void T3_AF_vocalText::exitVocalText()
@@ -32,6 +32,17 @@ void T3_AF_vocalText::exitVocalText()
 void T3_AF_vocalText::closeEvent(QCloseEvent *event)
 {
     event->ignore();
+}
+
+void T3_AF_vocalText::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
 }
 
 T3_AF_vocalText::~T3_AF_vocalText()

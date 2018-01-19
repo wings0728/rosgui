@@ -3,8 +3,8 @@
 
 
 //界面构造函数
-T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
-    QDialog(parent),
+T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
+    T3Dialog(parent),
     _mainWindow(mainWindow),
     ui(new Ui::T3_AF_map),
     _pos_(6, -2.0),
@@ -12,25 +12,56 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     _robotPose(4, 0.0),
     _mapOrigin(3, 0.0)
 {
+    _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
     this->move(0, 0);
-    this->resize(800, 450);
+    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
+    this->showFullScreen();
     ui->_exitPushBtn_->setText("");
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:rgb(7, 221, 225)");
     ui->_showConnectStatus_->setText("未连接");
-    ui->_changePushBtn_->setText("自动模式");
-    ui->_changePushBtn_->setFocusPolicy(Qt::NoFocus);
-    ui->_changePushBtn_->setCheckable(true);
+    ui->_modePushBtn_->setText("自动模式");
+    ui->_modePushBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_modePushBtn_->setCheckable(true);
+    //size
+    ui->_modePushBtn_->setGeometry(this->width()*0.5875,
+                                     this->height()*0.6222,
+                                     this->width()*0.2000,
+                                     this->height()*0.0889);
+    ui->_clear->setGeometry(this->width()*0.8625,
+                            this->height()*0.8111,
+                            this->width()*0.1000,
+                            this->height()*0.0578);
+    ui->_dateTimeLabel_->setGeometry(this->width()*0.6500,
+                                     this->height()*0.9333,
+                                     this->width()*0.1875,
+                                     this->height()*0.0333);
+    ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
+                                   this->height()*0.0178,
+                                   this->width()*0.0375,
+                                   this->height()*0.0600);
+    ui->_showConnectStatus_->setGeometry(this->width()*0.6125,
+                                         this->height()*0.0889,
+                                         this->width()*0.0675,
+                                         this->height()*0.0400);
+    ui->_videoLabel_->setGeometry(this->width()*0.6250,
+                                  this->height()*0.2222,
+                                  this->width()*0.3250,
+                                  this->height()*0.3111);
+    //
     _qnode = rosgui::QNode::getInstance();
-    _mapStartX = 25.0;
-    _mapStartY = 35.0;
-    _mapWidth = 360.0;
-    _mapHeight = 360.0;
+    _mapStartX = this->width()*0.0313;
+    _mapStartY = this->height()*0.0800;
+    //change acoording to real map
+    _mapWidth = this->width()*0.45;
+    _scale = _mapWidth/40;
+    _mapHeight = _scale * 40;
+    //fin
     _startX = 0;
     _startY = 0;
     _moveX = 0;
@@ -52,7 +83,7 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
-    connect(ui->_changePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
+    connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
     //日志
     T3LOG("7+ 导航界面构造");
 }
@@ -61,15 +92,15 @@ T3_AF_map::T3_AF_map(QDialog *mainWindow, QWidget *parent) :
 void T3_AF_map::autoMode()
 {
     bool mode;
-    if(ui->_changePushBtn_->isChecked())
+    if(ui->_modePushBtn_->isChecked())
     {
         mode = true;
-        ui->_changePushBtn_->setText("手动模式");
+        ui->_modePushBtn_->setText("手动模式");
     }
     else
     {
         mode = false;
-        ui->_changePushBtn_->setText("自动模式");
+        ui->_modePushBtn_->setText("自动模式");
     }
     _qnode->operationMode(mode);
 }
@@ -158,8 +189,8 @@ void T3_AF_map::getTarget()
 {
     if((_moveX > 0) & (_moveY > 0))
     {
-        float x = (_startX - _mapStartX)/kMapScal + _originX;
-        float y = (_mapStartY + _mapHeight - _startY)/kMapScal + _originY;
+        float x = (_startX - _mapStartX)/_scale + _originX;
+        float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
         float a = atan2(_startY - _moveY, _moveX - _startX);
         _qnode->goalUpdate(x, y, a);
     }
@@ -197,8 +228,8 @@ void T3_AF_map::getPoint()
     _originX = _mapOrigin[0];
     _originY = _mapOrigin[1];
     //---------jason end
-    float px = _mapStartX + (x - _originX) * kMapScal;
-    float py = _mapStartY + _mapHeight - (y - _originY)*kMapScal;
+    float px = _mapStartX + (x - _originX) * _scale;
+    float py = _mapStartY + _mapHeight - (y - _originY)*_scale;
     _pathX.append(px);
     _pathY.append(py);
     float angle = atan2(2 * w * z, 1 - 2 * z * z);
@@ -228,6 +259,17 @@ void T3_AF_map::getPoint()
 void T3_AF_map::closeEvent(QCloseEvent *event)
 {
     event->ignore();
+}
+
+void T3_AF_map::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
 }
 
 //界面析构函数

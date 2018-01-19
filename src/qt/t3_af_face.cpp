@@ -82,7 +82,7 @@ void T3_AF_face::enterFaceLog()
 {
     T3_AF_faceLog *faceLog_ = new T3_AF_faceLog(this);
     faceLog_->show();
-    this->close();
+    this->hide();
 }
 
 //enterFaceHistory
@@ -101,6 +101,17 @@ void T3_AF_face::enterVocalText()
 void T3_AF_face::closeEvent(QCloseEvent *event)
 {
     event->ignore();
+}
+
+void T3_AF_face::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
 }
 
 //界面析构函数

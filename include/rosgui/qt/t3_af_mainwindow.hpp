@@ -2,7 +2,7 @@
 #define T3_AF_MAINWINDOW_H
 
 #include "t3_af_config.hpp"
-#include <QDialog>
+#include "T3Dialog.hpp"
 
 #include "t3_af_confirmexit.hpp"
 #include "t3_af_face.hpp"
@@ -14,12 +14,12 @@ namespace Ui {
 class T3_AF_mainWindow;
 }
 
-class T3_AF_mainWindow : public QDialog
+class T3_AF_mainWindow : public T3Dialog
 {
     Q_OBJECT
 
 public:
-    explicit T3_AF_mainWindow(QDialog *welcome, QWidget *parent = 0);
+    explicit T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent = 0);
     ~T3_AF_mainWindow();
 
     void exitToWelcome();
@@ -34,10 +34,13 @@ private slots:
 
 private:
     Ui::T3_AF_mainWindow *ui;
-    QDialog *_welcome;
+    T3Dialog *_welcome;
     void paintEvent(QPaintEvent *event);
     T3_AF_getWeather *_weather;
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    T3Dialog *_father;
+
 };
 
 #endif // T3_AF_MAINWINDOW_H

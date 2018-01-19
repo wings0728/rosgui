@@ -33,6 +33,17 @@ void T3_AF_faceHistory::closeEvent(QCloseEvent *event)
 }
 
 
+void T3_AF_faceHistory::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
+}
+
 T3_AF_faceHistory::~T3_AF_faceHistory()
 {
     delete ui;

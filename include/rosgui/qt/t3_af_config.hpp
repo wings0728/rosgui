@@ -9,6 +9,7 @@
 #include <QMovie>
 #include "t3_af_getweather.hpp"
 #include <QCloseEvent>
+#include <QKeyEvent>
 
 //T3LOG
 #include <QDebug>

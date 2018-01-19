@@ -2,7 +2,7 @@
 #define T3_AF_MAP_H
 
 #include "t3_af_config.hpp"
-#include <QDialog>
+#include "T3Dialog.hpp"
 
 #include <QList>
 #include <QMouseEvent>
@@ -16,12 +16,12 @@ namespace Ui {
 class T3_AF_map;
 }
 
-class T3_AF_map : public QDialog
+class T3_AF_map : public T3Dialog
 {
     Q_OBJECT
 
 public:
-    explicit T3_AF_map(QDialog *mainWindow, QWidget *parent = 0);
+    explicit T3_AF_map(T3Dialog *mainWindow, QWidget *parent = 0);
     ~T3_AF_map();
 
     void exitToMainWindow();
@@ -41,12 +41,14 @@ private slots:
 
 private:
     Ui::T3_AF_map *ui;
-    QDialog *_mainWindow;
+    T3Dialog *_mainWindow;
+    T3Dialog *_father;
     void paintEvent(QPaintEvent *event);
     void mouseMoveEvent(QMouseEvent *m);
     void mousePressEvent(QMouseEvent *p);
     void mouseReleaseEvent(QMouseEvent *r);
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
     rosgui::QNode *_qnode;
     float _mapStartX;
     float _mapStartY;
@@ -62,6 +64,7 @@ private:
     QList<float> _pathY;
     vector<double> _robotPose;
     vector<double> _mapOrigin;
+    float _scale;
 };
 
 #endif // T3_AF_MAP_H

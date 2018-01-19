@@ -2,16 +2,18 @@
 #include "ui_t3_af_mainwindow.h"
 
 //界面构造函数
-T3_AF_mainWindow::T3_AF_mainWindow(QDialog *welcome, QWidget *parent) :
-    QDialog(parent),
+T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
+    T3Dialog(parent),
     ui(new Ui::T3_AF_mainWindow),
     _welcome(welcome)
 {
+    _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
     this->move(0, 0);
-    this->resize(800, 450);
+    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
+    this->showFullScreen();
     _weather = new T3_AF_getWeather;
     ui->_dateLabel_->setText("");
     ui->_dateLabel_->setStyleSheet("color:white");
@@ -61,15 +63,107 @@ T3_AF_mainWindow::T3_AF_mainWindow(QDialog *welcome, QWidget *parent) :
     ui->_mapPushBtn_->setText("");
     ui->_mapPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
+    //size
+    ui->_dateLabel_->setGeometry(this->width()*0.0688,
+                                 this->height()*0.0667,
+                                 this->width()*0.1625,
+                                 this->height()*0.0667);
+    ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
+                                   this->height()*0.0178,
+                                   this->width()*0.0375,
+                                   this->height()*0.0600);
+    ui->_facePushBtn_->setGeometry(this->width()*0.0375,
+                                   this->height()*0.3111,
+                                   this->width()*0.2000,
+                                   this->height()*0.4222);
+    ui->_mapBackgroundLabel_->setGeometry(this->width()*0.2625,
+                                          this->height()*0.2111,
+                                          this->width()*0.4875,
+                                          this->height()*0.6667);
+    ui->_mapPushBtn_->setGeometry(this->width()*0.3000,
+                                  this->height()*0.2778,
+                                  this->width()*0.4125,
+                                  this->height()*0.5111);
+    ui->_pm25Label_->setGeometry(this->width()*0.6688,
+                                 this->height()*0.0778,
+                                 this->width()*0.0625,
+                                 this->height()*0.0333);
+    ui->_pm25TitleLabel_->setGeometry(this->width()*0.6000,
+                                      this->height()*0.0778,
+                                      this->width()*0.0688,
+                                      this->height()*0.0333);
+    ui->_qualityLabel_->setGeometry(this->width()*0.6688,
+                                    this->height()*0.1111,
+                                    this->width()*0.0625,
+                                    this->height()*0.0333);
+    ui->_qualityTitleLabel_->setGeometry(this->width()*0.6000,
+                                         this->height()*0.1111,
+                                         this->width()*0.0688,
+                                         this->height()*0.0333);
+    ui->_robotInfoPushBtn_->setGeometry(this->width()*0.7688,
+                                          this->height()*0.2556,
+                                          this->width()*0.1875,
+                                          this->height()*0.6000);
+    ui->_sunriseLabel_->setGeometry(this->width()*0.3375,
+                                    this->height()*0.0778,
+                                    this->width()*0.0514,
+                                    this->height()*0.0333);
+    ui->_sunriseTitleLabel_->setGeometry(this->width()*0.2688,
+                                         this->height()*0.0778,
+                                         this->width()*0.0688,
+                                         this->height()*0.0333);
+    ui->_sunsetLabel_->setGeometry(this->width()*0.3375,
+                                   this->height()*0.1111,
+                                   this->width()*0.0625,
+                                   this->height()*0.0333);
+    ui->_sunsetTitleLabel_->setGeometry(this->width()*0.2688,
+                                        this->height()*0.1111,
+                                        this->width()*0.0688,
+                                        this->height()*0.0333);
+    ui->_tempratureLabel_->setGeometry(this->width()*0.4125,
+                                       this->height()*0.0333,
+                                       this->width()*0.1750,
+                                       this->height()*0.1111);
+    ui->_tempraturePushBtn_->setGeometry(this->width()*0.4125,
+                                         this->height()*0.0333,
+                                         this->width()*0.1750,
+                                         this->height()*0.1111);
+    ui->_textLabel_->setGeometry(this->width()*0.0375,
+                                 this->height()*0.8000,
+                                 this->width()*0.2000,
+                                 this->height()*0.0889);
+    ui->_timeLabel_->setGeometry(this->width()*0.0688,
+                                 this->height()*0.1111,
+                                 this->width()*0.1625,
+                                 this->height()*0.1778);
+    ui->_wetLabel_->setGeometry(this->width()*0.6688,
+                                this->height()*0.0444,
+                                this->width()*0.0625,
+                                this->height()*0.0333);
+    ui->_wetTitleLabel_->setGeometry(this->width()*0.6000,
+                                     this->height()*0.0444,
+                                     this->width()*0.0688,
+                                     this->height()*0.0333);
+    ui->_windDirectionLabel_->setGeometry(this->width()*0.2688,
+                                          this->height()*0.0444,
+                                          this->width()*0.0688,
+                                          this->height()*0.0333);
+    ui->_windForceLabel_->setGeometry(this->width()*0.3375,
+                                      this->height()*0.0444,
+                                      this->width()*0.0625,
+                                      this->height()*0.0333);
+
+
+
     //界面浮现动画
-    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
-    animation_->setDuration(300);
-    animation_->setStartValue(0);
-    animation_->setEndValue(1);
-    animation_->start();
+//    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
+//    animation_->setDuration(300);
+//    animation_->setStartValue(0);
+//    animation_->setEndValue(1);
+//    animation_->start();
     //定时器
     QTimer *timer_ = new QTimer(this);
-    timer_->start(200);
+    timer_->start(100);
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::exitToWelcome);
@@ -126,7 +220,7 @@ void T3_AF_mainWindow::toFace()
 {
     T3_AF_face *face_ = new T3_AF_face(this);
     face_->show();
-    this->close();
+    this->hide();
 }
 
 //进入weatherForecast
@@ -134,7 +228,7 @@ void T3_AF_mainWindow::toWeatherForecast()
 {
     T3_AF_weatherForecast *weatherForecast_ = new T3_AF_weatherForecast(this);
     weatherForecast_->show();
-    this->close();
+    this->hide();
 }
 
 //进入map
@@ -142,7 +236,7 @@ void T3_AF_mainWindow::toMap()
 {
     T3_AF_map *map_ = new T3_AF_map(this);
     map_->show();
-    this->close();
+    this->hide();
 }
 
 //进入robotInfo
@@ -150,13 +244,24 @@ void T3_AF_mainWindow::toRobotInfo()
 {
     T3_AF_robotInfo *robotInfo_ = new T3_AF_robotInfo(this);
     robotInfo_->show();
-    this->close();
+    this->hide();
 }
 
 //
 void T3_AF_mainWindow::closeEvent(QCloseEvent *event)
 {
     event->ignore();
+}
+
+void T3_AF_mainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
 }
 
 //界面析构函数

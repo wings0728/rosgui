@@ -56,6 +56,16 @@ void T3_AF_faceLog::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void T3_AF_faceLog::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    default:
+        QDialog::keyPressEvent(event);
+    }
+}
 
 //界面析构函数
 T3_AF_faceLog::~T3_AF_faceLog()
