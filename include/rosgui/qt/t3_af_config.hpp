@@ -10,6 +10,8 @@
 #include "t3_af_getweather.hpp"
 #include <QCloseEvent>
 #include <QKeyEvent>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 
 //T3LOG
 #include <QDebug>

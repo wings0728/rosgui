@@ -184,6 +184,19 @@
     <string>vocal</string>
    </property>
   </widget>
+  <widget class="QListView" name="_logListView_">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>150</y>
+     <width>171</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
+   </property>
+  </widget>
   <zorder>_timeLabel_</zorder>
   <zorder>_dateLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
@@ -195,6 +208,7 @@
   <zorder>_enterFaceLogPushBtn_</zorder>
   <zorder>_morePushBtn_</zorder>
   <zorder>_vocalPushBtn_</zorder>
+  <zorder>_logListView_</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -1,6 +1,7 @@
 #ifndef T3_AF_FACEHISTORY_H
 #define T3_AF_FACEHISTORY_H
 
+#include <QSqlTableModel>
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 
@@ -23,6 +24,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
+    QSqlQueryModel *_model;
 };
 
 #endif // T3_AF_FACEHISTORY_H

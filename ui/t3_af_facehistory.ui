@@ -46,8 +46,22 @@ url(:/Pictures/faceHistory_background.png)</string>
     <string/>
    </property>
   </widget>
+  <widget class="QTableView" name="_faceInfoTableView_">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>111</y>
+     <width>291</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
+   </property>
+  </widget>
   <zorder>_backgroungLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
+  <zorder>_faceInfoTableView_</zorder>
  </widget>
  <resources/>
  <connections/>

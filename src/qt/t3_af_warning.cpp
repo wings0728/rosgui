@@ -1,7 +1,7 @@
 #include "../../include/rosgui/qt/t3_af_warning.hpp"
 #include "ui_t3_af_warning.h"
 
-T3_AF_warning::T3_AF_warning(QWidget *parent) :
+T3_AF_warning::T3_AF_warning(QWidget *parent , QString string) :
     T3Dialog(parent),
     ui(new Ui::T3_AF_warning)
 {
@@ -34,7 +34,7 @@ T3_AF_warning::T3_AF_warning(QWidget *parent) :
 //    animation_->setEndValue(0.9);
 //    animation_->start();
     //
-    ui->_warningLabel_->setText("warning label");
+    ui->_warningLabel_->setText(string);
 }
 
 void T3_AF_warning::paintEvent(QPaintEvent *)
