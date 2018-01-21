@@ -16,6 +16,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
     _weather = new T3_AF_getWeather;
+    _stopPushBtn_ = new QPushButton(this);
+    _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _stopPushBtn_->show();
+    _stopPushBtn_->setText("");
     ui->_dateLabel_->setText("");
     ui->_dateLabel_->setStyleSheet("color:white");
     ui->_timeLabel_->setText("");
@@ -107,7 +111,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                           this->height()*0.6000);
     ui->_sunriseLabel_->setGeometry(this->width()*0.3375,
                                     this->height()*0.0778,
-                                    this->width()*0.0514,
+                                    this->width()*0.0625,
                                     this->height()*0.0333);
     ui->_sunriseTitleLabel_->setGeometry(this->width()*0.2688,
                                          this->height()*0.0778,
@@ -153,9 +157,56 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                       this->height()*0.0444,
                                       this->width()*0.0625,
                                       this->height()*0.0333);
-
-
-
+    _stopPushBtn_->setGeometry(this->width()*0.8,
+                               this->height()*0.2,
+                               this->width()*0.05,
+                               this->height()*0.05);
+    //font
+    QFont dateLabelFont_;
+    dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
+    QFont timeLabelFont_;
+    timeLabelFont_.setPointSize(ui->_timeLabel_->height() * kLabelFontScal*0.8);
+    QFont windDirectionLabelFont_;
+    windDirectionLabelFont_.setPointSize(ui->_windDirectionLabel_->height() * kLabelFontScal);
+    QFont windForceLabelFont_;
+    windForceLabelFont_.setPointSize(ui->_windForceLabel_->height() * kLabelFontScal);
+    QFont sunriseTitleLabelFont_;
+    sunriseTitleLabelFont_.setPointSize(ui->_sunriseTitleLabel_->height() * kLabelFontScal);
+    QFont sunriseLabelFont_;
+    sunriseLabelFont_.setPointSize(ui->_sunriseLabel_->height() * kLabelFontScal);
+    QFont sunsetTitleLabelFont_;
+    sunsetTitleLabelFont_.setPointSize(ui->_sunsetTitleLabel_->height() * kLabelFontScal);
+    QFont sunsetLabelFont_;
+    sunsetLabelFont_.setPointSize(ui->_sunsetLabel_->height() * kLabelFontScal);
+    QFont tempratureLabelFont_;
+    tempratureLabelFont_.setPointSize(ui->_tempratureLabel_->height() * kLabelFontScal);
+    QFont wetTitleLabelFont_;
+    wetTitleLabelFont_.setPointSize(ui->_wetTitleLabel_->height() * kLabelFontScal);
+    QFont wetLabelFont_;
+    wetLabelFont_.setPointSize(ui->_wetLabel_->height() * kLabelFontScal);
+    QFont pm25TitleLabelFont_;
+    pm25TitleLabelFont_.setPointSize(ui->_pm25TitleLabel_->height() * kLabelFontScal);
+    QFont pm25LabelFont_;
+    pm25LabelFont_.setPointSize(ui->_pm25Label_->height() * kLabelFontScal);
+    QFont qualityTitleLabelFont_;
+    qualityTitleLabelFont_.setPointSize(ui->_qualityTitleLabel_->height() * kLabelFontScal);
+    QFont qualityLabelFont_;
+    qualityLabelFont_.setPointSize(ui->_qualityLabel_->height() * kLabelFontScal);
+    ui->_dateLabel_->setFont(dateLabelFont_);
+    ui->_timeLabel_->setFont(timeLabelFont_);
+    ui->_windDirectionLabel_->setFont(windDirectionLabelFont_);
+    ui->_windForceLabel_->setFont(windForceLabelFont_);
+    ui->_sunriseTitleLabel_->setFont(sunriseTitleLabelFont_);
+    ui->_sunriseLabel_->setFont(sunriseLabelFont_);
+    ui->_sunsetTitleLabel_->setFont(sunsetTitleLabelFont_);
+    ui->_sunsetLabel_->setFont(sunsetLabelFont_);
+    ui->_tempratureLabel_->setFont(tempratureLabelFont_);
+    ui->_wetTitleLabel_->setFont(wetTitleLabelFont_);
+    ui->_wetLabel_->setFont(wetLabelFont_);
+    ui->_pm25TitleLabel_->setFont(pm25TitleLabelFont_);
+    ui->_pm25Label_->setFont(pm25LabelFont_);
+    ui->_qualityTitleLabel_->setFont(qualityTitleLabelFont_);
+    ui->_qualityLabel_->setFont(qualityLabelFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -173,6 +224,9 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     connect(ui->_mapPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::toMap);
     //connect(ui->_robotInfoPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::toRobotInfo);
     connect(_weather, &T3_AF_getWeather::getReady, this, &T3_AF_mainWindow::weatherUpdate);
+    connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::stopRobot);
+    //
+    _qnode = rosgui::QNode::getInstance();
     //日志
     T3LOG("3+ 主界面构造");
 }
@@ -214,6 +268,13 @@ void T3_AF_mainWindow::exitToWelcome()
 {
     T3_AF_confirmExit *confirmExit_ = new T3_AF_confirmExit(_welcome, this);
     confirmExit_->show();
+}
+
+//stop
+void T3_AF_mainWindow::stopRobot()
+{
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    _qnode->setManualCmd(rosgui::QNode::Stop);
 }
 
 //进入face
@@ -280,6 +341,7 @@ T3_AF_mainWindow::~T3_AF_mainWindow()
 {
     delete ui;
     delete _weather;
+    delete _stopPushBtn_;
     //日志
     T3LOG("3- 主界面析构");
 }

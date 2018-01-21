@@ -12,7 +12,7 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string) :
     this->setGeometry(0, 0, _father->_width_, _father->_height_);
 //    this->move(0, 0);
 //    this->resize(_father->_width_, _father->_height_);
-    this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     this->showFullScreen();
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
@@ -25,6 +25,10 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string) :
                                    this->height()*0.0000,
                                    this->width()*1.0000,
                                    this->height()*1.0000);
+    //font
+    QFont warningLabelFont_;
+    warningLabelFont_.setPointSize(ui->_warningLabel_->height() * kLabelFontScal);
+    ui->_warningLabel_->setFont(warningLabelFont_);
     //func
     connect(ui->_exitPushBtn_, SIGNAL(clicked()), this, SLOT(closeThis()));
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");

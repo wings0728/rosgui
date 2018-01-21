@@ -116,6 +116,9 @@
    <property name="text">
     <string>_dateLabel_</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="_timeLabel_">
    <property name="geometry">

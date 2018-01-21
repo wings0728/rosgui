@@ -20,6 +20,21 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
 //    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
+    _forwardPusbBtn_ = new QPushButton(this);
+    _backwordPushBtn_ = new QPushButton(this);
+    _leftTurnPushBtn_ = new QPushButton(this);
+    _rightTurnPushBtn_ = new QPushButton(this);
+    _stopPushBtn_ = new QPushButton(this);
+    _forwardPusbBtn_->setObjectName(kForwardName);
+    _backwordPushBtn_->setObjectName(kBackwardName);
+    _leftTurnPushBtn_->setObjectName(kLeftTurnName);
+    _rightTurnPushBtn_->setObjectName(kRighTurnName);
+    _stopPushBtn_->setObjectName(kStopName);
+    _forwardPusbBtn_->setFocusPolicy(Qt::NoFocus);
+    _backwordPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _leftTurnPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _rightTurnPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setText("");
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
@@ -29,19 +44,20 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     ui->_modePushBtn_->setText("自动模式");
     ui->_modePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_modePushBtn_->setCheckable(true);
+    ui->_clear->setFocusPolicy(Qt::NoFocus);
     //size
-    ui->_modePushBtn_->setGeometry(this->width()*0.5875,
-                                     this->height()*0.6222,
-                                     this->width()*0.2000,
-                                     this->height()*0.0889);
+    ui->_modePushBtn_->setGeometry(this->width()*0.75,
+                                     this->height()*0.0889,
+                                     this->width()*0.0675,
+                                     this->height()*0.0400);
     ui->_clear->setGeometry(this->width()*0.8625,
                             this->height()*0.8111,
                             this->width()*0.1000,
                             this->height()*0.0578);
     ui->_dateTimeLabel_->setGeometry(this->width()*0.6500,
                                      this->height()*0.9333,
-                                     this->width()*0.1875,
-                                     this->height()*0.0333);
+                                     this->width()*0.1620,
+                                     this->height()*0.034);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
                                    this->height()*0.0178,
                                    this->width()*0.0375,
@@ -53,22 +69,76 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     ui->_videoLabel_->setGeometry(this->width()*0.6250,
                                   this->height()*0.2222,
                                   this->width()*0.3250,
-                                  this->height()*0.3111);
+                                  this->height()*0.2438);
+    _forwardPusbBtn_->setGeometry(this->width()*0.715,
+                                  this->height()*0.6,
+                                  this->width()*0.07,
+                                  this->height()*0.05);
+    _backwordPushBtn_->setGeometry(this->width()*0.715,
+                                   this->height()*0.8,
+                                   this->width()*0.07,
+                                   this->height()*0.05);
+    _leftTurnPushBtn_->setGeometry(this->width()*0.625,
+                                   this->height()*0.7,
+                                   this->width()*0.07,
+                                   this->height()*0.05);
+    _rightTurnPushBtn_->setGeometry(this->width()*0.805,
+                                     this->height()*0.7,
+                                     this->width()*0.07,
+                                     this->height()*0.05);
+    _stopPushBtn_->setGeometry(this->width()*0.715,
+                               this->height()*0.7,
+                               this->width()*0.07,
+                               this->height()*0.05);
+
+    _forwardPusbBtn_->show();
+    _backwordPushBtn_->show();
+    _leftTurnPushBtn_->show();
+    _rightTurnPushBtn_->show();
+    _stopPushBtn_->show();
+    //font
+    QFont showConnectStatusFont_;
+    showConnectStatusFont_.setPointSize(ui->_showConnectStatus_->height() * kLabelFontScal);
+    QFont modePushBtnFont_;
+    modePushBtnFont_.setPointSize(ui->_modePushBtn_->height() * kBtnFontScal);
+    QFont clearFont_;
+    clearFont_.setPointSize(ui->_clear->height() * kBtnFontScal);
+    QFont dateTimaLabelFont_;
+    dateTimaLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal * 0.75);
+    ui->_showConnectStatus_->setFont(showConnectStatusFont_);
+    ui->_modePushBtn_->setFont(modePushBtnFont_);
+    ui->_clear->setFont(clearFont_);
+    ui->_dateTimeLabel_->setFont(dateTimaLabelFont_);
     //
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = this->width()*0.0313;
     _mapStartY = this->height()*0.0800;
     //change acoording to real map
-    _mapWidth = this->width()*0.45;
-    _scale = _mapWidth/40;
-    _mapHeight = _scale * 40;
-    //fin
+    QImage realMap_;
+    realMap_.load(":/Pictures/map_realMap.pgm");
+    _realWidth = realMap_.width();
+    _realHeight = realMap_.height();
+    if(_realWidth >= _realHeight)
+    {
+        _mapWidth = this->width()*0.45;
+        _scale = _mapWidth / _realWidth;
+        _mapHeight = _scale * _realHeight;
+    }
+    else
+    {
+        _mapHeight = this->height()*0.8;
+        _scale = _mapHeight / _realHeight;
+        _mapWidth = _scale * _realWidth;
+    }
+        //fin
     _startX = 0;
     _startY = 0;
     _moveX = 0;
     _moveY = 0;
     _originX = 0.0;
     _originY = 0.0;
+    _mode = _qnode->getOprationMode();
+    qDebug() <<"mode" << _mode;
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -108,8 +178,39 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
      _database.setUserName(kDatabaseUserName);
      _database.setPassword(kDatabasePassword);
      _database.open();
+
+    connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
+    connect(_forwardPusbBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
+    connect(_backwordPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
+    connect(_leftTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
+    connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
+
     //日志
     T3LOG("7+ 导航界面构造");
+}
+
+void T3_AF_map::manualCmd()
+{
+    if(kForwardName == QObject::sender()->objectName())
+    {
+        _qnode->setManualCmd(rosgui::QNode::Forward);
+    }
+    else if(kBackwardName == QObject::sender()->objectName())
+    {
+        _qnode->setManualCmd(rosgui::QNode::Backward);
+    }
+    else if(kLeftTurnName == QObject::sender()->objectName())
+    {
+        _qnode->setManualCmd(rosgui::QNode::LeftTurn);
+    }
+    else if(kRighTurnName == QObject::sender()->objectName())
+    {
+        _qnode->setManualCmd(rosgui::QNode::RightTurn);
+    }
+    else
+    {
+        _qnode->setManualCmd(rosgui::QNode::Stop);
+    }
 }
 
 //test
@@ -126,7 +227,7 @@ void T3_AF_map::autoMode()
         mode = false;
         ui->_modePushBtn_->setText("自动模式");
     }
-    _qnode->operationMode(mode);
+    //_qnode->operationMode(mode);
 }
 
 //显示时间
@@ -364,6 +465,11 @@ void T3_AF_map::printVideo(QImage faceImage)
 T3_AF_map::~T3_AF_map()
 {
     delete ui;
+    delete _forwardPusbBtn_;
+    delete _backwordPushBtn_;
+    delete _leftTurnPushBtn_;
+    delete _rightTurnPushBtn_;
+    delete _stopPushBtn_;
     //日志
     T3LOG("7- 导航界面析构");
 }

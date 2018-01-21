@@ -39,5 +39,6 @@
         <file>Pictures/faceLog_back.png</file>
         <file>Pictures/warning_background.png</file>
         <file>Pictures/faceHistory_background.png</file>
+        <file>Pictures/background_background.jpeg</file>
     </qresource>
 </RCC>

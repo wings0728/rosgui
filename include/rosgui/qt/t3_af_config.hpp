@@ -23,6 +23,14 @@
 //k
 #define kMapScal 9.0
 #define kPi 3.141592653
-#define kDelay 500000
+#define kDelay 1000
+#define kLabelFontScal 0.6
+#define kBtnFontScal 0.4
+#define kForwardName "F"
+#define kBackwardName "B"
+#define kLeftTurnName "L"
+#define kRighTurnName "R"
+#define kStopName "S"
+
 
 #endif // T3_AF_CONFIG_H

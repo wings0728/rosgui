@@ -48,6 +48,9 @@
    <property name="text">
     <string>_dateLabel_</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QPushButton" name="_exitPushBtn_">
    <property name="geometry">
@@ -152,7 +155,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>_enterFaceLogPushBtn_</string>
+    <string>人脸信息管理</string>
    </property>
   </widget>
   <widget class="QPushButton" name="_morePushBtn_">
@@ -181,7 +184,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>vocal</string>
+    <string>语音编辑</string>
    </property>
   </widget>
   <widget class="QListView" name="_logListView_">

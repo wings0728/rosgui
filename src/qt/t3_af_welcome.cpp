@@ -26,6 +26,10 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     ui->_dateTimeLabel_->setGeometry(0.0125*this->width(), 0.02222*this->height(), 0.3125*this->width(), 0.04444*this->height());
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:white");
+    //font
+    QFont dateTimeLabelFont_;
+    dateTimeLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal);
+    ui->_dateTimeLabel_->setFont(dateTimeLabelFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(300);
@@ -58,8 +62,6 @@ void T3_AF_welcome::enterSystem()
     mainWindow_->show();
 
     for(int idx = 0; idx < kDelay; idx++){}
-
-    qDebug("delay done");
 
     this->hide();
 }

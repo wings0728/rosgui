@@ -24,7 +24,7 @@
 *坐标点更新*
 
 
-> 使用方法：
+### 初始化：
 - 包含qnode.hpp
 - 创建一个单例对象：rosgui::QNode *qnode = rosgui::QNode::getInstance();
 - 第一次创建单例时，需要调用init函数并传入argc、argv，所以一般在main中第一次创建**qnode->init(argc, argv)**;
@@ -80,5 +80,40 @@ void T3_AF_welcome::rosUpdate()
 {
   T3LOG("%f %f %f",qnode->_robotPose[0], qnode->_robotPose[1], qnode->_robotPose[2]);
 }
+```
+
+### 手动&自动切换
+
+> 读取现在的模式,返回值为OprationMode类型。
+```cpp
+OprationMode getOprationMode();
+```
+
+> 设置手动或自动，传入Auto或者Manual即可。
+```cpp
+  enum OprationMode {
+           Auto,
+           Manual
+   };
+
+void setOperationMode(OprationMode operation);
+```
+
+> 设置手动方向（确保目前在手动模式）。
+```cpp
+  enum ManualCmd {
+           Forward,
+           Backward,
+           LeftTurn,
+           RightTurn,
+           Stop
+   };
+
+bool setManualCmd(ManualCmd cmd);
+```
+
+> 设置自动行走要去的目标位置（确保目前在自动模式）。
+```cpp
+void goalUpdate(float x, float y, float z);
 ```
 

@@ -30,7 +30,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     ui->_textLabel_->setStyleSheet("border-image:url(:/Pictures/face_text.png)");
     ui->_squareLabel_->setText("");
     ui->_squareLabel_->setStyleSheet("border-image:url(:/Pictures/face_square.png)");
-    ui->_videoLabel_->setText("视频显示区");
+    ui->_videoLabel_->setText("");
     ui->_videoLabel_->setStyleSheet("color:white");
     ui->_logBackgroundLabel_->setText("");
     ui->_logBackgroundLabel_->setStyleSheet("border-image:url(:/Pictures/face_logBackground.png)");
@@ -42,9 +42,9 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
                                  this->height()*0.0667,
                                  this->width()*0.1625,
                                  this->height()*0.0667);
-    ui->_enterFaceLogPushBtn_->setGeometry(this->width()*0.7875,
+    ui->_enterFaceLogPushBtn_->setGeometry(this->width()*0.7775,
                                            this->height()*0.8444,
-                                           this->width()*0.1000,
+                                           this->width()*0.1300,
                                            this->height()*0.0578);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
                                    this->height()*0.0178,
@@ -83,6 +83,23 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
                                     this->width()*0.1000,
                                     this->height()*0.0578);
 
+    //font
+    QFont dateLabelFont_;
+    dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
+    QFont timeLabelFont_;
+    timeLabelFont_.setPointSize(ui->_timeLabel_->height() * kLabelFontScal*0.8);
+    QFont vocalPushBtnFont_;
+    vocalPushBtnFont_.setPointSize(ui->_vocalPushBtn_->height() * kBtnFontScal);
+    QFont morePushBtnFont_;
+    morePushBtnFont_.setPointSize(ui->_morePushBtn_->height() * kBtnFontScal * 0.7);
+    QFont enterFaceLogPushBtnFont_;
+    enterFaceLogPushBtnFont_.setPointSize(ui->_enterFaceLogPushBtn_->height() * kBtnFontScal);
+
+    ui->_dateLabel_->setFont(dateLabelFont_);
+    ui->_timeLabel_->setFont(timeLabelFont_);
+    ui->_vocalPushBtn_->setFont(vocalPushBtnFont_);
+    ui->_morePushBtn_->setFont(morePushBtnFont_);
+    ui->_enterFaceLogPushBtn_->setFont(enterFaceLogPushBtnFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
