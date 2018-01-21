@@ -254,7 +254,7 @@ void QNode::setOperationMode(OprationMode mode)
     qDebug() << _oprationMode;
 }
 
-OprationMode QNode::getOprationMode()
+QNode::OprationMode QNode::getOprationMode()
 {
   OprationMode tempMode = _oprationMode;
   return tempMode;
