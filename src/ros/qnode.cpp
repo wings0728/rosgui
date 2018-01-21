@@ -215,14 +215,7 @@ void QNode::goalUpdate(float x, float y, float z)
   qDebug() << "get pose";
   _robotGoal.publish(goalMsg_);
 }
-///
-/// \brief QNode::operationMode
-/// \param isManual
-///
-void QNode::operationMode(bool isManual)
-{
-    qDebug() << isManual;
-}
+
 
 //***********************get set*********************//
 std::vector<double> QNode::getRobotPose()
@@ -249,6 +242,35 @@ bool QNode::getGlobalPlan(QList<std::pair<double, double> >& plan)
   }
   return true;
 //  plan.operator =(_globalPlan);
+}
+
+///
+/// \brief setOperationMode
+/// \param mode
+///
+void QNode::setOperationMode(OprationMode mode)
+{
+  _oprationMode = mode;
+    qDebug() << _oprationMode;
+}
+
+OprationMode QNode::getOprationMode()
+{
+  OprationMode tempMode = _oprationMode;
+  return tempMode;
+}
+
+bool QNode::setManualCmd(ManualCmd cmd)
+{
+  if(_oprationMode == Manual)
+  {
+    qDebug() << cmd;
+    return true;
+  }else
+  {
+    qDebug() << "not manual mode.";
+    return false;
+  }
 }
 
 }  // namespace rosgui
