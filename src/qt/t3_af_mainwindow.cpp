@@ -16,6 +16,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
     _weather = new T3_AF_getWeather;
+    _stopPushBtn_ = new QPushButton(this);
+    _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _stopPushBtn_->show();
+    _stopPushBtn_->setText("");
     ui->_dateLabel_->setText("");
     ui->_dateLabel_->setStyleSheet("color:white");
     ui->_timeLabel_->setText("");
@@ -153,6 +157,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                       this->height()*0.0444,
                                       this->width()*0.0625,
                                       this->height()*0.0333);
+    _stopPushBtn_->setGeometry(this->width()*0.8,
+                               this->height()*0.2,
+                               this->width()*0.05,
+                               this->height()*0.05);
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
@@ -216,6 +224,9 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     connect(ui->_mapPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::toMap);
     //connect(ui->_robotInfoPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::toRobotInfo);
     connect(_weather, &T3_AF_getWeather::getReady, this, &T3_AF_mainWindow::weatherUpdate);
+    connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::stopRobot);
+    //
+    _qnode = rosgui::QNode::getInstance();
     //日志
     T3LOG("3+ 主界面构造");
 }
@@ -257,6 +268,13 @@ void T3_AF_mainWindow::exitToWelcome()
 {
     T3_AF_confirmExit *confirmExit_ = new T3_AF_confirmExit(_welcome, this);
     confirmExit_->show();
+}
+
+//stop
+void T3_AF_mainWindow::stopRobot()
+{
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    _qnode->setManualCmd(rosgui::QNode::Stop);
 }
 
 //进入face
@@ -323,6 +341,7 @@ T3_AF_mainWindow::~T3_AF_mainWindow()
 {
     delete ui;
     delete _weather;
+    delete _stopPushBtn_;
     //日志
     T3LOG("3- 主界面析构");
 }

@@ -10,6 +10,8 @@
 #include "t3_af_map.hpp"
 #include "t3_af_robotinfo.hpp"
 
+#include "../ros/qnode.hpp"
+
 namespace Ui {
 class T3_AF_mainWindow;
 }
@@ -27,6 +29,7 @@ public:
     void toWeatherForecast();
     void toMap();
     void toRobotInfo();
+    void stopRobot();
 
 private slots:
     void timeUpdate();
@@ -40,6 +43,9 @@ private:
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
+    rosgui::QNode *_qnode;
+    //ui
+    QPushButton *_stopPushBtn_;
 
 };
 

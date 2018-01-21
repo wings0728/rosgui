@@ -63,8 +63,6 @@ void T3_AF_welcome::enterSystem()
 
     for(int idx = 0; idx < kDelay; idx++){}
 
-    qDebug("delay done");
-
     this->hide();
 }
 
