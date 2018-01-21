@@ -29,6 +29,7 @@ public:
     void getPoint();
     void getTarget();
     void routeUpdate();
+    void manualCmd();
 
 
     vector<float> _pos_;
@@ -70,6 +71,13 @@ private:
     float _scale;
     float _realWidth;
     float _realHeight;
+    rosgui::QNode::OprationMode _mode;
+    //ui
+    QPushButton *_forwardPusbBtn_;
+    QPushButton *_backwordPushBtn_;
+    QPushButton *_leftTurnPushBtn_;
+    QPushButton *_rightTurnPushBtn_;
+    QPushButton *_stopPushBtn_;
 };
 
 #endif // T3_AF_MAP_H
