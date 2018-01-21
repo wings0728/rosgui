@@ -96,30 +96,12 @@ void QNode::getParam(ros::NodeHandle& n)
   n.param("originY", _mapOrigin[1], 0.0);
   n.param("originZ", _mapOrigin[2], 0.0);
 
-  qDebug() << "x:" << _mapOrigin[0] << " y:" << _mapOrigin[1] << " z:" << _mapOrigin[2];
-//  std::string fname(init_argv[1]);
-//  std::ifstream fin(fname.c_str());
-//  if (fin.fail()) {
-//    ROS_ERROR("Map_server could not open %s.", fname.c_str());
-//    exit(-1);
-//  }
-//  YAML::Parser parser(fin);
-//  YAML::Node doc;
-//  parser.GetNextDocument(doc);
-//  try {
-//              doc["origin"][0] >> _mapOrigin[0];
-//              doc["origin"][1] >> _mapOrigin[1];
-//              doc["origin"][2] >> _mapOrigin[2];
-//            } catch (YAML::InvalidScalar) {
-//              ROS_ERROR("The map does not contain an origin tag or it is invalid.");
-//              exit(-1);
-//            }
-//  _robotPoseTopicName = "odometry/filtered_map";
-  //get pose topic
+//  qDebug() << "x:" << _mapOrigin[0] << " y:" << _mapOrigin[1] << " z:" << _mapOrigin[2];
+
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
   _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
 //  ROS_WARN("set param");
-//  T3LOG(_robotPoseTopicName.c_str());
+//  T3LOG(_globalPlanTopicName.c_str());
 //  std::count << "set param" << std::endl;
 }
 
@@ -230,6 +212,7 @@ void QNode::goalUpdate(float x, float y, float z)
   goalMsg_.x = x;
   goalMsg_.y = y;
   goalMsg_.z = z;
+  qDebug() << "get pose";
   _robotGoal.publish(goalMsg_);
 }
 ///
@@ -257,10 +240,12 @@ std::vector<double> QNode::getMapOrigin()
 bool QNode::getGlobalPlan(QList<std::pair<double, double> >& plan)
 {
   if(_globalPlan.isEmpty()) return false;
+  plan.clear();
   int size = _globalPlan.size();
-  for(int idx; idx < size; idx++)
+  for(int idx=0; idx < size; idx++)
   {
     plan.append(_globalPlan[idx]);
+//    qDebug() << plan[idx].first << plan[idx].second;
   }
   return true;
 //  plan.operator =(_globalPlan);

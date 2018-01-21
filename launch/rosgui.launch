@@ -1,7 +1,8 @@
 <launch>
+  <include file="$(find t3_goal)/launch/t3_goals.launch" />
   <node pkg="rosgui" type="rosgui" name="rosgui" output="screen">
     <param name="robotPoseTopicName" type="string" value="/odometry/filtered_map" />
-    <param name="globalPlanTopicName" type="string" value="/TrajectoryPlannerROS/global_plan" />
+    <param name="globalPlanTopicName" type="string" value="/move_base/NavfnROS/plan" />
     <param name="originX" value="-10.0" />
     <param name="originY" value="-10.0" />
     <param name="originZ" value="0.0" />
