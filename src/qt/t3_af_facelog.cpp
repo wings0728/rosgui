@@ -50,7 +50,7 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                     this->height()*0.0889);
     ui->_dateTimeLabel_->setGeometry(this->width()*0.3900,
                                      this->height()*0.9467,
-                                     this->width()*0.2375,
+                                     this->width()*0.2300,
                                      this->height()*0.0467);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9625,
                                    this->height()*0.0044,
@@ -96,6 +96,47 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                         this->height()*0.4156,
                                         this->width()*0.2013,
                                         this->height()*0.0556);
+    //font
+    QFont ageLabelFont_;
+    ageLabelFont_.setPointSize(ui->_ageLabel->height() * kLabelFontScal * 0.5);
+    QFont ageLineEditFont_;
+    ageLineEditFont_.setPointSize(ui->_ageLineEdit_->height() * kLabelFontScal * 0.8);
+    QFont checkPushBtnFont_;
+    checkPushBtnFont_.setPointSize(ui->_checkPushBtn_->height() * kBtnFontScal * 0.5);
+    QFont clearPushBtnFont_;
+    clearPushBtnFont_.setPointSize(ui->_clearPushBtn_->height() * kBtnFontScal * 0.5);
+    QFont dateTimeLabelFont_;
+    dateTimeLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal * 0.6);
+    QFont imageAddressLineEditFont_;
+    imageAddressLineEditFont_.setPointSize(ui->_imageAddressLineEdit_->height() * kLabelFontScal * 0.6);
+    QFont imageLabelFont_;
+    imageLabelFont_.setPointSize(ui->_imageLabel_->height() * kLabelFontScal * 0.5);
+    QFont nameLabelFont_;
+    nameLabelFont_.setPointSize(ui->_nameLabel_->height() * kLabelFontScal * 0.5);
+    QFont nameLineEditFont_;
+    nameLineEditFont_.setPointSize(ui->_nameLineEdit_->height() * kLabelFontScal * 0.8);
+    QFont searchByNameLabelFont_;
+    searchByNameLabelFont_.setPointSize(ui->_searchByNameLabel_->height() * kLabelFontScal * 0.5);
+    QFont searchByNameLineEditFont_;
+    searchByNameLineEditFont_.setPointSize(ui->_searchByNameLineEdit_->height() * kLabelFontScal * 0.5);
+    QFont userTypeLabelFont_;
+    userTypeLabelFont_.setPointSize(ui->_userTypeLabel_->height() * kLabelFontScal * 0.5);
+    //QFont userTypeComboBoxFont_;
+    //userTypeComboBoxFont_.setPointSize(ui->_userTypeComboBox_->height() * kLabelFontScal);
+    ui->_ageLabel->setFont(ageLabelFont_);
+    ui->_ageLineEdit_->setFont(ageLineEditFont_);
+    ui->_checkPushBtn_->setFont(checkPushBtnFont_);
+    ui->_clearPushBtn_->setFont(clearPushBtnFont_);
+    ui->_dateTimeLabel_->setFont(dateTimeLabelFont_);
+    ui->_imageAddressLineEdit_->setFont(imageAddressLineEditFont_);
+    ui->_imageLabel_->setFont(imageLabelFont_);
+    ui->_nameLabel_->setFont(nameLabelFont_);
+    ui->_nameLineEdit_->setFont(nameLineEditFont_);
+    ui->_searchByNameLabel_->setFont(searchByNameLabelFont_);
+    ui->_searchByNameLineEdit_->setFont(searchByNameLineEditFont_);
+    ui->_userTypeLabel_->setFont(userTypeLabelFont_);
+    //ui->_userTypeComboBix->setFont(userTypeComboBoxFont_);
+
 
 
     //界面浮现动画
