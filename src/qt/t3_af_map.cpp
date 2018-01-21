@@ -126,22 +126,23 @@ void T3_AF_map::paintEvent(QPaintEvent *)
     paint_.drawLine(_pos_[0], _pos_[1], _pos_[2], _pos_[3]);
     paint_.drawLine(_pos_[2], _pos_[3], _pos_[4], _pos_[5]);
     paint_.drawLine(_pos_[4], _pos_[5], _pos_[0], _pos_[1]);
-    paint_.setPen(QPen(Qt::gray, 4));
-    //path
-    if(_pathX.size() > 1)
-    {
-            for(int i = 0; i<_pathX.size()-1; i++)
-        {
-            paint_.drawLine(_pathX.at(i), _pathY.at(i), _pathX.at(i+1), _pathY.at(i+1));
-        }
-    }
     //route
-    paint_.setPen(QPen(Qt::green, 4));
+    paint_.setPen(QPen(Qt::green, 3));
     if(_route.size() > 1)
     {
             for(int i = 0; i<_route.size()-1; i++)
         {
             paint_.drawLine(_route.at(i).first, _route.at(i).second, _route.at(i+1).first, _route.at(i+1).second);
+
+        }
+    }
+    //path
+    paint_.setPen(QPen(Qt::gray, 5));
+    if(_pathX.size() > 1)
+    {
+            for(int i = 0; i<_pathX.size()-1; i++)
+        {
+            paint_.drawLine(_pathX.at(i), _pathY.at(i), _pathX.at(i+1), _pathY.at(i+1));
         }
     }
     //path fin
@@ -230,10 +231,10 @@ void T3_AF_map::getPoint()
     //test fin.
   _robotPose = _qnode->getRobotPose();
   _mapOrigin = _qnode->getMapOrigin();
-    qDebug() << "robotpose[0]:" << _robotPose[0] << "\n"
-             << "robotpose[1]:" << _robotPose[1] << "\n"
-             << "robotpose[2]:" << _robotPose[2] << "\n"
-             << "robotpose[3]:" << _robotPose[3];
+//    qDebug() << "robotpose[0]:" << _robotPose[0] << "\n"
+//             << "robotpose[1]:" << _robotPose[1] << "\n"
+//             << "robotpose[2]:" << _robotPose[2] << "\n"
+//             << "robotpose[3]:" << _robotPose[3];
     //---------jason code
     float x = _robotPose[0];
     float y = _robotPose[1];
@@ -260,13 +261,13 @@ void T3_AF_map::getPoint()
     _pos_[3] = py - cLong*sin(angle);
     _pos_[4] = px + cShort*sin(angle);
     _pos_[5] = py + cShort*cos(angle);
-    qDebug() <<"angle:" << angle <<"\n"
-             <<"ax:" << _pos_[0] <<"\n"
-             <<"ay:" << _pos_[1] <<"\n"
-             <<"bx:" << _pos_[2] <<"\n"
-             <<"by:" << _pos_[3] <<"\n"
-             <<"cx:" << _pos_[4] <<"\n"
-             <<"cy:" << _pos_[5] <<"\n" <<"\n";
+//    qDebug() <<"angle:" << angle <<"\n"
+//             <<"ax:" << _pos_[0] <<"\n"
+//             <<"ay:" << _pos_[1] <<"\n"
+//             <<"bx:" << _pos_[2] <<"\n"
+//             <<"by:" << _pos_[3] <<"\n"
+//             <<"cx:" << _pos_[4] <<"\n"
+//             <<"cy:" << _pos_[5] <<"\n" <<"\n";
     ui->_showConnectStatus_->setText("连接");
     update();
 }
@@ -274,6 +275,13 @@ void T3_AF_map::getPoint()
 void T3_AF_map::routeUpdate()
 {
     _qnode->getGlobalPlan(_route);
+    for(int idx = 0; idx < _route.size(); idx++)
+    {
+      _route[idx].first = (_route[idx].first - _originX) * _scale + _mapStartX;
+      _route[idx].second = _mapStartY + _mapHeight - (_route[idx].second - _originY)* _scale;
+      qDebug() << "route[" << idx << "]" << _route[idx].first << _route[idx].second;
+    }
+
     update();
 }
 
