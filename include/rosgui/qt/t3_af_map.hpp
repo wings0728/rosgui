@@ -68,6 +68,8 @@ private:
     vector<double> _robotPose;
     vector<double> _mapOrigin;
     float _scale;
+    float _realWidth;
+    float _realHeight;
 };
 
 #endif // T3_AF_MAP_H

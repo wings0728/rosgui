@@ -22,5 +22,7 @@
 #define kMapScal 9.0
 #define kPi 3.141592653
 #define kDelay 500000
+#define kLabelFontScal 0.6
+#define kBtnFontScal 0.4
 
 #endif // T3_AF_CONFIG_H

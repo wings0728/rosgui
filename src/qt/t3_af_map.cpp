@@ -29,6 +29,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     ui->_modePushBtn_->setText("自动模式");
     ui->_modePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_modePushBtn_->setCheckable(true);
+    ui->_clear->setFocusPolicy(Qt::NoFocus);
     //size
     ui->_modePushBtn_->setGeometry(this->width()*0.5875,
                                      this->height()*0.6222,
@@ -40,8 +41,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                             this->height()*0.0578);
     ui->_dateTimeLabel_->setGeometry(this->width()*0.6500,
                                      this->height()*0.9333,
-                                     this->width()*0.1875,
-                                     this->height()*0.0333);
+                                     this->width()*0.1620,
+                                     this->height()*0.034);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
                                    this->height()*0.0178,
                                    this->width()*0.0375,
@@ -53,16 +54,42 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     ui->_videoLabel_->setGeometry(this->width()*0.6250,
                                   this->height()*0.2222,
                                   this->width()*0.3250,
-                                  this->height()*0.3111);
+                                  this->height()*0.2438);
+    //font
+    QFont showConnectStatusFont_;
+    showConnectStatusFont_.setPointSize(ui->_showConnectStatus_->height() * kLabelFontScal);
+    QFont modePushBtnFont_;
+    modePushBtnFont_.setPointSize(ui->_modePushBtn_->height() * kBtnFontScal);
+    QFont clearFont_;
+    clearFont_.setPointSize(ui->_clear->height() * kBtnFontScal);
+    QFont dateTimaLabelFont_;
+    dateTimaLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal * 0.75);
+    ui->_showConnectStatus_->setFont(showConnectStatusFont_);
+    ui->_modePushBtn_->setFont(modePushBtnFont_);
+    ui->_clear->setFont(clearFont_);
+    ui->_dateTimeLabel_->setFont(dateTimaLabelFont_);
     //
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = this->width()*0.0313;
     _mapStartY = this->height()*0.0800;
     //change acoording to real map
-    _mapWidth = this->width()*0.45;
-    _scale = _mapWidth/40;
-    _mapHeight = _scale * 40;
-    //fin
+    QImage realMap_;
+    realMap_.load(":/Pictures/map_realMap.pgm");
+    _realWidth = realMap_.width();
+    _realHeight = realMap_.height();
+    if(_realWidth >= _realHeight)
+    {
+        _mapWidth = this->width()*0.45;
+        _scale = _mapWidth / _realWidth;
+        _mapHeight = _scale * _realHeight;
+    }
+    else
+    {
+        _mapHeight = this->height()*0.8;
+        _scale = _mapHeight / _realHeight;
+        _mapWidth = _scale * _realWidth;
+    }
+        //fin
     _startX = 0;
     _startY = 0;
     _moveX = 0;
