@@ -21,8 +21,12 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
                                        this->height()*0.8000);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9000,
                                    this->height()*0.0889,
-                                   this->width()*0.0688,
+                                   this->width()*0.0488,
                                    this->height()*0.0556);
+    //font
+    QFont exitPushBtnLabel_;
+    exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
+    ui->_exitPushBtn_->setFont(exitPushBtnLabel_);
     //func
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_vocalText::exitVocalText);
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");

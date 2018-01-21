@@ -14,6 +14,7 @@
 #include "../include/rosgui/ros/qnode.hpp"
 //#include "../include/rosgui/qt/main_window.hpp"
 #include "../include/rosgui/qt/t3_af_welcome.hpp"
+#include "../include/rosgui/qt/t3_af_common.hpp"
 
 /*****************************************************************************
 ** Main
@@ -32,7 +33,10 @@ int main(int argc, char **argv) {
     qnode->init(argc, argv);
     //----------------jason end
     T3_AF_welcome welcome_;
+    //T3_AF_common common_;
     welcome_.show();
+    //common_.show();
+    //
     app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
     int result = app.exec();
 

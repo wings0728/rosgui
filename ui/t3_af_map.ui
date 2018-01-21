@@ -30,6 +30,9 @@
    <property name="text">
     <string>_dateTImeLabel_</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+   </property>
   </widget>
   <widget class="QPushButton" name="_exitPushBtn_">
    <property name="geometry">
@@ -70,7 +73,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>clear path</string>
+    <string>清除路径</string>
    </property>
   </widget>
   <widget class="QLabel" name="_videoLabel_">

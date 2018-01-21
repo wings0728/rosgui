@@ -23,6 +23,10 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
                                    this->height()*0.1556,
                                    this->width()*0.0688,
                                    this->height()*0.0556);
+    //font
+    QFont exitPushBtnLabel_;
+    exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
+    ui->_exitPushBtn_->setFont(exitPushBtnLabel_);
     //func
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_faceHistory::exitFaceHistory);
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");

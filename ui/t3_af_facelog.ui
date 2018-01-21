@@ -336,6 +336,9 @@
    <property name="text">
     <string>_dateTimeLabel_</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+   </property>
   </widget>
   <widget class="QPushButton" name="_exitPushBtn_">
    <property name="geometry">
