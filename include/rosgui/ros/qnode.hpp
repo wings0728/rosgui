@@ -54,15 +54,30 @@ public:
 	         Fatal
 	 };
 
+  enum OprationMode {
+           Auto,
+           Manual
+   };
+
+  enum ManualCmd {
+           Forward,
+           Backward,
+           LeftTurn,
+           RightTurn,
+           Stop
+   };
+
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
 
   void goalUpdate(float x, float y, float z);
-  void operationMode(bool isManual = true);
+  void setOperationMode(OprationMode mode);
 
   std::vector<double> getRobotPose();
   std::vector<double> getMapOrigin();
   bool getGlobalPlan(QList<std::pair<double, double> >& plan);
+  bool setManualCmd(ManualCmd cmd);
+  OprationMode getOprationMode();
 
 Q_SIGNALS:
 	void loggingUpdated();
@@ -88,6 +103,8 @@ private:
 //    ros::NodeHandle _privateNh;
   std::string _robotPoseTopicName;
   std::string _globalPlanTopicName;
+
+  OprationMode _oprationMode;
   QNode();
   virtual ~QNode();
 
