@@ -131,7 +131,7 @@ void T3_AF_map::autoMode()
         mode = false;
         ui->_modePushBtn_->setText("自动模式");
     }
-    _qnode->operationMode(mode);
+    //_qnode->operationMode(mode);
 }
 
 //显示时间

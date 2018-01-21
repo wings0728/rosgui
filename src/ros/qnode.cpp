@@ -38,7 +38,8 @@ QNode * QNode::getInstance()
 
 QNode::QNode():
   _mapOrigin(3, 0.0),
-  _robotPose(4, 0.0)
+  _robotPose(4, 0.0),
+  _oprationMode(Manual)
 {
 }
 
@@ -208,12 +209,16 @@ void QNode::log( const LogLevel &level, const std::string &msg) {
 ///
 void QNode::goalUpdate(float x, float y, float z)
 {
-  t3_description::goal goalMsg_;
-  goalMsg_.x = x;
-  goalMsg_.y = y;
-  goalMsg_.z = z;
-  qDebug() << "get pose";
-  _robotGoal.publish(goalMsg_);
+  if(_oprationMode == Auto)
+  {
+    t3_description::goal goalMsg_;
+    goalMsg_.x = x;
+    goalMsg_.y = y;
+    goalMsg_.z = z;
+    qDebug() << "get pose";
+    _robotGoal.publish(goalMsg_);
+  }
+
 }
 
 
@@ -256,7 +261,9 @@ void QNode::setOperationMode(OprationMode mode)
 
 QNode::OprationMode QNode::getOprationMode()
 {
+
   OprationMode tempMode = _oprationMode;
+  qDebug() << tempMode;
   return tempMode;
 }
 
