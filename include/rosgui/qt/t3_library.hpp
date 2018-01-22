@@ -12,9 +12,9 @@
 
 //Server
 
-//#define kServerURL "192.168.0.192"
+#define kServerURL "192.168.0.192"
 //#define kServerURL "192.168.43.246"
-#define kServerURL "localhost"
+//#define kServerURL "localhost"
 #define kServerPost 6666
 //FaceEngine
 
