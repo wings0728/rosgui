@@ -46,6 +46,8 @@ private:
     FrameLineData *_frameLineData;
     QSqlDatabase _database;
     QStringListModel *_stringListModel;
+    int _videoLabelHeight = 0;
+    int _videoLabelWidth = 0;
 
 
     void paintEvent(QPaintEvent *event);

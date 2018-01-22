@@ -167,6 +167,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
      {
             //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
             //warning->show();
+        ui->_videoLabel_->setText("网络未连接，请检查网络");
      }
 
      _frameLineData = _netWork->_frameLineData_;
