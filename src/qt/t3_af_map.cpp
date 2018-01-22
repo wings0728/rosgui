@@ -69,9 +69,9 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                          this->width()*0.0675,
                                          this->height()*0.0400);
     ui->_videoLabel_->setGeometry(this->width()*0.6250,
-                                  this->height()*0.2222,
+                                  this->height()*0.1600,
                                   this->width()*0.3250,
-                                  this->height()*0.2438);
+                                  this->width()*0.2438);
     _forwardPusbBtn_->setGeometry(this->width()*0.715,
                                   this->height()*0.6,
                                   this->width()*0.07,
