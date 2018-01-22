@@ -3,7 +3,11 @@
 
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
-
+enum BgType
+{
+  warning,
+  success
+};
 namespace Ui {
 class T3_AF_warning;
 }
@@ -13,7 +17,9 @@ class T3_AF_warning : public T3Dialog
     Q_OBJECT
 
 public:
-    explicit T3_AF_warning(QWidget *parent = 0,QString string = "");
+    explicit T3_AF_warning(QWidget *parent = 0,
+                           QString string = "",
+                           BgType bgType = warning);
     ~T3_AF_warning();
 
 private slots:
@@ -22,6 +28,7 @@ private slots:
 private:
     Ui::T3_AF_warning *ui;
     T3Dialog *_father;
+    QString _bgPath;
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);

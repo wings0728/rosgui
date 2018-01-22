@@ -178,7 +178,15 @@ void T3_Face_Network::updateClientDataBase()
 
 void T3_Face_Network::sendTTS(int sign, QString string)
 {
-  //_sign =
+    _sign = kSendSignTTS;
+    QByteArray block_ ;
+    QDataStream stream_(&block_,QIODevice::WriteOnly);
+    stream_.setVersion(QDataStream::Qt_5_5);
+    stream_ << (quint32)sizeof(quint32);
+    stream_ << (quint32)_sign ;
+    stream_ << (int)sign;
+    stream_ << string;
+    _socket->write(block_);
 }
 void T3_Face_Network::processUDPData()
 {

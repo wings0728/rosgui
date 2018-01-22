@@ -40,5 +40,6 @@
         <file>Pictures/warning_background.png</file>
         <file>Pictures/faceHistory_background.png</file>
         <file>Pictures/background_background.jpeg</file>
+        <file>Pictures/warning_success.png</file>
     </qresource>
 </RCC>
