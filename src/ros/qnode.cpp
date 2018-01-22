@@ -19,6 +19,7 @@
 #include <tf/tf.h>
 #include "t3_description/goal.h"
 #include "yaml-cpp/yaml.h"
+#include <math.h>
 
 /*****************************************************************************
 ** Namespaces
@@ -39,7 +40,9 @@ QNode * QNode::getInstance()
 QNode::QNode():
   _mapOrigin(3, 0.0),
   _robotPose(4, 0.0),
-  _oprationMode(Manual)
+  _oprationMode(Manual),
+  _linearX(0.0),
+  _angularZ(0.0)
 {
 }
 
@@ -65,6 +68,7 @@ bool QNode::init(int argc, char** argv ) {
 	// Add your ros communications here.
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
+  _cmdVelPub = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
   getParam(pn);
 	start();
 	return true;
@@ -96,7 +100,8 @@ void QNode::getParam(ros::NodeHandle& n)
   n.param("originX", _mapOrigin[0], 0.0);
   n.param("originY", _mapOrigin[1], 0.0);
   n.param("originZ", _mapOrigin[2], 0.0);
-
+  n.param("maxLinearX", _maxLinearX, 5.0);
+  n.param("maxAngularZ", _maxAngularZ, 5.0);
 //  qDebug() << "x:" << _mapOrigin[0] << " y:" << _mapOrigin[1] << " z:" << _mapOrigin[2];
 
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
@@ -218,6 +223,31 @@ void QNode::goalUpdate(float x, float y, float z)
     qDebug() << "get pose";
     _robotGoal.publish(goalMsg_);
   }
+}
+
+///
+/// \brief publish robot speed cmd
+///
+void QNode::pubRobotSpeed()
+{
+  if(abs(_linearX) > _maxLinearX)
+  {
+    if(_linearX < 0)
+      _linearX = -_maxLinearX;
+    else
+      _linearX = _maxLinearX;
+  }
+  if(abs(_angularZ) > _maxAngularZ)
+  {
+    if(_angularZ < 0)
+      _angularZ = -_maxAngularZ;
+    else
+      _angularZ = _maxAngularZ;
+  }
+  geometry_msgs::Twist cmdMsg;
+  cmdMsg.linear.x = _linearX;
+  cmdMsg.angular.z = _angularZ;
+  _cmdVelPub.publish(cmdMsg);
 
 }
 
@@ -256,14 +286,14 @@ bool QNode::getGlobalPlan(QList<std::pair<double, double> >& plan)
 void QNode::setOperationMode(OprationMode mode)
 {
   _oprationMode = mode;
-    qDebug() << _oprationMode;
+//    qDebug() << _oprationMode;
 }
 
 QNode::OprationMode QNode::getOprationMode()
 {
 
   OprationMode tempMode = _oprationMode;
-  qDebug() << tempMode;
+//  qDebug() << tempMode;
   return tempMode;
 }
 
@@ -271,7 +301,27 @@ bool QNode::setManualCmd(ManualCmd cmd)
 {
   if(_oprationMode == Manual)
   {
-    qDebug() << cmd;
+    switch(cmd)
+    {
+      case Forward:
+        _linearX+=0.01;
+        break;
+      case Backward:
+        _linearX-=0.01;
+        break;
+      case LeftTurn:
+        _angularZ-=0.01;
+        break;
+      case RightTurn:
+        _angularZ+=0.01;
+        break;
+      case Stop:
+        _linearX = 0.0;
+        _angularZ = 0.0;
+        break;
+
+    }
+    pubRobotSpeed();
     return true;
   }else
   {
