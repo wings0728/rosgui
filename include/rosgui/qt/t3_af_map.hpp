@@ -12,7 +12,6 @@
 #include <vector>
 using std::vector;
 
-
 #include "../ros/qnode.hpp"
 
 namespace Ui {
