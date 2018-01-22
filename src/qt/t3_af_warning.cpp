@@ -1,7 +1,9 @@
 #include "../../include/rosgui/qt/t3_af_warning.hpp"
 #include "ui_t3_af_warning.h"
 
-T3_AF_warning::T3_AF_warning(QWidget *parent , QString string) :
+
+
+T3_AF_warning::T3_AF_warning(QWidget *parent , QString string, BgType bgType) :
     T3Dialog(parent),
     ui(new Ui::T3_AF_warning)
 {
@@ -39,12 +41,21 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string) :
 //    animation_->start();
     //
     ui->_warningLabel_->setText(string);
+    switch (bgType) {
+    case warning:
+      _bgPath = ":/Pictures/warning_background.png";
+      break;
+    case success:
+      _bgPath = ":/Pictures/warning_success.png";
+    default:
+      break;
+    }
 }
 
 void T3_AF_warning::paintEvent(QPaintEvent *)
 {
     QPainter paint_(this);
-    paint_.drawPixmap(0, 0, this->width(), this->height(), QPixmap(":/Pictures/warning_background.png"));
+    paint_.drawPixmap(0, 0, this->width(), this->height(), QPixmap(_bgPath));
 }
 
 void T3_AF_warning::closeThis()

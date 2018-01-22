@@ -3,6 +3,7 @@
 
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
+#include "t3_face_network.hpp"
 
 namespace Ui {
 class T3_AF_vocalText;
@@ -18,11 +19,15 @@ public:
 
     void exitVocalText();
 
+private slots:
+    void on__saveBtn__clicked();
+
 private:
     Ui::T3_AF_vocalText *ui;
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
+    T3_Face_Network *_network;
 };
 
 #endif // T3_AF_VOCALTEXT_H

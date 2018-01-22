@@ -262,11 +262,8 @@ void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
         if(succ)
         {
           T3LOG("success add new faceInfo.");
-          _t3AFWarning = new T3_AF_warning(this,"人员信息添加成功");
+          _t3AFWarning = new T3_AF_warning(this,"人员信息添加成功",success);
           _t3AFWarning->show();
-
-        }else
-        {
           ui->_nameLineEdit_->clear();
           ui->_ageLineEdit_->clear();
           ui->_userImageLabel_->setStyleSheet("");

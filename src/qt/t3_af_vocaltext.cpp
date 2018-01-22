@@ -27,6 +27,9 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     QFont exitPushBtnLabel_;
     exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
     ui->_exitPushBtn_->setFont(exitPushBtnLabel_);
+    ui->_userTypeComboBox_->addItem("领导");
+    ui->_userTypeComboBox_->addItem("访客");
+    ui->_userTypeComboBox_->addItem("测试人员");
     //func
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_vocalText::exitVocalText);
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
@@ -34,6 +37,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
 //    animation_->setStartValue(0);
 //    animation_->setEndValue(0.9);
 //    animation_->start();
+    _network = T3_Face_Network::getT3FaceNetwork();
     //
     T3LOG("vocalText created");
 }
@@ -66,4 +70,12 @@ T3_AF_vocalText::~T3_AF_vocalText()
     delete ui;
     //
     T3LOG("vocalText deleted")
+}
+
+void T3_AF_vocalText::on__saveBtn__clicked()
+{
+    int userTypeIndex_ = ui->_userTypeComboBox_->currentIndex();
+    QString TTSString_ = ui->_voiceTextEdit_->toPlainText();
+    qDebug() << TTSString_;
+    _network->sendTTS(userTypeIndex_,TTSString_);
 }

@@ -20,7 +20,16 @@
 
 #define kThreshold 0.6
 
-#define sendSignTTS 7
+//netWorkSign
+#define kSendSignTTS 7
+
+//TTSUserTypeSign
+
+#define kLeader 0
+#define kVisitor 1
+#define kTestr 2
+
+
 
 
 #endif // T3_LIBRARY_H
