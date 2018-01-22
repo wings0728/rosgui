@@ -3,13 +3,14 @@
 
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
+#include "t3_af_warning.hpp"
+#include "t3_face_network.hpp"
 
 #include <QList>
 #include <QMouseEvent>
 #include <math.h>
 #include <vector>
 using std::vector;
-
 
 #include "../ros/qnode.hpp"
 
@@ -41,6 +42,7 @@ public:
 private slots:
     void timeUpdate();
     void autoMode();
+    void printVideo(QImage faceImage);
 
 private:
     Ui::T3_AF_map *ui;
@@ -69,6 +71,13 @@ private:
     vector<double> _robotPose;
     vector<double> _mapOrigin;
     float _scale;
+
+
+    T3_Face_Network *_netWork;
+    Decoder *_decoder;
+    FrameLineData *_frameLineData;
+    QSqlDatabase _database;
+
     float _realWidth;
     float _realHeight;
     rosgui::QNode::OprationMode _mode;
@@ -78,6 +87,7 @@ private:
     QPushButton *_leftTurnPushBtn_;
     QPushButton *_rightTurnPushBtn_;
     QPushButton *_stopPushBtn_;
+
 };
 
 #endif // T3_AF_MAP_H

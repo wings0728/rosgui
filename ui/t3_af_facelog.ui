@@ -61,22 +61,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLineEdit" name="_userTypeLineEdit_">
-   <property name="geometry">
-    <rect>
-     <x>595</x>
-     <y>187</y>
-     <width>161</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="_imageAddressLineEdit_">
    <property name="geometry">
     <rect>
@@ -372,11 +356,37 @@
     <string/>
    </property>
   </widget>
+  <widget class="QComboBox" name="_userTypeComboBox_">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>180</y>
+     <width>171</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;
+</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="_faceInfoTableView_">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>41</y>
+     <width>401</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
+   </property>
+  </widget>
   <zorder>_backgroundLabel_</zorder>
   <zorder>_addUserBackgroundLabel_</zorder>
   <zorder>_nameLineEdit_</zorder>
   <zorder>_ageLineEdit_</zorder>
-  <zorder>_userTypeLineEdit_</zorder>
   <zorder>_imageAddressLineEdit_</zorder>
   <zorder>_addNewUserPushBtn_</zorder>
   <zorder>_checkPushBtn_</zorder>
@@ -391,6 +401,8 @@
   <zorder>_dateTimeLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_getImagePushBtn_</zorder>
+  <zorder>_userTypeComboBox_</zorder>
+  <zorder>_faceInfoTableView_</zorder>
  </widget>
  <resources/>
  <connections/>

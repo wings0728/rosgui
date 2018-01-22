@@ -92,6 +92,7 @@ private:
   char** init_argv;
 	ros::Publisher chatter_publisher;
   ros::Publisher _robotGoal;
+  ros::Publisher _cmdVelPub;
   ros::Subscriber _robotPoseSub;
   ros::Subscriber _globalPlanSub;
   QStringListModel logging_model;
@@ -103,6 +104,10 @@ private:
 //    ros::NodeHandle _privateNh;
   std::string _robotPoseTopicName;
   std::string _globalPlanTopicName;
+  double _linearX;
+  double _angularZ;
+  double _maxLinearX;
+  double _maxAngularZ;
 
   OprationMode _oprationMode;
   QNode();
@@ -110,7 +115,7 @@ private:
 
 
 //    bool init(const std::string &master_url, const std::string &host_url);
-
+    void pubRobotSpeed();
     void getParam(ros::NodeHandle& n);
     void getPoseCallback(const nav_msgs::Odometry& msg);
     void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);

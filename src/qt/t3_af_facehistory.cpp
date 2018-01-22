@@ -35,6 +35,27 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
 //    animation_->setEndValue(0.9);
 //    animation_->start();
     //
+    _model = new QSqlQueryModel(this);
+    _model->setQuery("select * from T3FaceRecord limit 0,10");
+    //_model->select();
+    _model->setHeaderData(0,Qt::Horizontal,"记录编号");
+    _model->setHeaderData(1,Qt::Horizontal,"身份编号");
+    _model->setHeaderData(2,Qt::Horizontal,"姓名");
+    _model->setHeaderData(4,Qt::Horizontal,"记录时间");
+    //_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    ui->_faceInfoTableView_->setModel(_model);
+
+    ui->_faceInfoTableView_->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->_faceInfoTableView_->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->_faceInfoTableView_->setColumnHidden(3,true);
+    ui->_faceInfoTableView_->resizeColumnsToContents();
+    ui->_faceInfoTableView_->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
+
+    QHeaderView *header = ui->_faceInfoTableView_->horizontalHeader();
+    header->setStretchLastSection(true);
+
     T3LOG("faceHis created");
 }
 

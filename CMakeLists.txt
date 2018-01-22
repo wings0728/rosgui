@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   qt_build
   t3_description
+
 )
 
 ################################################
@@ -216,6 +217,11 @@ target_link_libraries(rosgui
     Qt5::PrintSupport
     Qt5::Network
     Qt5::Sql
+    -larcsoft_fsdk_face_tracking
+    -larcsoft_fsdk_face_recognition
+    -lavcodec
+    -lavutil
+    -lswscale
 )
 
 install(TARGETS rosgui RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

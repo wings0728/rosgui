@@ -156,11 +156,35 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
+    //视频展示
+     _netWork = T3_Face_Network::getT3FaceNetwork();
+     _decoder = _netWork->_decoder_;
+
+     if(_netWork->_isNetworkConnected_)
+     {
+       _netWork->getVideo();
+     }else
+     {
+            //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
+            //warning->show();
+     }
+
+     _frameLineData = _netWork->_frameLineData_;
+     connect(_decoder,&Decoder::newFrame,this,&T3_AF_map::printVideo);
+     //数据库连接
+     _database = QSqlDatabase::addDatabase(kDatabaseEngine);
+     _database.setDatabaseName(kDatabaseName);
+     _database.setHostName(kServerURL);
+     _database.setUserName(kDatabaseUserName);
+     _database.setPassword(kDatabasePassword);
+     _database.open();
+
     connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_forwardPusbBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_backwordPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_leftTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
+
     //日志
     T3LOG("7+ 导航界面构造");
 }
@@ -311,6 +335,10 @@ void T3_AF_map::getTarget()
 //退出
 void T3_AF_map::exitToMainWindow()
 {
+    if(_netWork->_isNetworkConnected_)
+    {
+      _netWork->closeVideo();
+    }
     _mainWindow->show();
 
     for(int idx = 0; idx < kDelay; idx++){}
@@ -398,6 +426,39 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
     default:
         QDialog::keyPressEvent(event);
     }
+}
+
+void T3_AF_map::printVideo(QImage faceImage)
+{
+  //faceImage = faceImage.mirrored(true,false);
+  QPainter paint(&faceImage);
+  QPen pen(Qt::yellow,2);
+  paint.setPen(pen);
+  paint.setFont(QFont(QString::fromLocal8Bit("宋体"),20,-1,false));
+  //qDebug() << _frameLineData->personNum;
+ for(int i = 0; i<_frameLineData->personNum; i++)
+ {
+
+     paint.drawLine(QPoint(_frameLineData->rightList[i],_frameLineData->topList[i]),QPoint(_frameLineData->leftList[i],_frameLineData->topList[i]));
+     paint.drawLine(QPoint(_frameLineData->rightList[i],_frameLineData->bottomList[i]),QPoint(_frameLineData->leftList[i],_frameLineData->bottomList[i]));
+     paint.drawLine(QPoint(_frameLineData->rightList[i],_frameLineData->topList[i]),QPoint(_frameLineData->rightList[i],_frameLineData->bottomList[i]));
+     paint.drawLine(QPoint(_frameLineData->leftList[i],_frameLineData->topList[i]),QPoint(_frameLineData->leftList[i],_frameLineData->bottomList[i]));
+     if(-1 != _frameLineData->idList[i])
+     {
+         QSqlQuery query_(_database);
+         query_.prepare("select name from T3Face where id = ?");
+         query_.bindValue(0, _frameLineData->idList[i]);
+
+         query_.exec();
+         query_.next();
+         QString name_ = query_.value(0).toString();
+         paint.drawText(QPointF(_frameLineData->dot2List[i]-1,_frameLineData->dot1List[i]),name_);
+     }
+
+ }
+
+  paint.end();
+  ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 
 //界面析构函数
