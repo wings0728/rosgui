@@ -23,10 +23,50 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
                                    this->height()*0.0889,
                                    this->width()*0.0488,
                                    this->height()*0.0556);
+    ui->_exampleText_->setGeometry(this->width()*0.484,
+                                   this->height()*0.1489,
+                                   this->width()*0.4359,
+                                   this->height()*0.3556);
+    ui->_saveBtn_->setGeometry(this->width()*0.7875,
+                              this->height()*0.7667,
+                              this->width()*0.1000,
+                              this->height()*0.0556);
+    ui->_userTypeComboBox_->setGeometry(this->width()*0.6000,
+                                       this->height()*0.5333,
+                                       this->width()*0.1000,
+                                       this->height()*0.0556);
+    ui->_userTypeLabel_->setGeometry(this->width()*0.5125,
+                                    this->height()*0.5333,
+                                    this->width()*0.0688,
+                                    this->height()*0.0444);
+    ui->_voiceLabel_->setGeometry(this->width()*0.5125,
+                                 this->height()*0.6444,
+                                 this->width()*0.0688,
+                                 this->height()*0.0444);
+    ui->_voiceTextEdit_->setGeometry(this->width()*0.6000,
+                                    this->height()*0.6444,
+                                    this->width()*0.1500,
+                                    this->height()*0.1778);
     //font
     QFont exitPushBtnLabel_;
     exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
     ui->_exitPushBtn_->setFont(exitPushBtnLabel_);
+    QFont exampleTextFont_;
+    exampleTextFont_.setPointSize(ui->_exampleText_->height() * kLabelFontScal * 0.1);
+    ui->_exampleText_->setFont(exampleTextFont_);
+    QFont saveBtnFont_;
+    saveBtnFont_.setPointSize(ui->_saveBtn_->height() * kBtnFontScal);
+    ui->_saveBtn_->setFont(saveBtnFont_);
+    QFont userTypeComboBoxFont_;
+    userTypeComboBoxFont_.setPointSize(ui->_userTypeComboBox_->height() * kLabelFontScal * 0.6);
+    ui->_userTypeComboBox_->setFont(userTypeComboBoxFont_);
+    QFont userTypeLabelFont_;
+    userTypeLabelFont_.setPointSize(ui->_userTypeLabel_->height() * kLabelFontScal * 0.8);
+    ui->_userTypeLabel_->setFont(userTypeLabelFont_);
+    QFont voiceLabelFont_;
+    voiceLabelFont_.setPointSize(ui->_voiceLabel_->height() * kLabelFontScal * 0.8);
+    ui->_voiceLabel_->setFont(voiceLabelFont_);
+    //
     ui->_userTypeComboBox_->addItem("领导");
     ui->_userTypeComboBox_->addItem("访客");
     ui->_userTypeComboBox_->addItem("测试人员");

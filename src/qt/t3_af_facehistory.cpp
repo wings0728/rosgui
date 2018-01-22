@@ -23,10 +23,17 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
                                    this->height()*0.1556,
                                    this->width()*0.0688,
                                    this->height()*0.0556);
+    ui->_faceInfoTableView_->setGeometry(this->width()*0.4950,
+                                         this->height()*0.2156,
+                                         this->width()*0.4388,
+                                         this->height()*0.6911);
     //font
     QFont exitPushBtnLabel_;
     exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
     ui->_exitPushBtn_->setFont(exitPushBtnLabel_);
+    QFont faceInfoTableViewFont_;
+    faceInfoTableViewFont_.setPointSize(ui->_faceInfoTableView_->height() * kLabelFontScal / 20);
+    ui->_faceInfoTableView_->setFont(faceInfoTableViewFont_);
     //func
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_faceHistory::exitFaceHistory);
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");

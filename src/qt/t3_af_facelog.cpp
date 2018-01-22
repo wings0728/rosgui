@@ -14,6 +14,10 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
+    _deletePushBtn_ = new QPushButton(this);
+    _deletePushBtn_->setFocusPolicy(Qt::NoFocus);
+    _deletePushBtn_->setStyleSheet("border-image:url(:/Pictures/faceLog_button.png);color:white");
+    _deletePushBtn_->show();
     ui->_getImagePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_checkPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_clearPushBtn_->setFocusPolicy(Qt::NoFocus);
@@ -40,14 +44,18 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                        this->height()*0.0000,
                                        this->width()*1.0000,
                                        this->height()*1.0000);
-    ui->_checkPushBtn_->setGeometry(this->width()*0.7375,
+    ui->_checkPushBtn_->setGeometry(this->width()*0.7344,
                                     this->height()*0.8711,
                                     this->width()*0.0500,
                                     this->height()*0.0889);
-    ui->_clearPushBtn_->setGeometry(this->width()*0.8813,
+    ui->_clearPushBtn_->setGeometry(this->width()*0.8125,
                                     this->height()*0.8711,
                                     this->width()*0.0500,
                                     this->height()*0.0889);
+    _deletePushBtn_->setGeometry(this->width()*0.8906,
+                                 this->height()*0.8711,
+                                 this->width()*0.0500,
+                                 this->height()*0.0889);
     ui->_dateTimeLabel_->setGeometry(this->width()*0.3900,
                                      this->height()*0.9467,
                                      this->width()*0.2300,
@@ -82,12 +90,12 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                          this->height()*0.0889);
     ui->_searchByNameLineEdit_->setGeometry(this->width()*0.7063,
                                             this->height()*0.7556,
-                                            this->width()*0.2625,
+                                            this->width()*0.2624,
                                             this->height()*0.0889);
-    ui->_userImageLabel_->setGeometry(this->width()*0.8363,
-                                      this->height()*0.0200,
-                                      this->width()*0.1163,
-                                      this->height()*0.3111);
+    ui->_userImageLabel_->setGeometry(this->width()*0.8295,
+                                      this->height()*0.018,
+                                      this->width()*0.1300,
+                                      this->height()*0.3100);
     ui->_userTypeLabel_->setGeometry(this->width()*0.6438,
                                      this->height()*0.4044,
                                      this->width()*0.1000,
@@ -96,11 +104,16 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                         this->height()*0.4156,
                                         this->width()*0.2013,
                                         this->height()*0.0556);
+    ui->_faceInfoTableView_->setGeometry(this->width() * 0.0413,
+                                         this->height() * 0.0733,
+                                         this->width() * 0.5488,
+                                         this->height() * 0.8644);
 
     ui->_userTypeComboBox_->setFocusPolicy(Qt::NoFocus);
     ui->_userTypeComboBox_->addItem("访客");
     ui->_userTypeComboBox_->addItem("领导");
     ui->_userTypeComboBox_->addItem("测试人员");
+    _deletePushBtn_->setText("删除");
     //数据库显示设置
     _model = new QSqlTableModel(this);
     //_model = new QSqlQueryModel(this);
@@ -133,6 +146,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     checkPushBtnFont_.setPointSize(ui->_checkPushBtn_->height() * kBtnFontScal * 0.5);
     QFont clearPushBtnFont_;
     clearPushBtnFont_.setPointSize(ui->_clearPushBtn_->height() * kBtnFontScal * 0.5);
+    QFont deletePushBtnFont_;
+    deletePushBtnFont_.setPointSize(_deletePushBtn_->height() * kBtnFontScal * 0.5);
     QFont dateTimeLabelFont_;
     dateTimeLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal * 0.6);
     QFont imageAddressLineEditFont_;
@@ -149,12 +164,13 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     searchByNameLineEditFont_.setPointSize(ui->_searchByNameLineEdit_->height() * kLabelFontScal * 0.5);
     QFont userTypeLabelFont_;
     userTypeLabelFont_.setPointSize(ui->_userTypeLabel_->height() * kLabelFontScal * 0.5);
-    //QFont userTypeComboBoxFont_;
-    //userTypeComboBoxFont_.setPointSize(ui->_userTypeComboBox_->height() * kLabelFontScal);
+    QFont userTypeComboBoxFont_;
+    userTypeComboBoxFont_.setPointSize(ui->_userTypeComboBox_->height() * kLabelFontScal * 0.8);
     ui->_ageLabel->setFont(ageLabelFont_);
     ui->_ageLineEdit_->setFont(ageLineEditFont_);
     ui->_checkPushBtn_->setFont(checkPushBtnFont_);
     ui->_clearPushBtn_->setFont(clearPushBtnFont_);
+    _deletePushBtn_->setFont(deletePushBtnFont_);
     ui->_dateTimeLabel_->setFont(dateTimeLabelFont_);
     ui->_imageAddressLineEdit_->setFont(imageAddressLineEditFont_);
     ui->_imageLabel_->setFont(imageLabelFont_);
@@ -163,12 +179,12 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     ui->_searchByNameLabel_->setFont(searchByNameLabelFont_);
     ui->_searchByNameLineEdit_->setFont(searchByNameLineEditFont_);
     ui->_userTypeLabel_->setFont(userTypeLabelFont_);
-    //ui->_userTypeComboBix->setFont(userTypeComboBoxFont_);
+    ui->_userTypeComboBox_->setFont(userTypeComboBoxFont_);
 
 
 
     //界面浮现动画
-    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
+//    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
 //    animation_->setStartValue(0);
 //    animation_->setEndValue(1);
@@ -225,9 +241,10 @@ void T3_AF_faceLog::keyPressEvent(QKeyEvent *event)
 //界面析构函数
 T3_AF_faceLog::~T3_AF_faceLog()
 {
-  delete ui;
-  //日志
-  T3LOG("9- 人脸日志界面析构");
+    delete ui;
+    delete _deletePushBtn_;
+    //日志
+    T3LOG("9- 人脸日志界面析构");
 }
 
 void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
@@ -307,9 +324,7 @@ void T3_AF_faceLog::on__getImagePushBtn__clicked()
           _t3AFWarning = new T3_AF_warning(this,"当前图片无法正确识别，请更换图片");
           _t3AFWarning->show();
       }
-
   }
-
 }
 
 void T3_AF_faceLog::on__checkPushBtn__clicked()
@@ -325,4 +340,5 @@ void T3_AF_faceLog::on__clearPushBtn__clicked()
   _model->setTable("T3Face");
   _model->select();
   ui->_faceInfoTableView_->setColumnHidden(4,true);
+  ui->_searchByNameLineEdit_->clear();
 }
