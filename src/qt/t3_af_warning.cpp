@@ -15,6 +15,7 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string, BgType bgType) :
 //    this->move(0, 0);
 //    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+    this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->showFullScreen();
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");

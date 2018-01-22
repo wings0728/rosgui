@@ -107,7 +107,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">border-image:url(:/Pictures/face_square.png)</string>
    </property>
    <property name="text">
     <string>_squareLabel_</string>
@@ -119,7 +119,7 @@
      <x>231</x>
      <y>106</y>
      <width>357</width>
-     <height>267</height>
+     <height>268</height>
     </rect>
    </property>
    <property name="text">
@@ -132,10 +132,10 @@
   <widget class="QLabel" name="_logBackgroundLabel_">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>105</y>
-     <width>175</width>
-     <height>270</height>
+     <x>588</x>
+     <y>106</y>
+     <width>177</width>
+     <height>226</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -148,11 +148,14 @@
   <widget class="QPushButton" name="_enterFaceLogPushBtn_">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>380</y>
-     <width>80</width>
-     <height>26</height>
+     <x>610</x>
+     <y>65</y>
+     <width>123</width>
+     <height>28</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/face_button.png);color:white</string>
    </property>
    <property name="text">
     <string>人脸信息管理</string>
@@ -177,11 +180,14 @@
   <widget class="QPushButton" name="_vocalPushBtn_">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>70</y>
-     <width>80</width>
-     <height>26</height>
+     <x>610</x>
+     <y>27</y>
+     <width>123</width>
+     <height>28</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/face_button.png);color:white</string>
    </property>
    <property name="text">
     <string>语音编辑</string>
@@ -190,14 +196,30 @@
   <widget class="QListView" name="_logListView_">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>150</y>
-     <width>171</width>
-     <height>191</height>
+     <x>588</x>
+     <y>140</y>
+     <width>175</width>
+     <height>189</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_headLabel_">
+   <property name="geometry">
+    <rect>
+     <x>344</x>
+     <y>20</y>
+     <width>112</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/face_head.png)</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <zorder>_timeLabel_</zorder>
@@ -207,11 +229,12 @@
   <zorder>_textLabel_</zorder>
   <zorder>_logBackgroundLabel_</zorder>
   <zorder>_videoLabel_</zorder>
-  <zorder>_squareLabel_</zorder>
   <zorder>_enterFaceLogPushBtn_</zorder>
-  <zorder>_morePushBtn_</zorder>
   <zorder>_vocalPushBtn_</zorder>
+  <zorder>_squareLabel_</zorder>
+  <zorder>_morePushBtn_</zorder>
   <zorder>_logListView_</zorder>
+  <zorder>_headLabel_</zorder>
  </widget>
  <resources/>
  <connections/>

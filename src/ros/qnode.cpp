@@ -212,7 +212,7 @@ void QNode::log( const LogLevel &level, const std::string &msg) {
 /// \param pose y
 /// \param pose_oritation z
 ///
-void QNode::goalUpdate(float x, float y, float z)
+bool QNode::goalUpdate(float x, float y, float z)
 {
   if(_oprationMode == Auto)
   {
@@ -222,6 +222,10 @@ void QNode::goalUpdate(float x, float y, float z)
     goalMsg_.z = z;
     qDebug() << "get pose";
     _robotGoal.publish(goalMsg_);
+    return true;
+  }else
+  {
+    return false;
   }
 }
 

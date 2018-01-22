@@ -18,6 +18,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     _weather = new T3_AF_getWeather;
     _stopPushBtn_ = new QPushButton(this);
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_stop.png)");
     _stopPushBtn_->show();
     _stopPushBtn_->setText("");
     ui->_dateLabel_->setText("");
@@ -105,10 +106,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                          this->height()*0.1111,
                                          this->width()*0.0688,
                                          this->height()*0.0333);
-    ui->_robotInfoPushBtn_->setGeometry(this->width()*0.7688,
-                                          this->height()*0.2556,
-                                          this->width()*0.1875,
-                                          this->height()*0.6000);
+    ui->_robotInfoPushBtn_->setGeometry(this->width()*0.7375,
+                                          this->height()*0.0889,
+                                          this->width()*0.2000,
+                                          this->height()*0.6222);
     ui->_sunriseLabel_->setGeometry(this->width()*0.3375,
                                     this->height()*0.0778,
                                     this->width()*0.0625,
@@ -157,10 +158,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                       this->height()*0.0444,
                                       this->width()*0.0625,
                                       this->height()*0.0333);
-    _stopPushBtn_->setGeometry(this->width()*0.8,
-                               this->height()*0.2,
-                               this->width()*0.05,
-                               this->height()*0.05);
+    _stopPushBtn_->setGeometry(this->width()*0.7500,
+                               this->height()*0.7333,
+                               this->width()*0.1875,
+                               this->height()*0.2000);
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);

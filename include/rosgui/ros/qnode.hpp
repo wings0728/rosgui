@@ -70,7 +70,7 @@ public:
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
 
-  void goalUpdate(float x, float y, float z);
+  bool goalUpdate(float x, float y, float z);
   void setOperationMode(OprationMode mode);
 
   std::vector<double> getRobotPose();
