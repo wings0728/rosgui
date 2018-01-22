@@ -17,6 +17,11 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
 //    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
+    _stopPushBtn_ = new QPushButton(this);
+    _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_stop.png)");
+    _stopPushBtn_->show();
+    _stopPushBtn_->setText("");
     ui->_dateLabel_->setText("");
     ui->_dateLabel_->setStyleSheet("color:white");
     ui->_timeLabel_->setText("");
@@ -42,10 +47,10 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
                                  this->height()*0.0667,
                                  this->width()*0.1625,
                                  this->height()*0.0667);
-    ui->_enterFaceLogPushBtn_->setGeometry(this->width()*0.7775,
-                                           this->height()*0.8444,
-                                           this->width()*0.1300,
-                                           this->height()*0.0578);
+    ui->_enterFaceLogPushBtn_->setGeometry(this->width()*0.7625,
+                                           this->height()*0.1444,
+                                           this->width()*0.1538,
+                                           this->height()*0.0622);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
                                    this->height()*0.0178,
                                    this->width()*0.0375,
@@ -54,10 +59,10 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
                                     this->height()*0.3111,
                                     this->width()*0.2000,
                                     this->height()*0.4222);
-    ui->_logBackgroundLabel_->setGeometry(this->width()*0.7375,
-                                          this->height()*0.2333,
-                                          this->width()*0.2188,
-                                          this->height()*0.6000);
+    ui->_logBackgroundLabel_->setGeometry(this->width()*0.7350,
+                                          this->height()*0.2356,
+                                          this->width()*0.2213,
+                                          this->height()*0.5022);
     ui->_morePushBtn_->setGeometry(this->width()*0.8813,
                                    this->height()*0.2333,
                                    this->width()*0.0750,
@@ -83,7 +88,23 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     ui->_vocalPushBtn_->setGeometry(this->width()*0.7875,
                                     this->height()*0.1556,
                                     this->width()*0.1000,
-                                    this->height()*0.0578);
+                                    this->height()*0.5956);
+    ui->_vocalPushBtn_->setGeometry(this->width()*0.7625,
+                                    this->height()*0.0600,
+                                    this->width()*0.1538,
+                                    this->height()*0.0622);
+    ui->_logListView_->setGeometry(this->width()*0.7350,
+                                   this->height()*0.32,
+                                   this->width()*0.2188,
+                                   this->height()*0.4200);
+    ui->_headLabel_->setGeometry(this->width()*0.4300,
+                                   this->height()*0.0444,
+                                   this->width()*0.1400,
+                                   this->height()*0.1489);
+    _stopPushBtn_->setGeometry(this->width()*0.7500,
+                               this->height()*0.75,
+                               this->width()*0.1875,
+                               this->height()*0.2000);
 
     //font
     QFont dateLabelFont_;
@@ -96,12 +117,15 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     morePushBtnFont_.setPointSize(ui->_morePushBtn_->height() * kBtnFontScal * 0.7);
     QFont enterFaceLogPushBtnFont_;
     enterFaceLogPushBtnFont_.setPointSize(ui->_enterFaceLogPushBtn_->height() * kBtnFontScal);
+    QFont logListViewFont_;
+    logListViewFont_.setPointSize(ui->_logListView_->height() * kLabelFontScal / 10);
 
     ui->_dateLabel_->setFont(dateLabelFont_);
     ui->_timeLabel_->setFont(timeLabelFont_);
     ui->_vocalPushBtn_->setFont(vocalPushBtnFont_);
     ui->_morePushBtn_->setFont(morePushBtnFont_);
     ui->_enterFaceLogPushBtn_->setFont(enterFaceLogPushBtnFont_);
+    ui->_logListView_->setFont(logListViewFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -117,7 +141,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_enterFaceLogPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceLog);
     connect(ui->_morePushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceHistory);
     connect(ui->_vocalPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterVocalText);
-
+    connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_face::stopRobot);
     //视频展示
      _netWork = T3_Face_Network::getT3FaceNetwork();
      _decoder = _netWork->_decoder_;
@@ -142,7 +166,6 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      _database.setPassword(kDatabasePassword);
      _database.open();
      //记录日志展示
-
      QStringList strList ;
      strList.append("1");
      strList.append("1");
@@ -156,7 +179,8 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      strList.append("1");
      _stringListModel = new QStringListModel(strList);
      ui->_logListView_->setModel(_stringListModel);
-
+    //
+     _qnode = rosgui::QNode::getInstance();
     //日志
     T3LOG("5+ 人脸界面构造");
 }
@@ -265,10 +289,17 @@ void T3_AF_face::printVideo(QImage faceImage)
   ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 
+void T3_AF_face::stopRobot()
+{
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    _qnode->setManualCmd(rosgui::QNode::Stop);
+}
+
 //界面析构函数
 T3_AF_face::~T3_AF_face()
 {
     delete ui;
+    delete _stopPushBtn_;
     //日志
     T3LOG("5- 人脸界面析构");
 }

@@ -13,6 +13,8 @@
 #include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
 
+#include "../ros/qnode.hpp"
+
 
 
 namespace Ui {
@@ -31,6 +33,7 @@ public:
     void enterFaceLog();
     void enterFaceHistory();
     void enterVocalText();
+    void stopRobot();
 
 private slots:
     void timeUpdate();
@@ -53,6 +56,10 @@ private:
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+
+    rosgui::QNode *_qnode;
+    //ui
+    QPushButton *_stopPushBtn_;
 };
 
 #endif // T3_AF_FACE_H

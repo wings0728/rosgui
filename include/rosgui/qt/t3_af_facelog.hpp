@@ -44,6 +44,8 @@ private:
   QSqlTableModel *_model;
   int _ret;
   bool _readyAddNewFace = false;
+  //ui
+  QPushButton *_deletePushBtn_;
 };
 
 #endif // T3_AF_FACELOG_H

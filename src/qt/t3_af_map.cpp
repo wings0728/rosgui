@@ -20,6 +20,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
 //    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint);
     this->showFullScreen();
+    //
     _forwardPusbBtn_ = new QPushButton(this);
     _backwordPushBtn_ = new QPushButton(this);
     _leftTurnPushBtn_ = new QPushButton(this);
@@ -35,6 +36,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _leftTurnPushBtn_->setFocusPolicy(Qt::NoFocus);
     _rightTurnPushBtn_->setFocusPolicy(Qt::NoFocus);
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    //
     ui->_exitPushBtn_->setText("");
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
@@ -113,7 +115,6 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = this->width()*0.0313;
     _mapStartY = this->height()*0.0800;
-    //change acoording to real map
     QImage realMap_;
     realMap_.load(":/Pictures/map_realMap.pgm");
     _realWidth = realMap_.width();
@@ -130,7 +131,6 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
         _scale = _mapHeight / _realHeight;
         _mapWidth = _scale * _realWidth;
     }
-        //fin
     _startX = 0;
     _startY = 0;
     _moveX = 0;
@@ -138,7 +138,14 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _originX = 0.0;
     _originY = 0.0;
     _mode = _qnode->getOprationMode();
-    qDebug() <<"mode" << _mode;
+    if(_mode = rosgui::QNode::Manual)
+    {
+        ui->_modePushBtn_->setText("手动模式");
+    }
+    else
+    {
+        ui->_modePushBtn_->setText("自动模式");
+    }
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -217,16 +224,31 @@ void T3_AF_map::manualCmd()
 //test
 void T3_AF_map::autoMode()
 {
-    bool mode;
-    if(ui->_modePushBtn_->isChecked())
+    if(_mode = rosgui::QNode::Manual)
     {
-        mode = true;
-        ui->_modePushBtn_->setText("手动模式");
+        if(ui->_modePushBtn_->isChecked())
+        {
+            ui->_modePushBtn_->setText("自动模式");
+            _qnode->setOperationMode(rosgui::QNode::Auto);
+        }
+        else
+        {
+            ui->_modePushBtn_->setText("手动模式");
+            _qnode->setOperationMode(rosgui::QNode::Manual);
+        }
     }
     else
     {
-        mode = false;
-        ui->_modePushBtn_->setText("自动模式");
+        if(ui->_modePushBtn_->isChecked())
+        {
+            ui->_modePushBtn_->setText("手动模式");
+            _qnode->setOperationMode(rosgui::QNode::Manual);
+        }
+        else
+        {
+            ui->_modePushBtn_->setText("自动模式");
+            _qnode->setOperationMode(rosgui::QNode::Auto);
+        }
     }
     //_qnode->operationMode(mode);
 }
