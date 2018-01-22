@@ -92,10 +92,38 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                      this->height()*0.4044,
                                      this->width()*0.1000,
                                      this->height()*0.0889);
-    ui->_userTypeLineEdit_->setGeometry(this->width()*0.7438,
+    ui->_userTypeComboBox_->setGeometry(this->width()*0.7438,
                                         this->height()*0.4156,
                                         this->width()*0.2013,
                                         this->height()*0.0556);
+
+    ui->_userTypeComboBox_->setFocusPolicy(Qt::NoFocus);
+    ui->_userTypeComboBox_->addItem("访客");
+    ui->_userTypeComboBox_->addItem("领导");
+    ui->_userTypeComboBox_->addItem("测试人员");
+    //数据库显示设置
+    _model = new QSqlTableModel(this);
+    //_model = new QSqlQueryModel(this);
+    _model->setTable("T3Face");
+    _model->select();
+    _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    _model->setHeaderData(0,Qt::Horizontal,"编号");
+    _model->setHeaderData(1,Qt::Horizontal,"姓名");
+    _model->setHeaderData(2,Qt::Horizontal,"角色");
+    _model->setHeaderData(3,Qt::Horizontal,"年龄");
+    _model->setHeaderData(5,Qt::Horizontal,"账户状态");
+    _model->setHeaderData(6,Qt::Horizontal,"记录次数");
+    _model->setHeaderData(7,Qt::Horizontal,"修改时间");
+    ui->_faceInfoTableView_->setModel(_model);
+    ui->_faceInfoTableView_->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->_faceInfoTableView_->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->_faceInfoTableView_->resizeColumnsToContents();
+    ui->_faceInfoTableView_->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->_faceInfoTableView_->setColumnHidden(4,true);
+    QHeaderView *header = ui->_faceInfoTableView_->horizontalHeader();
+    header->setStretchLastSection(true);
+    QRegExp regx_("[0-9]+$");
+    ui->_ageLineEdit_->setValidator(new QRegExpValidator(regx_, ui->_ageLineEdit_));
     //font
     QFont ageLabelFont_;
     ageLabelFont_.setPointSize(ui->_ageLabel->height() * kLabelFontScal * 0.5);
@@ -151,6 +179,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_faceLog::exitToFace);
+    //人脸识别引擎
+    _faceEngine = new FaceEngine();
     //日志
     T3LOG("9+ 人脸日志界面构造");
 }
@@ -198,4 +228,104 @@ T3_AF_faceLog::~T3_AF_faceLog()
   delete ui;
   //日志
   T3LOG("9- 人脸日志界面析构");
+}
+
+void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
+{
+    QString name_ = ui->_nameLineEdit_->displayText();
+    if(name_ == "")
+    {
+        _readyAddNewFace = false;
+    }
+    int age_ = ui->_ageLineEdit_->displayText().toInt();
+    QString role_ = ui->_userTypeComboBox_->currentText();
+    if(role_ == "")
+    {
+        _readyAddNewFace = false;
+    }
+
+    if(_readyAddNewFace)
+    {
+        QSqlQuery query_;
+        query_.prepare("insert into T3Face values(NULL,?,?,?,?,?,?,?)");
+
+        query_.bindValue(0,name_);
+
+        query_.bindValue(1,role_);
+        query_.bindValue(2,age_);
+        query_.bindValue(3,_feature,QSql::Binary);
+        query_.bindValue(4,1);//帐号状态：1表示活跃账户。
+        query_.bindValue(5,0);//记录次数：初始化的时候为0。
+        QString dateTime_ = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+        query_.bindValue(6,dateTime_);
+        bool succ = query_.exec();
+        if(succ)
+        {
+          T3LOG("success add new faceInfo.");
+          _t3AFWarning = new T3_AF_warning(this,"人员信息添加成功");
+          _t3AFWarning->show();
+
+        }else
+        {
+          ui->_nameLineEdit_->clear();
+          ui->_ageLineEdit_->clear();
+          ui->_userImageLabel_->setStyleSheet("");
+          name_ = "";
+          age_ = NULL;
+          role_ = "";
+
+        }
+
+    }else
+    {
+      _t3AFWarning = new T3_AF_warning(this,"信息未填写完整，请补充完整后在提交");
+      _t3AFWarning->show();
+    }
+
+}
+
+void T3_AF_faceLog::on__getImagePushBtn__clicked()
+{
+  QImage _faceimage;
+  QString filePath = QFileDialog::getOpenFileName(this,tr("Open file"),"/home",tr("Images (*.jpg)"));
+  if(filePath != "")
+  {
+      _faceimage.load(filePath);
+      QString _path = "border-image:url(" + filePath + ")";
+      qDebug() << _path;
+      ui->_userImageLabel_->setStyleSheet(_path);
+      AFR_FSDK_FACEMODEL faceModel_ = {0};
+      _ret = _faceEngine->getFaceFeatureFromImage(_faceimage,&faceModel_);
+      qDebug() << _ret;
+      if(_ret == 1)
+      {
+        qDebug() << faceModel_.lFeatureSize;
+        _feature.resize(faceModel_.lFeatureSize);
+        memcpy(_feature.data(),faceModel_.pbFeature,faceModel_.lFeatureSize);
+        _readyAddNewFace = true;
+      }else
+      {
+
+          ui->_userImageLabel_->setStyleSheet("");
+          _t3AFWarning = new T3_AF_warning(this,"当前图片无法正确识别，请更换图片");
+          _t3AFWarning->show();
+      }
+
+  }
+
+}
+
+void T3_AF_faceLog::on__checkPushBtn__clicked()
+{
+  QString name_ = ui->_searchByNameLineEdit_->text();
+  _model->setFilter(QString("name = '%1'").arg(name_));
+  _model->select();
+  ui->_faceInfoTableView_->setColumnHidden(4,true);
+}
+
+void T3_AF_faceLog::on__clearPushBtn__clicked()
+{
+  _model->setTable("T3Face");
+  _model->select();
+  ui->_faceInfoTableView_->setColumnHidden(4,true);
 }

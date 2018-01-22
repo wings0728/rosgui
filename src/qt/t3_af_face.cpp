@@ -115,6 +115,45 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_enterFaceLogPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceLog);
     connect(ui->_morePushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceHistory);
     connect(ui->_vocalPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterVocalText);
+
+    //视频展示
+     _netWork = T3_Face_Network::getT3FaceNetwork();
+     _decoder = _netWork->_decoder_;
+
+     if(_netWork->_isNetworkConnected_)
+     {
+       _netWork->getVideo();
+     }else
+     {
+            //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
+            //warning->show();
+     }
+
+     _frameLineData = _netWork->_frameLineData_;
+     connect(_decoder,&Decoder::newFrame,this,&T3_AF_face::printVideo);
+     //数据库连接
+     _database = QSqlDatabase::addDatabase(kDatabaseEngine);
+     _database.setDatabaseName(kDatabaseName);
+     _database.setHostName(kServerURL);
+     _database.setUserName(kDatabaseUserName);
+     _database.setPassword(kDatabasePassword);
+     _database.open();
+     //记录日志展示
+
+     QStringList strList ;
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     strList.append("1");
+     _stringListModel = new QStringListModel(strList);
+     ui->_logListView_->setModel(_stringListModel);
+
     //日志
     T3LOG("5+ 人脸界面构造");
 }
@@ -139,7 +178,10 @@ void T3_AF_face::paintEvent(QPaintEvent *)
 void T3_AF_face::exitToMainWindow()
 {
     _mainWindow->show();
-
+    if(_netWork->_isNetworkConnected_)
+    {
+      _netWork->closeVideo();
+    }
     for(int idx = 0; idx < kDelay; idx++){}
 
     this->close();
@@ -184,6 +226,39 @@ void T3_AF_face::keyPressEvent(QKeyEvent *event)
     default:
         QDialog::keyPressEvent(event);
     }
+}
+//绘制视频
+void T3_AF_face::printVideo(QImage faceImage)
+{
+  //faceImage = faceImage.mirrored(true,false);
+  QPainter paint(&faceImage);
+  QPen pen(Qt::yellow,2);
+  paint.setPen(pen);
+  paint.setFont(QFont(QString::fromLocal8Bit("宋体"),20,-1,false));
+  //qDebug() << _frameLineData->personNum;
+ for(int i = 0; i<_frameLineData->personNum; i++)
+ {
+
+     paint.drawLine(QPoint(_frameLineData->rightList[i],_frameLineData->topList[i]),QPoint(_frameLineData->leftList[i],_frameLineData->topList[i]));
+     paint.drawLine(QPoint(_frameLineData->rightList[i],_frameLineData->bottomList[i]),QPoint(_frameLineData->leftList[i],_frameLineData->bottomList[i]));
+     paint.drawLine(QPoint(_frameLineData->rightList[i],_frameLineData->topList[i]),QPoint(_frameLineData->rightList[i],_frameLineData->bottomList[i]));
+     paint.drawLine(QPoint(_frameLineData->leftList[i],_frameLineData->topList[i]),QPoint(_frameLineData->leftList[i],_frameLineData->bottomList[i]));
+     if(-1 != _frameLineData->idList[i])
+     {
+         QSqlQuery query_(_database);
+         query_.prepare("select name from T3Face where id = ?");
+         query_.bindValue(0, _frameLineData->idList[i]);
+
+         query_.exec();
+         query_.next();
+         QString name_ = query_.value(0).toString();
+         paint.drawText(QPointF(_frameLineData->dot2List[i]-1,_frameLineData->dot1List[i]),name_);
+     }
+
+ }
+
+  paint.end();
+  ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 
 //界面析构函数

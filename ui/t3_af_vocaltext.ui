@@ -45,8 +45,79 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="_userTypeLabel_">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>120</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>用户类型：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_voiceLabel_">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>230</y>
+     <width>51</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>文本编辑：</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="_userTypeComboBox_">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>160</y>
+     <width>72</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;
+</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="_voiceTextEdit_">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>260</y>
+     <width>104</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="_saveBtn_">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>310</y>
+     <width>80</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </widget>
   <zorder>_backgroundLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
+  <zorder>_userTypeLabel_</zorder>
+  <zorder>_voiceLabel_</zorder>
+  <zorder>_userTypeComboBox_</zorder>
+  <zorder>_voiceTextEdit_</zorder>
+  <zorder>_saveBtn_</zorder>
  </widget>
  <resources/>
  <connections/>

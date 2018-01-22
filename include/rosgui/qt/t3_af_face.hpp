@@ -1,12 +1,17 @@
 #ifndef T3_AF_FACE_H
 #define T3_AF_FACE_H
 
+
+#include <QStringListModel>
+#include <QStringList>
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 
 #include "t3_af_facelog.hpp"
 #include "t3_af_facehistory.hpp"
 #include "t3_af_vocaltext.hpp"
+#include "t3_af_warning.hpp"
+#include "t3_face_network.hpp"
 
 
 
@@ -29,11 +34,20 @@ public:
 
 private slots:
     void timeUpdate();
+    void printVideo(QImage faceImage);
 
 private:
     Ui::T3_AF_face *ui;
     T3Dialog *_mainWindow;
     T3Dialog *_father;
+    T3_Face_Network *_netWork;
+
+    Decoder *_decoder;
+    FrameLineData *_frameLineData;
+    QSqlDatabase _database;
+    QStringListModel *_stringListModel;
+
+
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);

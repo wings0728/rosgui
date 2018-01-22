@@ -13,7 +13,7 @@ class T3_AF_warning : public T3Dialog
     Q_OBJECT
 
 public:
-    explicit T3_AF_warning(QWidget *parent = 0);
+    explicit T3_AF_warning(QWidget *parent = 0,QString string = "");
     ~T3_AF_warning();
 
 private slots:
