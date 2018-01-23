@@ -275,8 +275,8 @@ void QNode::pubRobotSpeed()
 
 void QNode::getRobotSpeed(double* linearX, double* anglarZ)
 {
-  &linearX = _linearX;
-  &anglarZ = _angularZ;
+  *linearX = _linearX;
+  *anglarZ = _angularZ;
 }
 
 std::vector<double> QNode::getRobotPose()
