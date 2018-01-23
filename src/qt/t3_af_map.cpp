@@ -26,6 +26,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _leftTurnPushBtn_ = new QPushButton(this);
     _rightTurnPushBtn_ = new QPushButton(this);
     _stopPushBtn_ = new QPushButton(this);
+    _backToOrigin_ = new QPushButton(this);
     _forwardPusbBtn_->setObjectName(kForwardName);
     _backwordPushBtn_->setObjectName(kBackwardName);
     _leftTurnPushBtn_->setObjectName(kLeftTurnName);
@@ -36,26 +37,34 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _leftTurnPushBtn_->setFocusPolicy(Qt::NoFocus);
     _rightTurnPushBtn_->setFocusPolicy(Qt::NoFocus);
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
-    //
+    ui->_stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _backToOrigin_->setFocusPolicy(Qt::NoFocus);
+    _backToOrigin_->setText("回到原点");
+    _backToOrigin_->setStyleSheet("border-image:url(:/Pictures/clearPath.png)");
     ui->_exitPushBtn_->setText("");
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:rgb(7, 221, 225)");
-    ui->_showConnectStatus_->setText("未连接");
-    ui->_modePushBtn_->setText("自动模式");
+    ui->_showConnectStatus_->setText("未连接        ");
+    ui->_showConnectStatus_->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/off.png)");
     ui->_modePushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_modePushBtn_->setCheckable(true);
     ui->_clear->setFocusPolicy(Qt::NoFocus);
     //size
-    ui->_modePushBtn_->setGeometry(this->width()*0.75,
-                                     this->height()*0.0889,
-                                     this->width()*0.0675,
-                                     this->height()*0.0400);
-    ui->_clear->setGeometry(this->width()*0.8625,
-                            this->height()*0.8111,
-                            this->width()*0.1000,
-                            this->height()*0.0578);
+    ui->_modePushBtn_->setGeometry(this->width()*0.8075,
+                                     this->height()*0.2067,
+                                     this->width()*0.1225,
+                                     this->height()*0.0800);
+    ui->_clear->setGeometry(this->width()*0.5050,
+                            this->height()*0.4956,
+                            this->width()*0.1125,
+                            this->height()*0.0667);
+    _backToOrigin_->setGeometry(this->width()*0.5050,
+                                this->height()*0.5750,
+                                this->width()*0.1125,
+                                this->height()*0.0667);
     ui->_dateTimeLabel_->setGeometry(this->width()*0.6500,
                                      this->height()*0.9333,
                                      this->width()*0.1620,
@@ -64,53 +73,65 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                    this->height()*0.0178,
                                    this->width()*0.0375,
                                    this->height()*0.0600);
-    ui->_showConnectStatus_->setGeometry(this->width()*0.6125,
-                                         this->height()*0.0889,
-                                         this->width()*0.0675,
-                                         this->height()*0.0400);
-    ui->_videoLabel_->setGeometry(this->width()*0.6250,
-                                  this->height()*0.1600,
-                                  this->width()*0.3250,
-                                  this->width()*0.2438);
-    _forwardPusbBtn_->setGeometry(this->width()*0.715,
-                                  this->height()*0.6,
-                                  this->width()*0.07,
-                                  this->height()*0.05);
-    _backwordPushBtn_->setGeometry(this->width()*0.715,
-                                   this->height()*0.8,
-                                   this->width()*0.07,
-                                   this->height()*0.05);
-    _leftTurnPushBtn_->setGeometry(this->width()*0.625,
-                                   this->height()*0.7,
-                                   this->width()*0.07,
-                                   this->height()*0.05);
-    _rightTurnPushBtn_->setGeometry(this->width()*0.805,
-                                     this->height()*0.7,
-                                     this->width()*0.07,
-                                     this->height()*0.05);
-    _stopPushBtn_->setGeometry(this->width()*0.715,
-                               this->height()*0.7,
-                               this->width()*0.07,
-                               this->height()*0.05);
+    ui->_showConnectStatus_->setGeometry(this->width()*0.8075,
+                                         this->height()*0.1067,
+                                         this->width()*0.1225,
+                                         this->height()*0.0800);
+    ui->_videoLabel_->setGeometry(this->width()*0.5050,
+                                  this->height()*0.0822,
+                                  this->width()*0.2763,
+                                  this->height()*0.3689);
+    ui->_videoSquareLabel_->setGeometry(this->width()*0.5050,
+                                        this->height()*0.0822,
+                                        this->width()*0.2763,
+                                        this->height()*0.3689);
+    ui->_stopPushBtn_->setGeometry(this->width()*0.5125,
+                                   this->height()*0.7000,
+                                   this->width()*0.1750,
+                                   this->height()*0.2000);
+    _forwardPusbBtn_->setGeometry(this->width()*0.7750,
+                                  this->height()*0.4222,
+                                  this->width()*0.1275,
+                                  this->height()*0.1333);
+    _backwordPushBtn_->setGeometry(this->width()*0.7750,
+                                   this->height()*0.7956,
+                                   this->width()*0.1275,
+                                   this->height()*0.1333);
+    _leftTurnPushBtn_->setGeometry(this->width()*0.6963,
+                                   this->height()*0.5622,
+                                   this->width()*0.0750,
+                                   this->height()*0.2267);
+    _rightTurnPushBtn_->setGeometry(this->width()*0.9063,
+                                     this->height()*0.5622,
+                                     this->width()*0.0750,
+                                     this->height()*0.2267);
+    _stopPushBtn_->setGeometry(this->width()*0.7750,
+                               this->height()*0.5622,
+                               this->width()*0.1275,
+                               this->height()*0.2267);
 
     _forwardPusbBtn_->show();
     _backwordPushBtn_->show();
     _leftTurnPushBtn_->show();
     _rightTurnPushBtn_->show();
     _stopPushBtn_->show();
+    _backToOrigin_->show();
     //font
     QFont showConnectStatusFont_;
-    showConnectStatusFont_.setPointSize(ui->_showConnectStatus_->height() * kLabelFontScal);
+    showConnectStatusFont_.setPointSize(ui->_showConnectStatus_->height() * kBtnFontScal * 0.6);
     QFont modePushBtnFont_;
-    modePushBtnFont_.setPointSize(ui->_modePushBtn_->height() * kBtnFontScal);
+    modePushBtnFont_.setPointSize(ui->_modePushBtn_->height() * kBtnFontScal * 0.6);
     QFont clearFont_;
-    clearFont_.setPointSize(ui->_clear->height() * kBtnFontScal);
+    clearFont_.setPointSize(ui->_clear->height() * kBtnFontScal * 0.72);
+    QFont backToOriginFont_;
+    backToOriginFont_.setPointSize(_backToOrigin_->height() * kBtnFontScal * 0.72);
     QFont dateTimaLabelFont_;
     dateTimaLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal * 0.75);
     ui->_showConnectStatus_->setFont(showConnectStatusFont_);
     ui->_modePushBtn_->setFont(modePushBtnFont_);
     ui->_clear->setFont(clearFont_);
     ui->_dateTimeLabel_->setFont(dateTimaLabelFont_);
+    _backToOrigin_->setFont(backToOriginFont_);
     //
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = this->width()*0.0313;
@@ -140,11 +161,15 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _mode = _qnode->getOprationMode();
     if(_mode = rosgui::QNode::Manual)
     {
-        ui->_modePushBtn_->setText("手动模式");
+        ui->_modePushBtn_->setText("           手动模式");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+        buttonStatus(true);
     }
     else
     {
-        ui->_modePushBtn_->setText("自动模式");
+        ui->_modePushBtn_->setText("自动模式           ");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
+        buttonStatus(false);
     }
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
@@ -163,6 +188,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
+    connect(ui->_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::stopRobot);
     //视频展示
      _netWork = T3_Face_Network::getT3FaceNetwork();
      _decoder = _netWork->_decoder_;
@@ -192,9 +218,15 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(_backwordPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_leftTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
-
+    connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin)
     //日志
     T3LOG("7+ 导航界面构造");
+}
+
+void T3_AF_map::backToOrigin()
+{
+    qDebug() << "backToOrigin";
+    _qnode->goalUpdate(0.0, 0.0, 0.0);
 }
 
 void T3_AF_map::manualCmd()
@@ -221,6 +253,36 @@ void T3_AF_map::manualCmd()
     }
 }
 
+void T3_AF_map::buttonStatus(bool status)
+{
+    _forwardPusbBtn_->setEnabled(status);
+    _backwordPushBtn_->setEnabled(status);
+    _leftTurnPushBtn_->setEnabled(status);
+    _rightTurnPushBtn_->setEnabled(status);
+    _stopPushBtn_->setEnabled(status);
+    if(status == true)
+    {
+        _forwardPusbBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/forward_true.png);}"
+                                        "QPushButton:pressed{border-image:url(:/Pictures/forward_false.png);}");
+        _backwordPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/backward_true.png);}"
+                                         "QPushButton:pressed{border-image:url(:/Pictures/backward_false.png);}");
+        _leftTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/leftTurn_true.png);}"
+                                         "QPushButton:pressed{border-image:url(:/Pictures/leftTurn_false.png);}");
+        _rightTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/rightTurn_true.png);}"
+                                          "QPushButton:pressed{border-image:url(:/Pictures/rightTurn_false.png);}");
+        _stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/stop_true.png);}"
+                                     "QPushButton:pressed{border-image:url(:/Pictures/stop_false.png);}");
+    }
+    else
+    {
+        _forwardPusbBtn_->setStyleSheet("border-image:url(:/Pictures/forward_false.png)");
+        _backwordPushBtn_->setStyleSheet("border-image:url(:/Pictures/backward_false.png)");
+        _leftTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/leftTurn_false.png)");
+        _rightTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/rightTurn_false.png)");
+        _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/stop_false.png)");
+    }
+}
+
 //test
 void T3_AF_map::autoMode()
 {
@@ -228,29 +290,43 @@ void T3_AF_map::autoMode()
     {
         if(ui->_modePushBtn_->isChecked())
         {
-            ui->_modePushBtn_->setText("自动模式");
+            ui->_modePushBtn_->setText("自动模式           ");
+            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
             _qnode->setOperationMode(rosgui::QNode::Auto);
+            buttonStatus(false);
         }
         else
         {
-            ui->_modePushBtn_->setText("手动模式");
+            ui->_modePushBtn_->setText("           手动模式");
+            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
             _qnode->setOperationMode(rosgui::QNode::Manual);
+            buttonStatus(true);
         }
     }
     else
     {
         if(ui->_modePushBtn_->isChecked())
         {
-            ui->_modePushBtn_->setText("手动模式");
+            ui->_modePushBtn_->setText("           手动模式");
+            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
             _qnode->setOperationMode(rosgui::QNode::Manual);
+            buttonStatus(true);
         }
         else
         {
-            ui->_modePushBtn_->setText("自动模式");
+            ui->_modePushBtn_->setText("自动模式           ");
+            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
             _qnode->setOperationMode(rosgui::QNode::Auto);
+            buttonStatus(false);
         }
     }
     //_qnode->operationMode(mode);
+}
+
+void T3_AF_map::stopRobot()
+{
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    _qnode->setManualCmd(rosgui::QNode::Stop);
 }
 
 //显示时间
@@ -418,7 +494,9 @@ void T3_AF_map::getPoint()
 //             <<"by:" << _pos_[3] <<"\n"
 //             <<"cx:" << _pos_[4] <<"\n"
 //             <<"cy:" << _pos_[5] <<"\n" <<"\n";
-    ui->_showConnectStatus_->setText("连接");
+    ui->_showConnectStatus_->setText("        已连接");
+    ui->_showConnectStatus_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+    ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
     update();
 }
 
@@ -493,6 +571,7 @@ T3_AF_map::~T3_AF_map()
     delete _leftTurnPushBtn_;
     delete _rightTurnPushBtn_;
     delete _stopPushBtn_;
+    delete _backToOrigin_;
     //日志
     T3LOG("7- 导航界面析构");
 }

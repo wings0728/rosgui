@@ -32,6 +32,7 @@ public:
     void stopRobot();
     void battery();
 
+
 private slots:
     void timeUpdate();
     void weatherUpdate(Today today);
