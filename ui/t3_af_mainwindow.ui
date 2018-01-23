@@ -484,6 +484,25 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="_battery_">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>410</y>
+     <width>61</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string>battery</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>_tempraturePushBtn_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_facePushBtn_</zorder>
@@ -506,6 +525,7 @@
   <zorder>_mapBackgroundLabel_</zorder>
   <zorder>_mapPushBtn_</zorder>
   <zorder>_tempratureLabel_</zorder>
+  <zorder>_battery_</zorder>
  </widget>
  <resources/>
  <connections/>
