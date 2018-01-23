@@ -117,6 +117,12 @@ bool setManualCmd(ManualCmd cmd);
 void goalUpdate(float x, float y, float z);
 ```
 
+### 获取机器人当前线速度与角速度
+> 传入两个double类型的**指针**即可。
+```cpp
+void getRobotSpeed(double* linearX, double* anglarZ);
+```
+
 ### 电池电量
 > 返回值为电量百分比。
 ```cpp
