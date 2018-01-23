@@ -14,6 +14,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->showFullScreen();
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_saveBtn_->setFocusPolicy(Qt::NoFocus);
     //size
     ui->_backgroundLabel_->setGeometry(this->width()*0.4500,
                                        this->height()*0.0889,

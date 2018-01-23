@@ -48,6 +48,7 @@
         <file>Pictures/face_button.png</file>
         <file>Pictures/face_faceManage.png</file>
         <file>Pictures/face_textEdit.png</file>
+        <file>Pictures/common_background.jpg</file>
 
     </qresource>
 </RCC>
