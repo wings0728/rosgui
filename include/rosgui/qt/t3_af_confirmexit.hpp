@@ -20,6 +20,7 @@ public:
 
     void confirmExit();
     void doNotExit();
+
     void stopRobot();
 
 private:
