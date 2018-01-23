@@ -24,6 +24,7 @@
 #include <nav_msgs/Odometry.h>
 #include "../qt/t3_af_config.hpp"
 #include "nav_msgs/Path.h"
+#include "rosgui/SensorState.h"
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -78,6 +79,7 @@ public:
   bool getGlobalPlan(QList<std::pair<double, double> >& plan);
   bool setManualCmd(ManualCmd cmd);
   OprationMode getOprationMode();
+  int getBatt();
 
 Q_SIGNALS:
 	void loggingUpdated();
@@ -95,6 +97,7 @@ private:
   ros::Publisher _cmdVelPub;
   ros::Subscriber _robotPoseSub;
   ros::Subscriber _globalPlanSub;
+  ros::Subscriber _batterySub;
   QStringListModel logging_model;
   //robot pose
   std::vector<double> _robotPose;
@@ -108,6 +111,7 @@ private:
   double _angularZ;
   double _maxLinearX;
   double _maxAngularZ;
+  int _battPer;
 
   OprationMode _oprationMode;
   QNode();
@@ -119,6 +123,7 @@ private:
     void getParam(ros::NodeHandle& n);
     void getPoseCallback(const nav_msgs::Odometry& msg);
     void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
+    void getStateCallback(const rosgui::SensorState& msg);
 };
 
 }  // namespace rosgui

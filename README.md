@@ -117,3 +117,10 @@ bool setManualCmd(ManualCmd cmd);
 void goalUpdate(float x, float y, float z);
 ```
 
+### 电池电量
+> 返回值为电量百分比。
+```cpp
+int getBatt();
+```
+
+

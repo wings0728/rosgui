@@ -42,7 +42,8 @@ QNode::QNode():
   _robotPose(4, 0.0),
   _oprationMode(Manual),
   _linearX(0.0),
-  _angularZ(0.0)
+  _angularZ(0.0),
+  _battPer(100)
 {
 }
 
@@ -69,6 +70,9 @@ bool QNode::init(int argc, char** argv ) {
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
   _cmdVelPub = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
+  _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
+  _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
+  _batterySub = n.subscribe("sensor_state",100, &QNode::getStateCallback, this);
   getParam(pn);
 	start();
 	return true;
@@ -104,14 +108,17 @@ void QNode::getParam(ros::NodeHandle& n)
   n.param("maxAngularZ", _maxAngularZ, 5.0);
 //  qDebug() << "x:" << _mapOrigin[0] << " y:" << _mapOrigin[1] << " z:" << _mapOrigin[2];
 
-  _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
-  _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
+
 //  ROS_WARN("set param");
 //  T3LOG(_globalPlanTopicName.c_str());
 //  std::count << "set param" << std::endl;
 }
 
 //**********************call back********************//
+void QNode::getStateCallback(const SensorState &msg)
+{
+  _battPer = (int)msg.battery;
+}
 
 void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
 {
@@ -332,6 +339,12 @@ bool QNode::setManualCmd(ManualCmd cmd)
     qDebug() << "not manual mode.";
     return false;
   }
+}
+
+int QNode::getBatt()
+{
+//  int tempBatt = _battPer;
+  return _battPer;
 }
 
 }  // namespace rosgui
