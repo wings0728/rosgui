@@ -114,6 +114,14 @@ void QNode::getParam(ros::NodeHandle& n)
 //  std::count << "set param" << std::endl;
 }
 
+///
+/// \brief QNode::shutDownRos
+///
+void QNode::shutDownRos()
+{
+  ros::shutdown();
+}
+
 //**********************call back********************//
 void QNode::getStateCallback(const SensorState &msg)
 {
@@ -321,10 +329,10 @@ bool QNode::setManualCmd(ManualCmd cmd)
         _linearX-=0.01;
         break;
       case LeftTurn:
-        _angularZ-=0.01;
+        _angularZ+=0.01;
         break;
       case RightTurn:
-        _angularZ+=0.01;
+        _angularZ-=0.01;
         break;
       case Stop:
         _linearX = 0.0;

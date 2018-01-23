@@ -70,6 +70,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
+  void shutDownRos();
 
   bool goalUpdate(float x, float y, float z);
   void setOperationMode(OprationMode mode);

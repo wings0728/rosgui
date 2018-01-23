@@ -118,5 +118,34 @@ void T3_AF_vocalText::on__saveBtn__clicked()
     int userTypeIndex_ = ui->_userTypeComboBox_->currentIndex();
     QString TTSString_ = ui->_voiceTextEdit_->toPlainText();
     qDebug() << TTSString_;
-    _network->sendTTS(userTypeIndex_,TTSString_);
+    if(_network->_isNetworkConnected_)
+    {
+      _network->sendTTS(userTypeIndex_,TTSString_);
+      T3_AF_warning *t3Warning = new T3_AF_warning(this,"更新成功",success);
+      t3Warning->show();
+      QSqlQuery query_;
+      query_.prepare("update T3FaceUserType set voice = ? where id = ?");
+      query_.bindValue(0,TTSString_);
+      query_.bindValue(1,userTypeIndex_+1);
+      query_.exec();
+
+    }else
+    {
+      T3_AF_warning *t3Warning = new T3_AF_warning(this,"网络未连接，无法更新机器人语音数据");
+      t3Warning->show();
+    }
+
+
+}
+
+void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
+{
+    qDebug() << index;
+    QSqlQuery query_;
+    query_.prepare("select voice from T3FaceUserType where id = ?");
+    query_.bindValue(0,index + 1);
+    query_.exec();
+    query_.next();
+    QString voice_ = query_.value(0).toString();
+    ui->_voiceTextEdit_->setText(voice_);
 }
