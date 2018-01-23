@@ -81,7 +81,7 @@ public:
   bool setManualCmd(ManualCmd cmd);
   OprationMode getOprationMode();
   int getBatt();
-
+  void getRobotSpeed(double* linearX, double* anglarZ);
 Q_SIGNALS:
 	void loggingUpdated();
   void rosShutdown();
