@@ -51,6 +51,7 @@ QNode::~QNode() {
     if(ros::isStarted()) {
       ros::shutdown(); // explicitly needed since we use ros::start();
       ros::waitForShutdown();
+      qDebug() << "shutdown";
     }
 	wait();
 }
@@ -119,7 +120,12 @@ void QNode::getParam(ros::NodeHandle& n)
 ///
 void QNode::shutDownRos()
 {
-  ros::shutdown();
+
+//  if(ros::isStarted()) {
+    ros::shutdown(); // explicitly needed since we use ros::start();
+//    qDebug() << "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
+    ros::waitForShutdown();
+//  }
 }
 
 //**********************call back********************//
