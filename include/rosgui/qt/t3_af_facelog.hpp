@@ -8,6 +8,7 @@
 #include "T3Dialog.hpp"
 #include "t3_face_faceengine.hpp"
 #include "t3_af_warning.hpp"
+#include "t3_face_network.hpp"
 
 namespace Ui {
 class T3_AF_faceLog;
@@ -36,6 +37,7 @@ private Q_SLOTS:
 private:
   Ui::T3_AF_faceLog *ui;
   T3Dialog *_face;
+  T3_Face_Network *_network;
   void closeEvent(QCloseEvent *event);
   void keyPressEvent(QKeyEvent *event);
   T3Dialog *_father;

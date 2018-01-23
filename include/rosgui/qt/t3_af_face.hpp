@@ -37,6 +37,7 @@ public:
 private slots:
     void timeUpdate();
     void printVideo(QImage faceImage);
+    void networkDisconnected();
 
 private:
     Ui::T3_AF_face *ui;

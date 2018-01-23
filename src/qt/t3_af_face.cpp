@@ -155,7 +155,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
             //warning->show();
             ui->_videoLabel_->setText("网络未连接，请检查网络");
      }
-
+     connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_face::networkDisconnected);
      _frameLineData = _netWork->_frameLineData_;
      connect(_decoder,&Decoder::newFrame,this,&T3_AF_face::printVideo);
      //数据库连接
@@ -280,7 +280,7 @@ void T3_AF_face::printVideo(QImage faceImage)
          query_.exec();
          query_.next();
          QString name_ = query_.value(0).toString();
-         paint.drawText(QPointF(_frameLineData->dot2List[i]-1,_frameLineData->dot1List[i]),name_);
+         paint.drawText(QPointF(_videoLabelWidth - _frameLineData->dot2List[i]-1,_frameLineData->dot1List[i]),name_);
      }
 
  }
@@ -293,6 +293,11 @@ void T3_AF_face::stopRobot()
 {
     _qnode->setOperationMode(rosgui::QNode::Manual);
     _qnode->setManualCmd(rosgui::QNode::Stop);
+}
+void T3_AF_face::networkDisconnected()
+{
+  ui->_videoLabel_->clear();
+  ui->_videoLabel_->setText("网络连接断开，请重新连接");
 }
 
 //界面析构函数

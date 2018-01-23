@@ -68,6 +68,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     voiceLabelFont_.setPointSize(ui->_voiceLabel_->height() * kLabelFontScal * 0.8);
     ui->_voiceLabel_->setFont(voiceLabelFont_);
     //
+
     ui->_userTypeComboBox_->addItem("领导");
     ui->_userTypeComboBox_->addItem("访客");
     ui->_userTypeComboBox_->addItem("测试人员");

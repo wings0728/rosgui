@@ -179,6 +179,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
 
      _frameLineData = _netWork->_frameLineData_;
      connect(_decoder,&Decoder::newFrame,this,&T3_AF_map::printVideo);
+     connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_map::networkDisconnected)
      //数据库连接
      _database = QSqlDatabase::addDatabase(kDatabaseEngine);
      _database.setDatabaseName(kDatabaseName);
@@ -483,7 +484,11 @@ void T3_AF_map::printVideo(QImage faceImage)
   paint.end();
   ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
-
+void T3_AF_map::networkDisconnected()
+{
+  ui->_videoLabel_->clear();
+  ui->_videoLabel_->setText("网络连接断开，请检查网络");
+}
 //界面析构函数
 T3_AF_map::~T3_AF_map()
 {

@@ -43,6 +43,7 @@ private slots:
     void timeUpdate();
     void autoMode();
     void printVideo(QImage faceImage);
+    void networkDisconnected();
 
 private:
     Ui::T3_AF_map *ui;
