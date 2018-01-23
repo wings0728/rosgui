@@ -30,7 +30,8 @@ private Q_SLOTS:
     void timeUpdate();
     void on__getImagePushBtn__clicked();
     void on__addNewUserPushBtn__clicked();
-        void on__checkPushBtn__clicked();
+    void on__checkPushBtn__clicked();
+    void deletePushBtn__clicked();
 
 private:
   Ui::T3_AF_faceLog *ui;
