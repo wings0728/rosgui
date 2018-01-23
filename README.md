@@ -123,4 +123,10 @@ void goalUpdate(float x, float y, float z);
 int getBatt();
 ```
 
+### 关闭ros
+> 当退出程序时，需要调用此函数来关闭ros。
+```cpp
+void shutDownRos();
+```
+
 

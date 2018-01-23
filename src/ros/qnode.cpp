@@ -114,6 +114,14 @@ void QNode::getParam(ros::NodeHandle& n)
 //  std::count << "set param" << std::endl;
 }
 
+///
+/// \brief QNode::shutDownRos
+///
+void QNode::shutDownRos()
+{
+  ros::shutdown();
+}
+
 //**********************call back********************//
 void QNode::getStateCallback(const SensorState &msg)
 {
