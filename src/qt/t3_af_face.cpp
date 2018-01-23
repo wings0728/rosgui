@@ -82,7 +82,13 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     ui->_videoLabel_->setGeometry(this->width()*0.2888,
                                   this->height()*0.2356,
                                   this->width()*0.4463,
-                                  this->height()*0.5956);
+                                  this->height()*0.5933);
+    _videoLabelHeight = this->height()*0.5933;
+    _videoLabelWidth = this->width()*0.4463;
+    ui->_vocalPushBtn_->setGeometry(this->width()*0.7875,
+                                    this->height()*0.1556,
+                                    this->width()*0.1000,
+                                    this->height()*0.5956);
     ui->_vocalPushBtn_->setGeometry(this->width()*0.7625,
                                     this->height()*0.0600,
                                     this->width()*0.1538,
@@ -147,6 +153,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      {
             //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
             //warning->show();
+            ui->_videoLabel_->setText("网络未连接，请检查网络");
      }
 
      _frameLineData = _netWork->_frameLineData_;
@@ -251,6 +258,7 @@ void T3_AF_face::keyPressEvent(QKeyEvent *event)
 void T3_AF_face::printVideo(QImage faceImage)
 {
   //faceImage = faceImage.mirrored(true,false);
+  faceImage = faceImage.scaled(_videoLabelWidth,_videoLabelHeight,Qt::KeepAspectRatio);
   QPainter paint(&faceImage);
   QPen pen(Qt::yellow,2);
   paint.setPen(pen);
