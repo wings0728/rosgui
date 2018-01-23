@@ -6,6 +6,7 @@
 
 //#include "t3_af_login.h"
 #include "t3_af_mainwindow.hpp"
+#include "t3_af_common.hpp"
 
 
 namespace Ui {
@@ -28,7 +29,9 @@ private slots:
 private:
     Ui::T3_AF_welcome *ui;
     void closeEvent(QCloseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
+    T3Dialog *_common;
 };
 
 #endif // T3_AF_WELCOME_H

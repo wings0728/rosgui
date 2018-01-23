@@ -23,6 +23,9 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     ui->_clearPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_addNewUserPushBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_faceInfoTableView_->setStyleSheet("background:transparent;border-width:0;color:white");
+    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:black");
+    ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
     //size
     ui->_addNewUserPushBtn_->setGeometry(this->width()*0.9375,
                                          this->height()*0.556,

@@ -18,6 +18,7 @@ public:
 private:
     Ui::T3_AF_common *ui;
     T3Dialog *_father;
+    void paintEvent(QPaintEvent *event);
 };
 
 #endif // T3_AF_COMMON_H

@@ -9,6 +9,8 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
 {
     //test
     _father = new T3Dialog;
+    _common = new T3_AF_common;
+    _common->show();
     //test FIN.
     //界面布局初始化
     ui->setupUi(this);
@@ -80,10 +82,23 @@ void T3_AF_welcome::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void T3_AF_welcome::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
+    case Qt::Key_Escape:
+        delete this;
+        break;
+    default:
+        break;
+    }
+}
+
 //界面析构函数
 T3_AF_welcome::~T3_AF_welcome()
 {
     delete ui;
+    delete _common;
     //日志
     T3LOG("1- 欢迎界面析构");
 }
