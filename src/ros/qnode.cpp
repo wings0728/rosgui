@@ -321,10 +321,10 @@ bool QNode::setManualCmd(ManualCmd cmd)
         _linearX-=0.01;
         break;
       case LeftTurn:
-        _angularZ-=0.01;
+        _angularZ+=0.01;
         break;
       case RightTurn:
-        _angularZ+=0.01;
+        _angularZ-=0.01;
         break;
       case Stop:
         _linearX = 0.0;
