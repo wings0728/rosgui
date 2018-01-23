@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   qt_build
   t3_description
-
+  message_generation
 )
 
 ################################################
@@ -119,12 +119,22 @@ find_package(Qt5 COMPONENTS Core Gui Network Sql Widgets PrintSupport)
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+add_message_files(
+  FILES
+  SensorState.msg
+)
+
+generate_messages()
+
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rosgui
 #  CATKIN_DEPENDS QtGui libqt5-dev roscpp
 #  DEPENDS system_lib
+    CATKIN_DEPENDS message_runtime
 )
+
+
 
 
 
