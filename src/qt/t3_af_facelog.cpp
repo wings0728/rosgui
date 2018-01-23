@@ -135,6 +135,7 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     ui->_faceInfoTableView_->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->_faceInfoTableView_->resizeColumnsToContents();
     ui->_faceInfoTableView_->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->_faceInfoTableView_->setColumnHidden(0,true);
     ui->_faceInfoTableView_->setColumnHidden(4,true);
     QHeaderView *header = ui->_faceInfoTableView_->horizontalHeader();
     header->setStretchLastSection(true);
@@ -198,6 +199,7 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_faceLog::exitToFace);
+    connect(_deletePushBtn_,&QPushButton::clicked,this,&T3_AF_faceLog::deletePushBtn__clicked);
     //人脸识别引擎
     _faceEngine = new FaceEngine();
     //日志
@@ -316,10 +318,11 @@ void T3_AF_faceLog::on__getImagePushBtn__clicked()
       qDebug() << _ret;
       if(_ret == 1)
       {
-        qDebug() << faceModel_.lFeatureSize;
+
         _feature.resize(faceModel_.lFeatureSize);
         memcpy(_feature.data(),faceModel_.pbFeature,faceModel_.lFeatureSize);
         _readyAddNewFace = true;
+        ui->_imageAddressLineEdit_->setText(filePath);
       }else
       {
 
@@ -342,6 +345,29 @@ void T3_AF_faceLog::on__clearPushBtn__clicked()
 {
   _model->setTable("T3Face");
   _model->select();
+  _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  _model->setHeaderData(0,Qt::Horizontal,"编号");
+  _model->setHeaderData(1,Qt::Horizontal,"姓名");
+  _model->setHeaderData(2,Qt::Horizontal,"角色");
+  _model->setHeaderData(3,Qt::Horizontal,"年龄");
+  _model->setHeaderData(5,Qt::Horizontal,"账户状态");
+  _model->setHeaderData(6,Qt::Horizontal,"记录次数");
+  _model->setHeaderData(7,Qt::Horizontal,"修改时间");
+  ui->_faceInfoTableView_->setModel(_model);
+  ui->_faceInfoTableView_->setSelectionMode(QAbstractItemView::SingleSelection);
+  ui->_faceInfoTableView_->setSelectionBehavior(QAbstractItemView::SelectRows);
+  ui->_faceInfoTableView_->resizeColumnsToContents();
+  ui->_faceInfoTableView_->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  ui->_faceInfoTableView_->setColumnHidden(0,true);
   ui->_faceInfoTableView_->setColumnHidden(4,true);
   ui->_searchByNameLineEdit_->clear();
+}
+
+
+void T3_AF_faceLog::deletePushBtn__clicked()
+{
+  int curRow_ = ui->_faceInfoTableView_->currentIndex().row();
+  _model->removeRow(curRow_);
+  _model->submitAll();
+
 }

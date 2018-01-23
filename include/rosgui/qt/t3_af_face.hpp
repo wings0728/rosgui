@@ -10,7 +10,6 @@
 #include "t3_af_facelog.hpp"
 #include "t3_af_facehistory.hpp"
 #include "t3_af_vocaltext.hpp"
-#include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
 
 #include "../ros/qnode.hpp"

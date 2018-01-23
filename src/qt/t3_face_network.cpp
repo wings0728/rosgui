@@ -92,7 +92,7 @@ void T3_Face_Network::readFrameData()
 
 
         stream_ >> _personNum;
-        qDebug() << _personNum;
+        //qDebug() << _personNum;
         _frameLineData_->personNum = _personNum;
         for(int i =0 ; i<_personNum; i++)
         {
