@@ -38,6 +38,11 @@ public:
 
     void pathClear();
 
+    void buttonStatus(bool status);
+
+    void stopRobot();
+    void backToOrigin();
+
 
 private slots:
     void timeUpdate();
@@ -87,6 +92,7 @@ private:
     QPushButton *_leftTurnPushBtn_;
     QPushButton *_rightTurnPushBtn_;
     QPushButton *_stopPushBtn_;
+    QPushButton *_backToOrigin_;
 
 };
 

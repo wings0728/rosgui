@@ -8,6 +8,8 @@
 #include "t3_af_mainwindow.hpp"
 #include "t3_af_common.hpp"
 
+#include "../ros/qnode.hpp"
+
 
 namespace Ui {
 class T3_AF_welcome;
@@ -32,6 +34,7 @@ private:
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
     T3Dialog *_common;
+    rosgui::QNode *_qnode;
 };
 
 #endif // T3_AF_WELCOME_H

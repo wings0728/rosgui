@@ -110,7 +110,7 @@ T3_AF_vocalText::~T3_AF_vocalText()
 {
     delete ui;
     //
-    T3LOG("vocalText deleted")
+    T3LOG("vocalText deleted");
 }
 
 void T3_AF_vocalText::on__saveBtn__clicked()

@@ -49,6 +49,26 @@
         <file>Pictures/face_faceManage.png</file>
         <file>Pictures/face_textEdit.png</file>
         <file>Pictures/common_background.jpg</file>
-
+        <file>images.qrc</file>
+        <file>Pictures/map_temp.jpg</file>
+        <file>Pictures/rightTurn_false.png</file>
+        <file>Pictures/rightTurn_true.png</file>
+        <file>Pictures/stop_false.png</file>
+        <file>Pictures/stop_true.png</file>
+        <file>Pictures/forward_true.png</file>
+        <file>Pictures/leftTurn_false.png</file>
+        <file>Pictures/leftTurn_true.png</file>
+        <file>Pictures/forward_false.png</file>
+        <file>Pictures/off.png</file>
+        <file>Pictures/on.png</file>
+        <file>Pictures/map_videoSquare.png</file>
+        <file>Pictures/backward_false.png</file>
+        <file>Pictures/backward_true.png</file>
+        <file>Pictures/batt_1.png</file>
+        <file>Pictures/batt_2.png</file>
+        <file>Pictures/batt_3.png</file>
+        <file>Pictures/batt_4.png</file>
+        <file>Pictures/batt_charge.png</file>
+        <file>Pictures/clearPath.png</file>
     </qresource>
 </RCC>

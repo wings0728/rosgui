@@ -487,20 +487,36 @@
   <widget class="QLabel" name="_battery_">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>410</y>
-     <width>61</width>
-     <height>21</height>
+     <x>485</x>
+     <y>400</y>
+     <width>70</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color:white</string>
    </property>
    <property name="text">
-    <string>battery</string>
+    <string>100%</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_battIMG_">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>400</y>
+     <width>190</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <zorder>_tempraturePushBtn_</zorder>
@@ -526,6 +542,7 @@
   <zorder>_mapPushBtn_</zorder>
   <zorder>_tempratureLabel_</zorder>
   <zorder>_battery_</zorder>
+  <zorder>_battIMG_</zorder>
  </widget>
  <resources/>
  <connections/>
