@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">color:white</string>
+  </property>
   <widget class="QLabel" name="_dateTimeLabel_">
    <property name="geometry">
     <rect>
@@ -84,6 +87,9 @@
      <width>261</width>
      <height>141</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
    </property>
    <property name="text">
     <string>video</string>

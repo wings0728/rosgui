@@ -30,6 +30,7 @@ public:
     void toMap();
     void toRobotInfo();
     void stopRobot();
+    void battery();
 
 private slots:
     void timeUpdate();
@@ -44,6 +45,8 @@ private:
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
     rosgui::QNode *_qnode;
+    int _battInt;
+    QString _battQString;
     //ui
     QPushButton *_stopPushBtn_;
 
