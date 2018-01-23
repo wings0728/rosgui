@@ -4,6 +4,8 @@
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 
+#include "../ros/qnode.hpp"
+
 namespace Ui {
 class T3_AF_confirmExit;
 }
@@ -18,12 +20,14 @@ public:
 
     void confirmExit();
     void doNotExit();
+    void stopRobot();
 
 private:
     Ui::T3_AF_confirmExit *ui;
     T3Dialog *_welcome;
     T3Dialog *_mainWindow;
     T3Dialog *_father;
+    rosgui::QNode *_qnode;
     void paintEvent(QPaintEvent *enent);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);

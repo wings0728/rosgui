@@ -61,11 +61,10 @@ void T3_AF_confirmExit::paintEvent(QPaintEvent *)
 //返回welcome
 void T3_AF_confirmExit::confirmExit()
 {
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    _qnode->setManualCmd(rosgui::QNode::Stop);
     _welcome->show();
     this->close();
-
-    for(int idx = 0; idx < kDelay; idx++){}
-
     _mainWindow->close();
     delete this;
     delete _mainWindow;
