@@ -18,6 +18,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     _weather = new T3_AF_getWeather;
     _stopPushBtn_ = new QPushButton(this);
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
+    _battQString = "";
     _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_stop.png)");
     _stopPushBtn_->show();
     _stopPushBtn_->setText("");
@@ -69,6 +70,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     ui->_mapPushBtn_->setText("");
     ui->_mapPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
+    ui->_battery_->setText(_battQString);
     //size
     ui->_dateLabel_->setGeometry(this->width()*0.0688,
                                  this->height()*0.0667,
@@ -162,6 +164,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                this->height()*0.7333,
                                this->width()*0.1875,
                                this->height()*0.2000);
+    ui->_battery_->setGeometry(this->width()*0.4625,
+                               this->height()*0.9111,
+                               this->width()*0.0750,
+                               this->height()*0.0444);
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
@@ -242,6 +248,14 @@ void T3_AF_mainWindow::timeUpdate()
     ui->_timeLabel_->setText(timeStr_);
 }
 
+void T3_AF_mainWindow::battery()
+{
+    _battInt = _qnode->getBatt();
+    _battQString = QString::number(_battInt) + "%";
+    ui->_battery_->setText(_battQString);
+    update();
+}
+
 //更新天气
 void T3_AF_mainWindow::weatherUpdate(Today today)
 {
@@ -262,6 +276,8 @@ void T3_AF_mainWindow::paintEvent(QPaintEvent *)
 {
     QPainter paint_(this);
     paint_.drawPixmap(0, 0, this->width(), this->height(), QPixmap(":/Pictures/mainWindow_background.png"));
+    battery();
+    qDebug() << "refreshed";
 }
 
 //退出
