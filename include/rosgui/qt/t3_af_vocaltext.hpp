@@ -4,6 +4,7 @@
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 #include "t3_face_network.hpp"
+#include "t3_af_warning.hpp"
 
 namespace Ui {
 class T3_AF_vocalText;
@@ -18,6 +19,9 @@ public:
     ~T3_AF_vocalText();
 
     void exitVocalText();
+
+private slots:
+    void on__userTypeComboBox__currentIndexChanged(int index);
 
 private slots:
     void on__saveBtn__clicked();
