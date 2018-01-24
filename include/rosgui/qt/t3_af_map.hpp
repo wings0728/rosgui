@@ -48,6 +48,7 @@ private slots:
     void timeUpdate();
     void autoMode();
     void printVideo(QImage faceImage);
+    void ifConnected();
 
 private:
     Ui::T3_AF_map *ui;
@@ -76,7 +77,7 @@ private:
     vector<double> _robotPose;
     vector<double> _mapOrigin;
     float _scale;
-
+    QTimer *_connect;
 
     T3_Face_Network *_netWork;
     Decoder *_decoder;

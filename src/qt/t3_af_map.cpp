@@ -180,10 +180,14 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     //定时器
     QTimer *timer_ = new QTimer(this);
     timer_->start(100);
+    _connect = new QTimer(this);
+    _connect->start(5000);
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
+    connect(_connect, SIGNAL(timeout()), this, SLOT(ifConnected()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
+    connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::ifConnected);
     connect(_qnode, &rosgui::QNode::globalPlanGet, this, &T3_AF_map::routeUpdate);
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
@@ -218,7 +222,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(_backwordPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_leftTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
-    connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin)
+    connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin);
     //日志
     T3LOG("7+ 导航界面构造");
 }
@@ -367,9 +371,9 @@ void T3_AF_map::paintEvent(QPaintEvent *)
             paint_.drawLine(_pathX.at(i), _pathY.at(i), _pathX.at(i+1), _pathY.at(i+1));
         }
     }
-    //path fin
+    //arrow
     paint_.setPen(QPen(Qt::green, 2));
-    if((_startX > 0) & (_startY > 0) & (_moveX > 0) & (_moveY) > 0)
+    if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)))
     {
         paint_.drawLine(_startX, _startY, _moveX, _moveY);
         paint_.drawLine(_moveX, _moveY, _arrow_[0], _arrow_[1]);
@@ -422,7 +426,7 @@ void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
 
 void T3_AF_map::getTarget()
 {
-    if((_moveX > 0) & (_moveY > 0))
+    if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)))
     {
         float x = (_startX - _mapStartX)/_scale + _originX;
         float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
@@ -494,6 +498,8 @@ void T3_AF_map::getPoint()
 //             <<"by:" << _pos_[3] <<"\n"
 //             <<"cx:" << _pos_[4] <<"\n"
 //             <<"cy:" << _pos_[5] <<"\n" <<"\n";
+    _connect->stop();
+    _connect->start(5000);
     ui->_showConnectStatus_->setText("        已连接");
     ui->_showConnectStatus_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
@@ -507,9 +513,7 @@ void T3_AF_map::routeUpdate()
     {
       _route[idx].first = (_route[idx].first - _originX) * _scale + _mapStartX;
       _route[idx].second = _mapStartY + _mapHeight - (_route[idx].second - _originY)* _scale;
-      qDebug() << "route[" << idx << "]" << _route[idx].first << _route[idx].second;
     }
-
     update();
 }
 
@@ -562,6 +566,16 @@ void T3_AF_map::printVideo(QImage faceImage)
   ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 
+void T3_AF_map::ifConnected()
+{
+    ui->_showConnectStatus_->setText("未连接        ");
+    ui->_showConnectStatus_->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+}
+
+
+
+
 //界面析构函数
 T3_AF_map::~T3_AF_map()
 {
@@ -575,3 +589,5 @@ T3_AF_map::~T3_AF_map()
     //日志
     T3LOG("7- 导航界面析构");
 }
+
+
