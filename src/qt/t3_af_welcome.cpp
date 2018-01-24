@@ -99,6 +99,7 @@ T3_AF_welcome::~T3_AF_welcome()
 {
     delete ui;
     delete _common;
+    _qnode->shutDownRos();
     //日志
     T3LOG("1- 欢迎界面析构");
 }

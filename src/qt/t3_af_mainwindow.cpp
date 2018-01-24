@@ -164,10 +164,14 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                this->height()*0.7333,
                                this->width()*0.1875,
                                this->height()*0.2000);
-    ui->_battery_->setGeometry(this->width()*0.4625,
-                               this->height()*0.9111,
-                               this->width()*0.0750,
-                               this->height()*0.0444);
+    ui->_battery_->setGeometry(this->width()*0.5993,
+                               this->height()*0.91,
+                               this->width()*0.0875,
+                               this->height()*0.06);
+    ui->_battIMG_->setGeometry(this->width()*0.3430,
+                               this->height()*0.91,
+                               this->width()*0.2375,
+                               this->height()*0.06);
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
@@ -214,6 +218,9 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     ui->_pm25Label_->setFont(pm25LabelFont_);
     ui->_qualityTitleLabel_->setFont(qualityTitleLabelFont_);
     ui->_qualityLabel_->setFont(qualityLabelFont_);
+    QFont battFont_;
+    battFont_.setPointSize(ui->_battery_->height() * kLabelFontScal);
+    ui->_battery_->setFont(battFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -253,6 +260,22 @@ void T3_AF_mainWindow::battery()
     _battInt = _qnode->getBatt();
     _battQString = QString::number(_battInt) + "%";
     ui->_battery_->setText(_battQString);
+    if(_battInt <= 30)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+    }
+    else if(_battInt > 30 && _battInt <= 60)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+    }
+    else if(_battInt > 60 && _battInt <= 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+    }
+    else if(_battInt > 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+    }
     update();
 }
 
@@ -277,7 +300,7 @@ void T3_AF_mainWindow::paintEvent(QPaintEvent *)
     QPainter paint_(this);
     paint_.drawPixmap(0, 0, this->width(), this->height(), QPixmap(":/Pictures/mainWindow_background.png"));
     battery();
-    qDebug() << "refreshed";
+//    qDebug() << "refreshed";
 }
 
 //退出

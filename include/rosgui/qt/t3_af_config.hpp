@@ -18,7 +18,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#define T3LOG(format, ...) qDebug(format , ##__VA_ARGS__);
+#define T3LOG(format, ...); qDebug(format , ##__VA_ARGS__);
 
 //k
 #define kMapScal 9.0
