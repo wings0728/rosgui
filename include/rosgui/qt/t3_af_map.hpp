@@ -6,6 +6,7 @@
 #include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
 
+#include <QTime>
 #include <QList>
 #include <QLabel>
 #include <QMouseEvent>
@@ -32,6 +33,7 @@ public:
     void getTarget();
     void routeUpdate();
     void manualCmd();
+    void sleepBtn(int delayTime);
 
 
     vector<float> _pos_;
