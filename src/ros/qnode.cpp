@@ -20,6 +20,7 @@
 #include "t3_description/goal.h"
 #include "yaml-cpp/yaml.h"
 #include <math.h>
+#include <std_msgs/Bool.h>
 
 /*****************************************************************************
 ** Namespaces
@@ -70,10 +71,12 @@ bool QNode::init(int argc, char** argv ) {
 	ros::NodeHandle n;
   ros::NodeHandle pn("~");
   getParam(pn);
-	// Add your ros communications here.
+  // pub
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
   _cmdVelPub = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
+  _checkNetPub = n.advertise<std_msgs::Bool>("checkNet",10);
+  //sub
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
   _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
   _batterySub = n.subscribe("sensor_state",100, &QNode::getStateCallback, this);
@@ -186,6 +189,9 @@ void QNode::run() {
 //    msg.data = ss.str();
 //    chatter_publisher.publish(msg);
 //    log(Info,std::string("I sent: ")+msg.data);
+    std_msgs::Bool checkMsg;
+    checkMsg.data = true;
+    _checkNetPub.publish(checkMsg);
 		ros::spinOnce();
 		loop_rate.sleep();
 //		++count;

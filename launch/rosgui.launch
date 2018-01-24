@@ -1,4 +1,5 @@
 <launch>
+  <include file="$(find robot_localization)/launch/ekf_template_navigation_gps.launch" />
   <include file="$(find t3_goal)/launch/t3_goals.launch" />
   <node pkg="rosgui" type="rosgui" name="rosgui" output="screen" required="true">
     <param name="robotPoseTopicName" type="string" value="/odometry/filtered_map" />
