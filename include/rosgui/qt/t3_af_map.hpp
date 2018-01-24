@@ -7,6 +7,7 @@
 #include "t3_face_network.hpp"
 
 #include <QList>
+#include <QLabel>
 #include <QMouseEvent>
 #include <math.h>
 #include <vector>
@@ -43,6 +44,8 @@ public:
     void stopRobot();
     void backToOrigin();
 
+    void showSpeed();
+
 
 private slots:
     void timeUpdate();
@@ -78,6 +81,12 @@ private:
     vector<double> _mapOrigin;
     float _scale;
     QTimer *_connect;
+    double _lineS;
+    double _angleS;
+    QString _lineSText;
+    QString _angleSText;
+
+
 
     T3_Face_Network *_netWork;
     Decoder *_decoder;
@@ -94,6 +103,9 @@ private:
     QPushButton *_rightTurnPushBtn_;
     QPushButton *_stopPushBtn_;
     QPushButton *_backToOrigin_;
+    QLabel *_lineSLabel_;
+    QLabel *_angleSLabel_;
+
 
 };
 
