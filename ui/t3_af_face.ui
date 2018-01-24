@@ -263,12 +263,12 @@
   <zorder>_videoLabel_</zorder>
   <zorder>_enterFaceLogPushBtn_</zorder>
   <zorder>_vocalPushBtn_</zorder>
-  <zorder>_squareLabel_</zorder>
-  <zorder>_morePushBtn_</zorder>
-  <zorder>_logListView_</zorder>
   <zorder>_headLabel_</zorder>
   <zorder>_battery_</zorder>
   <zorder>_battIMG_</zorder>
+  <zorder>_squareLabel_</zorder>
+  <zorder>_logListView_</zorder>
+  <zorder>_morePushBtn_</zorder>
  </widget>
  <resources/>
  <connections/>
