@@ -32,6 +32,7 @@ private:
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
     T3_Face_Network *_network;
+    void initUserTypeComboBox();
 };
 
 #endif // T3_AF_VOCALTEXT_H

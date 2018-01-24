@@ -69,9 +69,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     ui->_voiceLabel_->setFont(voiceLabelFont_);
     //
 
-    ui->_userTypeComboBox_->addItem("领导");
-    ui->_userTypeComboBox_->addItem("访客");
-    ui->_userTypeComboBox_->addItem("测试人员");
+    initUserTypeComboBox();
     //func
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_vocalText::exitVocalText);
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
@@ -149,4 +147,15 @@ void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
     query_.next();
     QString voice_ = query_.value(0).toString();
     ui->_voiceTextEdit_->setText(voice_);
+}
+
+void T3_AF_vocalText::initUserTypeComboBox()
+{
+  QSqlQuery query_;
+  query_.exec("select UserType from T3FaceUserType");
+  while(query_.next())
+  {
+    QString userType_ = query_.value(0).toString();
+    ui->_userTypeComboBox_->addItem(userType_);
+  }
 }
