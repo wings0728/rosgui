@@ -138,8 +138,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _mapStartY = this->height()*0.0800;
     QImage realMap_;
     realMap_.load(":/Pictures/map_realMap.pgm");
-    _realWidth = realMap_.width();
-    _realHeight = realMap_.height();
+    _realWidth = realMap_.width()/20;
+    _realHeight = realMap_.height()/20;
     if(_realWidth >= _realHeight)
     {
         _mapWidth = this->width()*0.45;
@@ -457,6 +457,7 @@ void T3_AF_map::getPoint()
     //test fin.
   _robotPose = _qnode->getRobotPose();
   _mapOrigin = _qnode->getMapOrigin();
+
 //    qDebug() << "robotpose[0]:" << _robotPose[0] << "\n"
 //             << "robotpose[1]:" << _robotPose[1] << "\n"
 //             << "robotpose[2]:" << _robotPose[2] << "\n"
