@@ -54,6 +54,8 @@ private slots:
     void autoMode();
     void printVideo(QImage faceImage);
     void ifConnected();
+    void networkDisconnected();
+
 
 private:
     Ui::T3_AF_map *ui;

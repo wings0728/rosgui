@@ -202,6 +202,7 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     connect(_deletePushBtn_,&QPushButton::clicked,this,&T3_AF_faceLog::deletePushBtn__clicked);
     //人脸识别引擎
     _faceEngine = new FaceEngine();
+    _network = T3_Face_Network::getT3FaceNetwork();
     //日志
     T3LOG("9+ 人脸日志界面构造");
 }
@@ -292,6 +293,10 @@ void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
           name_ = "";
           age_ = NULL;
           role_ = "";
+          if(_network->_isNetworkConnected_)
+          {
+            _network->updateClientDataBase();
+          }
 
         }
 
@@ -367,7 +372,14 @@ void T3_AF_faceLog::on__clearPushBtn__clicked()
 void T3_AF_faceLog::deletePushBtn__clicked()
 {
   int curRow_ = ui->_faceInfoTableView_->currentIndex().row();
+  QModelIndex index = _model->index(curRow_,0);
+  QVariant data = _model->data(index);
   _model->removeRow(curRow_);
   _model->submitAll();
+  if(_network->_isNetworkConnected_)
+  {
+    _network->sendDeteleFaceInfoById(data.toInt());
+  }
+
 
 }

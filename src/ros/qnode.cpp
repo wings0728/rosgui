@@ -43,7 +43,9 @@ QNode::QNode():
   _oprationMode(Manual),
   _linearX(0.0),
   _angularZ(0.0),
-  _battPer(100)
+  _battPer(100),
+  _OdomLinearX(0.0),
+  _OdomAngularZ(0.0)
 {
 }
 
