@@ -102,6 +102,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     ui->_groupName_->setFont(groupNameFont_);
     ui->_groups_->setFont(groupsFont_);
     //
+
     ui->_userTypeComboBox_->addItem("领导");
     ui->_userTypeComboBox_->addItem("访客");
     ui->_userTypeComboBox_->addItem("测试人员");
