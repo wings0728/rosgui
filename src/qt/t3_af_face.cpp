@@ -93,9 +93,9 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
                                     this->height()*0.0600,
                                     this->width()*0.1538,
                                     this->height()*0.0622);
-    ui->_logListView_->setGeometry(this->width()*0.7350,
+    ui->_logListView_->setGeometry(this->width()*0.7370,
                                    this->height()*0.32,
-                                   this->width()*0.2188,
+                                   this->width()*0.2160,
                                    this->height()*0.4200);
     ui->_headLabel_->setGeometry(this->width()*0.4300,
                                    this->height()*0.0444,

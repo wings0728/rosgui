@@ -12,6 +12,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _robotPose(4, 0.0),
     _mapOrigin(3, 0.0)
 {
+    i=0;
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
@@ -199,7 +200,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _battInt = 0;
     _battQString = "";
     _mode = _qnode->getOprationMode();
-    if(_mode = rosgui::QNode::Manual)
+    if(_mode == rosgui::QNode::Manual)
     {
         ui->_modePushBtn_->setText("           手动模式");
         ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
@@ -227,7 +228,6 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(_connect, SIGNAL(timeout()), this, SLOT(ifConnected()));
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_map::exitToMainWindow);
     connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::getPoint);
-    connect(_qnode, &rosgui::QNode::poseUpdated, this, &T3_AF_map::ifConnected);
     connect(_qnode, &rosgui::QNode::globalPlanGet, this, &T3_AF_map::routeUpdate);
     connect(ui->_clear, &QPushButton::clicked, this, &T3_AF_map::pathClear);
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
@@ -360,45 +360,30 @@ void T3_AF_map::buttonStatus(bool status)
 //test
 void T3_AF_map::autoMode()
 {
-    if(_mode = rosgui::QNode::Manual)
+    _mode = _qnode->getOprationMode();
+    if(_mode == rosgui::QNode::Manual)
     {
-        if(ui->_modePushBtn_->isChecked())
-        {
-            ui->_modePushBtn_->setText("自动模式           ");
-            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
-            _qnode->setOperationMode(rosgui::QNode::Auto);
-            buttonStatus(false);
-        }
-        else
-        {
-            ui->_modePushBtn_->setText("           手动模式");
-            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
-            _qnode->setOperationMode(rosgui::QNode::Manual);
-            buttonStatus(true);
-        }
+        ui->_modePushBtn_->setText("自动模式           ");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
+        _qnode->setOperationMode(rosgui::QNode::Auto);
+        buttonStatus(false);
     }
     else
     {
-        if(ui->_modePushBtn_->isChecked())
-        {
-            ui->_modePushBtn_->setText("           手动模式");
-            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
-            _qnode->setOperationMode(rosgui::QNode::Manual);
-            buttonStatus(true);
-        }
-        else
-        {
-            ui->_modePushBtn_->setText("自动模式           ");
-            ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
-            _qnode->setOperationMode(rosgui::QNode::Auto);
-            buttonStatus(false);
-        }
+        ui->_modePushBtn_->setText("           手动模式");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+        _qnode->setOperationMode(rosgui::QNode::Manual);
+        buttonStatus(true);
     }
 }
 
 void T3_AF_map::stopRobot()
 {
     _qnode->setOperationMode(rosgui::QNode::Manual);
+    ui->_modePushBtn_->setText("           手动模式");
+    ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    buttonStatus(true);
     _qnode->setManualCmd(rosgui::QNode::Stop);
 }
 
@@ -515,6 +500,7 @@ void T3_AF_map::getTarget()
         float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
         float a = atan2(_startY - _moveY, _moveX - _startX);
         _qnode->goalUpdate(x, y, a);
+        qDebug() << x << y << a;
     }
 }
 
@@ -606,6 +592,8 @@ void T3_AF_map::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+
+//press
 void T3_AF_map::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key())
@@ -616,61 +604,167 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
         if(_forwardPusbBtn_->isEnabled())
         {
             _forwardPusbBtn_->setStyleSheet("border-image:url(:/Pictures/forward_false.png)");
-            _forwardPusbBtn_->clicked();
-            sleepBtn(1);
-            _forwardPusbBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/forward_true.png);}"
-                                            "QPushButton:pressed{border-image:url(:/Pictures/forward_false.png);}");
-//            qDebug() << "W";
         }
         break;
     case Qt::Key_X:
         if(_backwordPushBtn_->isEnabled())
         {
             _backwordPushBtn_->setStyleSheet("border-image:url(:/Pictures/backward_false.png)");
-            _backwordPushBtn_->clicked();
-            sleepBtn(1);
-            _backwordPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/backward_true.png);}"
-                                            "QPushButton:pressed{border-image:url(:/Pictures/backward_false.png);}");
-//            qDebug() << "B";
         }
         break;
     case Qt::Key_A:
         if(_leftTurnPushBtn_->isEnabled())
         {
             _leftTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/leftTurn_false.png)");
-            _leftTurnPushBtn_->clicked();
-            sleepBtn(1);
-            _leftTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/leftTurn_true.png);}"
-                                            "QPushButton:pressed{border-image:url(:/Pictures/leftTurn_false.png);}");
-//            qDebug() << "L";
         }
         break;
     case Qt::Key_S:
         if(_stopPushBtn_->isEnabled())
         {
             _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/stop_false.png)");
-            _stopPushBtn_->clicked();
-            sleepBtn(1);
-            _stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/stop_true.png);}"
-                                            "QPushButton:pressed{border-image:url(:/Pictures/stop_false.png);}");
-//            qDebug() << "S";
         }
         break;
     case Qt::Key_D:
         if(_rightTurnPushBtn_->isEnabled())
         {
             _rightTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/rightTurn_false.png)");
-            _rightTurnPushBtn_->clicked();
-            sleepBtn(1);
-            _rightTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/rightTurn_true.png);}"
-                                            "QPushButton:pressed{border-image:url(:/Pictures/rightTurn_false.png);}");
-//            qDebug() << "R";
+        }
+        break;
+    case Qt::Key_Up:
+        if(_forwardPusbBtn_->isEnabled())
+        {
+            _forwardPusbBtn_->setStyleSheet("border-image:url(:/Pictures/forward_false.png)");
+        }
+        break;
+    case Qt::Key_Down:
+        if(_backwordPushBtn_->isEnabled())
+        {
+            _backwordPushBtn_->setStyleSheet("border-image:url(:/Pictures/backward_false.png)");
+        }
+        break;
+    case Qt::Key_Left:
+        if(_leftTurnPushBtn_->isEnabled())
+        {
+            _leftTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/leftTurn_false.png)");
+        }
+        break;
+    case Qt::Key_Space:
+        if(_stopPushBtn_->isEnabled())
+        {
+            _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/stop_false.png)");
+        }
+        break;
+    case Qt::Key_Right:
+        if(_rightTurnPushBtn_->isEnabled())
+        {
+            _rightTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/rightTurn_false.png)");
         }
         break;
     default:
         QDialog::keyPressEvent(event);
     }
 }
+
+void T3_AF_map::keyReleaseEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_W:
+        if(_forwardPusbBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _forwardPusbBtn_->clicked();
+            _forwardPusbBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/forward_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/forward_false.png);}");
+            qDebug() << "W";
+        }
+        break;
+    case Qt::Key_X:
+        if(_backwordPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _backwordPushBtn_->clicked();
+            _backwordPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/backward_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/backward_false.png);}");
+            qDebug() << "B";
+        }
+        break;
+    case Qt::Key_A:
+        if(_leftTurnPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _leftTurnPushBtn_->clicked();
+            _leftTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/leftTurn_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/leftTurn_false.png);}");
+            qDebug() << "L";
+        }
+        break;
+    case Qt::Key_S:
+        if(_stopPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _stopPushBtn_->clicked();
+            _stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/stop_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/stop_false.png);}");
+            qDebug() << "S";
+        }
+        break;
+    case Qt::Key_D:
+        if(_rightTurnPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _rightTurnPushBtn_->clicked();
+            _rightTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/rightTurn_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/rightTurn_false.png);}");
+            qDebug() << "R";
+        }
+        break;
+    case Qt::Key_Up:
+        if(_forwardPusbBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _forwardPusbBtn_->clicked();
+            _forwardPusbBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/forward_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/forward_false.png);}");
+            qDebug() << "W";
+        }
+        break;
+    case Qt::Key_Down:
+        if(_backwordPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _backwordPushBtn_->clicked();
+            _backwordPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/backward_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/backward_false.png);}");
+            qDebug() << "B";
+        }
+        break;
+    case Qt::Key_Left:
+        if(_leftTurnPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _leftTurnPushBtn_->clicked();
+            _leftTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/leftTurn_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/leftTurn_false.png);}");
+            qDebug() << "L";
+        }
+        break;
+    case Qt::Key_Space:
+        if(_stopPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _stopPushBtn_->clicked();
+            _stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/stop_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/stop_false.png);}");
+            qDebug() << "S";
+        }
+        break;
+    case Qt::Key_Right:
+        if(_rightTurnPushBtn_->isEnabled() && (!event->isAutoRepeat()))
+        {
+            _rightTurnPushBtn_->clicked();
+            _rightTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/rightTurn_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/rightTurn_false.png);}");
+            qDebug() << "R";
+        }
+        break;
+    default:
+        QDialog::keyReleaseEvent(event);
+    }
+}
+
+
 
 void T3_AF_map::printVideo(QImage faceImage)
 {
