@@ -7,6 +7,7 @@
 #include "t3_face_network.hpp"
 
 #include <QList>
+#include <QLabel>
 #include <QMouseEvent>
 #include <math.h>
 #include <vector>
@@ -38,12 +39,21 @@ public:
 
     void pathClear();
 
+    void buttonStatus(bool status);
+
+    void stopRobot();
+    void backToOrigin();
+
+    void showSpeed();
+
 
 private slots:
     void timeUpdate();
     void autoMode();
     void printVideo(QImage faceImage);
+    void ifConnected();
     void networkDisconnected();
+
 
 private:
     Ui::T3_AF_map *ui;
@@ -72,6 +82,12 @@ private:
     vector<double> _robotPose;
     vector<double> _mapOrigin;
     float _scale;
+    QTimer *_connect;
+    double _lineS;
+    double _angleS;
+    QString _lineSText;
+    QString _angleSText;
+
 
 
     T3_Face_Network *_netWork;
@@ -88,6 +104,10 @@ private:
     QPushButton *_leftTurnPushBtn_;
     QPushButton *_rightTurnPushBtn_;
     QPushButton *_stopPushBtn_;
+    QPushButton *_backToOrigin_;
+    QLabel *_lineSLabel_;
+    QLabel *_angleSLabel_;
+
 
 };
 

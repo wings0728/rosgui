@@ -15,6 +15,8 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     this->showFullScreen();
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_saveBtn_->setFocusPolicy(Qt::NoFocus);
+    ui->_add_->setFocusPolicy(Qt::NoFocus);
+    ui->_delete_->setFocusPolicy(Qt::NoFocus);
     //size
     ui->_backgroundLabel_->setGeometry(this->width()*0.4500,
                                        this->height()*0.0889,
@@ -48,6 +50,26 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
                                     this->height()*0.6444,
                                     this->width()*0.1500,
                                     this->height()*0.1778);
+    ui->_add_->setGeometry(this->width()*0.1500,
+                          this->height()*0.7778,
+                          this->width()*0.0500,
+                          this->height()*0.0889);
+    ui->_back2_->setGeometry(this->width()*0.1000,
+                             this->height()*0.0889,
+                             this->width()*0.2525,
+                             this->height()*0.8000);
+    ui->_delete_->setGeometry(this->width()*0.2525,
+                              this->height()*0.7778,
+                              this->width()*0.0500,
+                              this->height()*0.0889);
+    ui->_groupName_->setGeometry(this->width()*0.1163,
+                                 this->height()*0.7000,
+                                 this->width()*0.2188,
+                                 this->height()*0.0556);
+    ui->_groups_->setGeometry(this->width()*0.1163,
+                              this->height()*0.1489,
+                              this->width()*0.2188,
+                              this->height()*0.5200);
     //font
     QFont exitPushBtnLabel_;
     exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
@@ -67,6 +89,18 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     QFont voiceLabelFont_;
     voiceLabelFont_.setPointSize(ui->_voiceLabel_->height() * kLabelFontScal * 0.8);
     ui->_voiceLabel_->setFont(voiceLabelFont_);
+    QFont addFont_;
+    QFont deleteFont_;
+    QFont groupNameFont_;
+    QFont groupsFont_;
+    addFont_.setPointSize(ui->_add_->height() * kBtnFontScal * 0.5);
+    deleteFont_.setPointSize(ui->_delete_->height() * kBtnFontScal * 0.5);
+    groupNameFont_.setPointSize(ui->_groupName_->height() * kLabelFontScal * 0.5);
+    groupsFont_.setPointSize(ui->_groups_->height() * kLabelFontScal / 10);
+    ui->_add_->setFont(addFont_);
+    ui->_delete_->setFont(deleteFont_);
+    ui->_groupName_->setFont(groupNameFont_);
+    ui->_groups_->setFont(groupsFont_);
     //
 
     ui->_userTypeComboBox_->addItem("领导");
@@ -111,7 +145,7 @@ T3_AF_vocalText::~T3_AF_vocalText()
 {
     delete ui;
     //
-    T3LOG("vocalText deleted")
+    T3LOG("vocalText deleted");
 }
 
 void T3_AF_vocalText::on__saveBtn__clicked()

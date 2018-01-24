@@ -47,6 +47,8 @@ T3_AF_confirmExit::T3_AF_confirmExit(T3Dialog *welcome, T3Dialog *mainWindow, QW
     //链接ui部件与功能
     connect(ui->_yesPushBtn_, &QPushButton::clicked, this, &T3_AF_confirmExit::confirmExit);
     connect(ui->_noPushBtn_, &QPushButton::clicked, this, &T3_AF_confirmExit::doNotExit);
+    //
+    _qnode = rosgui::QNode::getInstance();
     //日志
     T3LOG("4+ 退出确认界面构造");
 }
@@ -61,11 +63,9 @@ void T3_AF_confirmExit::paintEvent(QPaintEvent *)
 //返回welcome
 void T3_AF_confirmExit::confirmExit()
 {
+    stopRobot();
     _welcome->show();
     this->close();
-
-    for(int idx = 0; idx < kDelay; idx++){}
-
     _mainWindow->close();
     delete this;
     delete _mainWindow;
@@ -92,6 +92,12 @@ void T3_AF_confirmExit::keyPressEvent(QKeyEvent *event)
     default:
         QDialog::keyPressEvent(event);
     }
+}
+
+void T3_AF_confirmExit::stopRobot()
+{
+    _qnode->setOperationMode(rosgui::QNode::Manual);
+    _qnode->setManualCmd(rosgui::QNode::Stop);
 }
 
 //界面析构函数

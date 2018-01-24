@@ -70,6 +70,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
+  void shutDownRos();
 
   bool goalUpdate(float x, float y, float z);
   void setOperationMode(OprationMode mode);
@@ -80,7 +81,7 @@ public:
   bool setManualCmd(ManualCmd cmd);
   OprationMode getOprationMode();
   int getBatt();
-
+  void getRobotSpeed(double* linearX, double* anglarZ);
 Q_SIGNALS:
 	void loggingUpdated();
   void rosShutdown();
@@ -109,6 +110,8 @@ private:
   std::string _globalPlanTopicName;
   double _linearX;
   double _angularZ;
+  double _OdomLinearX;
+  double _OdomAngularZ;
   double _maxLinearX;
   double _maxAngularZ;
   int _battPer;
@@ -124,6 +127,7 @@ private:
     void getPoseCallback(const nav_msgs::Odometry& msg);
     void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
     void getStateCallback(const rosgui::SensorState& msg);
+
 };
 
 }  // namespace rosgui

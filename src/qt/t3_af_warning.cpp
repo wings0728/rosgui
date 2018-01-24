@@ -85,5 +85,5 @@ T3_AF_warning::~T3_AF_warning()
 {
     delete ui;
     //
-    T3LOG("*- warning delete")
+    T3LOG("*- warning delete");
 }
