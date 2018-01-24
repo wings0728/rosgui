@@ -104,6 +104,7 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     //
 
     initUserTypeComboBox();
+    initUserTypeListView();
     //func
     connect(ui->_exitPushBtn_, &QPushButton::clicked, this, &T3_AF_vocalText::exitVocalText);
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
@@ -173,7 +174,6 @@ void T3_AF_vocalText::on__saveBtn__clicked()
 
 void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
 {
-    qDebug() << index;
     QSqlQuery query_;
     query_.prepare("select voice from T3FaceUserType where id = ?");
     query_.bindValue(0,index + 1);
@@ -192,4 +192,61 @@ void T3_AF_vocalText::initUserTypeComboBox()
     QString userType_ = query_.value(0).toString();
     ui->_userTypeComboBox_->addItem(userType_);
   }
+}
+void T3_AF_vocalText::initUserTypeListView()
+{
+  QSqlQuery query_;
+  query_.exec("select UserType from T3FaceUserType");
+  QStringList strList ;
+  while(query_.next())
+  {
+    QString userType_ = query_.value(0).toString();
+    strList.append(userType_);
+
+
+  }
+  _stringListModel = new QStringListModel(strList);
+  ui->_groups_->setModel(_stringListModel);
+
+}
+
+void T3_AF_vocalText::on__add__clicked()
+{
+    QString userType_ = ui->_groupName_->text();
+    QSqlQuery query_;
+    query_.prepare("insert into T3FaceUserType values(NULL,?,?,1)");
+    query_.bindValue(0,userType_);
+    query_.bindValue(1,"欢迎来到杉科机器人");
+    int ret = query_.exec();
+    qDebug() << ret;
+    T3_AF_warning *warning_ = new T3_AF_warning(this,"添加成功",success);
+    warning_->show();
+    ui->_groupName_->clear();
+    initUserTypeListView();
+
+}
+
+void T3_AF_vocalText::on__delete__clicked()
+{
+    QString string = ui->_groups_->currentIndex().data().toString();
+
+
+    QSqlQuery query_ ;
+    query_.prepare("select * from T3Face where role = ?");
+    query_.bindValue(0,string);
+    query_.exec();
+    if(query_.next())
+    {
+      T3_AF_warning *warning_ = new T3_AF_warning(this,"删除失败,本组别下存在用户");
+      warning_->show();
+    }else
+    {
+      _stringListModel->removeRows(ui->_groups_->currentIndex().row(),1);
+      query_.prepare("delete from T3FaceUserType where UserType =?");
+      query_.bindValue(0,string);
+      query_.exec();
+      T3_AF_warning *warning_ = new T3_AF_warning(this,"删除成功");
+      warning_->show();
+    }
+
 }
