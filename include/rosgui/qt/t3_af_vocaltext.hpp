@@ -1,6 +1,7 @@
 #ifndef T3_AF_VOCALTEXT_H
 #define T3_AF_VOCALTEXT_H
 
+#include <QStringListModel>
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 #include "t3_face_network.hpp"
@@ -21,6 +22,12 @@ public:
     void exitVocalText();
 
 private slots:
+    void on__delete__clicked();
+
+private slots:
+    void on__add__clicked();
+
+private slots:
     void on__userTypeComboBox__currentIndexChanged(int index);
 
 private slots:
@@ -32,6 +39,9 @@ private:
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
     T3_Face_Network *_network;
+    QStringListModel *_stringListModel;
+    void initUserTypeComboBox();
+    void initUserTypeListView();
 };
 
 #endif // T3_AF_VOCALTEXT_H

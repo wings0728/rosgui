@@ -113,9 +113,6 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                          this->height() * 0.8644);
 
     ui->_userTypeComboBox_->setFocusPolicy(Qt::NoFocus);
-    ui->_userTypeComboBox_->addItem("访客");
-    ui->_userTypeComboBox_->addItem("领导");
-    ui->_userTypeComboBox_->addItem("测试人员");
     _deletePushBtn_->setText("删除");
     //数据库显示设置
     _model = new QSqlTableModel(this);
@@ -203,6 +200,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     //人脸识别引擎
     _faceEngine = new FaceEngine();
     _network = T3_Face_Network::getT3FaceNetwork();
+    //相关控件设置初始化
+    initUserTypeComboBox();
     //日志
     T3LOG("9+ 人脸日志界面构造");
 }
@@ -380,6 +379,15 @@ void T3_AF_faceLog::deletePushBtn__clicked()
   {
     _network->sendDeteleFaceInfoById(data.toInt());
   }
+}
 
-
+void T3_AF_faceLog::initUserTypeComboBox()
+{
+  QSqlQuery query_;
+  query_.exec("select UserType from T3FaceUserType");
+  while(query_.next())
+  {
+    QString userType_ = query_.value(0).toString();
+    ui->_userTypeComboBox_->addItem(userType_);
+  }
 }

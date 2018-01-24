@@ -48,6 +48,7 @@ private:
   QSqlTableModel *_model;
   int _ret;
   bool _readyAddNewFace = false;
+  void initUserTypeComboBox();
   //ui
   QPushButton *_deletePushBtn_;
 };
