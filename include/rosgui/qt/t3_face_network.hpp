@@ -34,6 +34,8 @@ public:
     bool _isNetworkConnected_ = false;
     Decoder *_decoder_;
     FrameLineData *_frameLineData_;
+    void updateClientDataBase();
+    void sendDeteleFaceInfoById(int id);
 
 private:
     T3_Face_Network();
@@ -64,7 +66,7 @@ private:
     //quint32 _id;
     void readFrameData();
     void processUDPData();
-    void updateClientDataBase();
+
 
 
 private slots:
@@ -74,6 +76,7 @@ private slots:
 
 signals:
     void getLog(int id);
+    void networkDisconnect();
 };
 
 #endif // T3_FACE_NETWORK_H

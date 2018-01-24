@@ -138,6 +138,8 @@ void T3_Face_Network::readFrameData()
 
 void T3_Face_Network::socketDisconnected()
 {
+    _isNetworkConnected_ = false;
+    emit networkDisconnect();
 
 }
 
@@ -199,4 +201,16 @@ void T3_Face_Network::processUDPData()
         _udpSocket->readDatagram(data.data(),data.size());
         //_decoder_->decoderFrame(data.data(),data.size());
     }
+}
+
+void T3_Face_Network::sendDeteleFaceInfoById(int id)
+{
+    _sign = 4;
+    QByteArray block_ ;
+    QDataStream stream_(&block_,QIODevice::WriteOnly);
+    stream_.setVersion(QDataStream::Qt_5_5);
+    stream_ << (quint32)sizeof(quint32);
+    stream_ << (quint32)_sign ;
+    stream_ << (quint32)id;
+    _socket->write(block_);
 }
