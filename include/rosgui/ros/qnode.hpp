@@ -110,6 +110,8 @@ private:
   std::string _globalPlanTopicName;
   double _linearX;
   double _angularZ;
+  double _OdomLinearX;
+  double _OdomAngularZ;
   double _maxLinearX;
   double _maxAngularZ;
   int _battPer;
@@ -125,6 +127,7 @@ private:
     void getPoseCallback(const nav_msgs::Odometry& msg);
     void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
     void getStateCallback(const rosgui::SensorState& msg);
+
 };
 
 }  // namespace rosgui

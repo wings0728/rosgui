@@ -51,7 +51,7 @@ QNode::~QNode() {
     if(ros::isStarted()) {
       ros::shutdown(); // explicitly needed since we use ros::start();
       ros::waitForShutdown();
-      qDebug() << "shutdown";
+//      qDebug() << "shutdown";
     }
 	wait();
 }
@@ -67,6 +67,7 @@ bool QNode::init(int argc, char** argv ) {
 	ros::start(); // explicitly needed since our nodehandle is going out of scope.
 	ros::NodeHandle n;
   ros::NodeHandle pn("~");
+  getParam(pn);
 	// Add your ros communications here.
 	chatter_publisher = n.advertise<std_msgs::String>("chatter", 1000);
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
@@ -74,7 +75,7 @@ bool QNode::init(int argc, char** argv ) {
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
   _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
   _batterySub = n.subscribe("sensor_state",100, &QNode::getStateCallback, this);
-  getParam(pn);
+
 	start();
 	return true;
 }
@@ -107,7 +108,6 @@ void QNode::getParam(ros::NodeHandle& n)
   n.param("originZ", _mapOrigin[2], 0.0);
   n.param("maxLinearX", _maxLinearX, 5.0);
   n.param("maxAngularZ", _maxAngularZ, 5.0);
-//  qDebug() << "x:" << _mapOrigin[0] << " y:" << _mapOrigin[1] << " z:" << _mapOrigin[2];
 
 
 //  ROS_WARN("set param");
@@ -140,12 +140,14 @@ void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
   {
     ROS_WARN("Received initial pose with empty frame_id.  You should always supply a frame_id.");
   }
-
+  //ROS_WARN("get pose");
   _robotPose[0] = msg.pose.pose.position.x;
   _robotPose[1] = msg.pose.pose.position.y;
   _robotPose[2] = msg.pose.pose.orientation.z;
   _robotPose[3] = msg.pose.pose.orientation.w;
 
+  _OdomLinearX = msg.twist.twist.linear.x;
+  _OdomAngularZ = msg.twist.twist.angular.z;
   Q_EMIT poseUpdated();
 }
 
@@ -241,7 +243,7 @@ bool QNode::goalUpdate(float x, float y, float z)
     goalMsg_.x = x;
     goalMsg_.y = y;
     goalMsg_.z = z;
-    qDebug() << "get pose";
+//    qDebug() << "get pose";
     _robotGoal.publish(goalMsg_);
     return true;
   }else
@@ -281,8 +283,8 @@ void QNode::pubRobotSpeed()
 
 void QNode::getRobotSpeed(double* linearX, double* anglarZ)
 {
-  *linearX = _linearX;
-  *anglarZ = _angularZ;
+  *linearX = _OdomLinearX;
+  *anglarZ = _OdomAngularZ;
 }
 
 std::vector<double> QNode::getRobotPose()
@@ -336,16 +338,16 @@ bool QNode::setManualCmd(ManualCmd cmd)
     switch(cmd)
     {
       case Forward:
-        _linearX+=0.01;
+        _linearX+=0.1;
         break;
       case Backward:
-        _linearX-=0.01;
+        _linearX-=0.1;
         break;
       case LeftTurn:
-        _angularZ+=0.01;
+        _angularZ+=0.1;
         break;
       case RightTurn:
-        _angularZ-=0.01;
+        _angularZ-=0.1;
         break;
       case Stop:
         _linearX = 0.0;
