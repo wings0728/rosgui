@@ -146,6 +146,8 @@ void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
   _robotPose[2] = msg.pose.pose.orientation.z;
   _robotPose[3] = msg.pose.pose.orientation.w;
 
+  _OdomLinearX = msg.twist.twist.linear.x;
+  _OdomAngularZ = msg.twist.twist.angular.z;
   Q_EMIT poseUpdated();
 }
 
@@ -281,8 +283,8 @@ void QNode::pubRobotSpeed()
 
 void QNode::getRobotSpeed(double* linearX, double* anglarZ)
 {
-  *linearX = _linearX;
-  *anglarZ = _angularZ;
+  *linearX = _OdomLinearX;
+  *anglarZ = _OdomAngularZ;
 }
 
 std::vector<double> QNode::getRobotPose()
@@ -336,16 +338,16 @@ bool QNode::setManualCmd(ManualCmd cmd)
     switch(cmd)
     {
       case Forward:
-        _linearX+=0.01;
+        _linearX+=0.1;
         break;
       case Backward:
-        _linearX-=0.01;
+        _linearX-=0.1;
         break;
       case LeftTurn:
-        _angularZ+=0.01;
+        _angularZ+=0.1;
         break;
       case RightTurn:
-        _angularZ-=0.01;
+        _angularZ-=0.1;
         break;
       case Stop:
         _linearX = 0.0;
