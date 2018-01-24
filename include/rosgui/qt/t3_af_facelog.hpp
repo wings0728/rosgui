@@ -10,6 +10,8 @@
 #include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
 
+#include "../ros/qnode.hpp"
+
 
 namespace Ui {
 class T3_AF_faceLog;
@@ -24,6 +26,7 @@ public:
   ~T3_AF_faceLog();
 
     void exitToFace();
+    void battery();
 
 private slots:
     void on__clearPushBtn__clicked();
@@ -41,6 +44,7 @@ private:
   T3_Face_Network *_network;
   void closeEvent(QCloseEvent *event);
   void keyPressEvent(QKeyEvent *event);
+  void paintEvent(QPaintEvent *event);
   T3Dialog *_father;
   FaceEngine *_faceEngine;
   QByteArray _feature;
@@ -48,7 +52,13 @@ private:
   QSqlTableModel *_model;
   int _ret;
   bool _readyAddNewFace = false;
+
   void initUserTypeComboBox();
+
+  rosgui::QNode *_qnode;
+  int _battInt;
+  QString _battQString;
+
   //ui
   QPushButton *_deletePushBtn_;
 };

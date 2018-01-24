@@ -24,6 +24,7 @@ public:
     ~T3_AF_welcome();
 
     void enterSystem();
+    void battery();
 
 private slots:
     void timeUpdate();
@@ -32,9 +33,12 @@ private:
     Ui::T3_AF_welcome *ui;
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void paintEvent(QPaintEvent *event);
     T3Dialog *_father;
     T3Dialog *_common;
     rosgui::QNode *_qnode;
+    int _battInt;
+    QString _battQString;
 };
 
 #endif // T3_AF_WELCOME_H

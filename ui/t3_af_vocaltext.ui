@@ -243,6 +243,23 @@ color:white</string>
     <string>删除</string>
    </property>
   </widget>
+  <widget class="QLabel" name="_wholeBack_">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>380</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/confirmExit_background.png)</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>_wholeBack_</zorder>
   <zorder>_backgroundLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_userTypeLabel_</zorder>
