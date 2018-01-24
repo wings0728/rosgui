@@ -209,7 +209,6 @@ void T3_AF_face::exitToMainWindow()
     {
       _netWork->closeVideo();
     }
-    for(int idx = 0; idx < kDelay; idx++){}
 
     this->close();
     delete this;
@@ -220,8 +219,8 @@ void T3_AF_face::enterFaceLog()
 {
     T3_AF_faceLog *faceLog_ = new T3_AF_faceLog(this);
     faceLog_->show();
+    stopRobot();
 
-    for(int idx = 0; idx < kDelay; idx++){}
 
     this->hide();
 }
@@ -231,12 +230,14 @@ void T3_AF_face::enterFaceHistory()
 {
     T3_AF_faceHistory *faceHistory_ = new T3_AF_faceHistory;
     faceHistory_->show();
+    stopRobot();
 }
 
 void T3_AF_face::enterVocalText()
 {
     T3_AF_vocalText *vocalText_ = new T3_AF_vocalText;
     vocalText_->show();
+    stopRobot();
 }
 
 void T3_AF_face::closeEvent(QCloseEvent *event)
