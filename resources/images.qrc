@@ -70,5 +70,6 @@
         <file>Pictures/batt_4.png</file>
         <file>Pictures/batt_charge.png</file>
         <file>Pictures/clearPath.png</file>
+        <file>Pictures/vocal_back2.png</file>
     </qresource>
 </RCC>

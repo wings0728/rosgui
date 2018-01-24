@@ -115,15 +115,15 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                this->height()*0.5822,
                                this->width()*0.1275,
                                this->height()*0.2267);
-    _lineSLabel_->setGeometry(this->width()*0.88,
+    _lineSLabel_->setGeometry(this->width()*0.875,
                                this->height()*0.38,
                                this->width()*0.1,
                                this->height()*0.0444);
-    _angleSLabel_->setGeometry(this->width()*0.88,
+    _angleSLabel_->setGeometry(this->width()*0.875,
                                this->height()*0.4244,
                                this->width()*0.1,
                                this->height()*0.0444);
-
+    _forwardPusbBtn_->setCheckable(true);
     _forwardPusbBtn_->show();
     _backwordPushBtn_->show();
     _leftTurnPushBtn_->show();
@@ -414,8 +414,8 @@ void T3_AF_map::paintEvent(QPaintEvent *)
 void T3_AF_map::showSpeed()
 {
     _qnode->getRobotSpeed(&_lineS, &_angleS);
-    _lineSText = "线速度： " + QString::number(_lineS, 10, 1) + " m/s";
-    _angleSText = "角速度： " + QString::number(_angleS, 10, 1) + " m/s";
+    _lineSText = "线速度： " + QString::number(_lineS, 10, 2) + " m/s";
+    _angleSText = "角速度： " + QString::number(_angleS, 10, 2) + " m/s";
     _lineSLabel_->setText(_lineSText);
     _angleSLabel_->setText(_angleSText);
     update();
@@ -582,28 +582,28 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
         if(_backwordPushBtn_->isEnabled())
         {
             _backwordPushBtn_->clicked();
-            qDebug() << "B";
+//            qDebug() << "B";
         }
         break;
     case Qt::Key_A:
         if(_leftTurnPushBtn_->isEnabled())
         {
             _leftTurnPushBtn_->clicked();
-            qDebug() << "L";
+//            qDebug() << "L";
         }
         break;
     case Qt::Key_S:
         if(_stopPushBtn_->isEnabled())
         {
             _stopPushBtn_->clicked();
-            qDebug() << "S";
+//            qDebug() << "S";
         }
         break;
     case Qt::Key_D:
         if(_rightTurnPushBtn_->isEnabled())
         {
             _rightTurnPushBtn_->clicked();
-            qDebug() << "R";
+//            qDebug() << "R";
         }
         break;
     default:
