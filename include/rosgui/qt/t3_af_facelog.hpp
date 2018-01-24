@@ -52,13 +52,13 @@ private:
   QSqlTableModel *_model;
   int _ret;
   bool _readyAddNewFace = false;
-<<<<<<< Updated upstream
+
   void initUserTypeComboBox();
-=======
+
   rosgui::QNode *_qnode;
   int _battInt;
   QString _battQString;
->>>>>>> Stashed changes
+
   //ui
   QPushButton *_deletePushBtn_;
 };
