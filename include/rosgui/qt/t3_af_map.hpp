@@ -35,6 +35,8 @@ public:
     void manualCmd();
     void sleepBtn(int delayTime);
 
+    void battery();
+
 
     vector<float> _pos_;
     vector<float> _arrow_;
@@ -109,6 +111,8 @@ private:
     QPushButton *_backToOrigin_;
     QLabel *_lineSLabel_;
     QLabel *_angleSLabel_;
+    int _battInt;
+    QString _battQString;
 
 
 };

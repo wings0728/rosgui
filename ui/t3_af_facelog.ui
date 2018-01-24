@@ -384,6 +384,38 @@ color:black;
     <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
    </property>
   </widget>
+  <widget class="QLabel" name="_battery_">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>426</y>
+     <width>49</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_battIMG_">
+   <property name="geometry">
+    <rect>
+     <x>225</x>
+     <y>426</y>
+     <width>133</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>_backgroundLabel_</zorder>
   <zorder>_userImageLabel_</zorder>
   <zorder>_addUserBackgroundLabel_</zorder>
@@ -404,6 +436,8 @@ color:black;
   <zorder>_getImagePushBtn_</zorder>
   <zorder>_userTypeComboBox_</zorder>
   <zorder>_faceInfoTableView_</zorder>
+  <zorder>_battery_</zorder>
+  <zorder>_battIMG_</zorder>
  </widget>
  <resources/>
  <connections/>

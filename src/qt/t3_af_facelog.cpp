@@ -111,6 +111,17 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                          this->height() * 0.0733,
                                          this->width() * 0.5488,
                                          this->height() * 0.8644);
+    ui->_battery_->setGeometry(this->width()*0.438,
+                               this->height()*0.944,
+                               this->width()*0.0613,
+                               this->height()*0.0467);
+    ui->_battIMG_->setGeometry(this->width()*0.33,
+                               this->height()*0.965,
+                               this->width()*0.1012,
+                               this->height()*0.0284);
+    QFont battFont_;
+    battFont_.setPointSize(ui->_battery_->height() * kLabelFontScal * 0.6);
+    ui->_battery_->setFont(battFont_);
 
     ui->_userTypeComboBox_->setFocusPolicy(Qt::NoFocus);
     _deletePushBtn_->setText("删除");
@@ -181,7 +192,10 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     ui->_searchByNameLineEdit_->setFont(searchByNameLineEditFont_);
     ui->_userTypeLabel_->setFont(userTypeLabelFont_);
     ui->_userTypeComboBox_->setFont(userTypeComboBoxFont_);
-
+    //
+    _qnode = rosgui::QNode::getInstance();
+    _battInt = 0;
+    _battQString = "";
 
 
     //界面浮现动画
@@ -367,6 +381,35 @@ void T3_AF_faceLog::on__clearPushBtn__clicked()
   ui->_searchByNameLineEdit_->clear();
 }
 
+
+void T3_AF_faceLog::battery()
+{
+    _battInt = _qnode->getBatt();
+    _battQString = QString::number(_battInt) + "%";
+    ui->_battery_->setText(_battQString);
+    if(_battInt <= 30)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+    }
+    else if(_battInt > 30 && _battInt <= 60)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+    }
+    else if(_battInt > 60 && _battInt <= 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+    }
+    else if(_battInt > 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+    }
+    update();
+}
+
+void T3_AF_faceLog::paintEvent(QPaintEvent *)
+{
+    battery();
+}
 
 void T3_AF_faceLog::deletePushBtn__clicked()
 {

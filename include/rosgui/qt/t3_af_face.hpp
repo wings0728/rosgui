@@ -33,6 +33,7 @@ public:
     void enterFaceHistory();
     void enterVocalText();
     void stopRobot();
+    void battery();
 
 private slots:
     void timeUpdate();
@@ -58,6 +59,9 @@ private:
     void keyPressEvent(QKeyEvent *event);
 
     rosgui::QNode *_qnode;
+
+    QString _battQString;
+    int _battInt;
     //ui
     QPushButton *_stopPushBtn_;
 };

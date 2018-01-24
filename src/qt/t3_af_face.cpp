@@ -105,6 +105,14 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
                                this->height()*0.75,
                                this->width()*0.1875,
                                this->height()*0.2000);
+    ui->_battery_->setGeometry(this->width()*0.5993,
+                               this->height()*0.91,
+                               this->width()*0.0875,
+                               this->height()*0.06);
+    ui->_battIMG_->setGeometry(this->width()*0.3430,
+                               this->height()*0.91,
+                               this->width()*0.2375,
+                               this->height()*0.06);
 
     //font
     QFont dateLabelFont_;
@@ -126,6 +134,9 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     ui->_morePushBtn_->setFont(morePushBtnFont_);
     ui->_enterFaceLogPushBtn_->setFont(enterFaceLogPushBtnFont_);
     ui->_logListView_->setFont(logListViewFont_);
+    QFont battFont_;
+    battFont_.setPointSize(ui->_battery_->height() * kLabelFontScal);
+    ui->_battery_->setFont(battFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -181,6 +192,8 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      ui->_logListView_->setModel(_stringListModel);
     //
      _qnode = rosgui::QNode::getInstance();
+     _battQString = "";
+     _battInt = 0;
     //日志
     T3LOG("5+ 人脸界面构造");
 }
@@ -200,6 +213,7 @@ void T3_AF_face::paintEvent(QPaintEvent *)
 {
     QPainter paint_(this);
     paint_.drawPixmap(0, 0, this->width(), this->height(), QPixmap(":/Pictures/face_background.png"));
+    battery();
 }
 //退出
 void T3_AF_face::exitToMainWindow()
@@ -213,6 +227,31 @@ void T3_AF_face::exitToMainWindow()
     this->close();
     delete this;
 }
+
+void T3_AF_face::battery()
+{
+    _battInt = _qnode->getBatt();
+    _battQString = QString::number(_battInt) + "%";
+    ui->_battery_->setText(_battQString);
+    if(_battInt <= 30)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+    }
+    else if(_battInt > 30 && _battInt <= 60)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+    }
+    else if(_battInt > 60 && _battInt <= 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+    }
+    else if(_battInt > 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+    }
+    update();
+}
+
 
 //enterFaceLog
 void T3_AF_face::enterFaceLog()
