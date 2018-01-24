@@ -27,6 +27,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _rightTurnPushBtn_ = new QPushButton(this);
     _stopPushBtn_ = new QPushButton(this);
     _backToOrigin_ = new QPushButton(this);
+    _lineSLabel_ = new QLabel(this);
+    _angleSLabel_ = new QLabel(this);
     _forwardPusbBtn_->setObjectName(kForwardName);
     _backwordPushBtn_->setObjectName(kBackwardName);
     _leftTurnPushBtn_->setObjectName(kLeftTurnName);
@@ -41,6 +43,10 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _backToOrigin_->setFocusPolicy(Qt::NoFocus);
     _backToOrigin_->setText("回到原点");
     _backToOrigin_->setStyleSheet("border-image:url(:/Pictures/clearPath.png)");
+    _lineSLabel_->setText("");
+    _angleSLabel_->setText("");
+    _lineSLabel_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+    _angleSLabel_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     ui->_exitPushBtn_->setText("");
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/map_back.png)");
@@ -106,9 +112,17 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                      this->width()*0.0750,
                                      this->height()*0.2267);
     _stopPushBtn_->setGeometry(this->width()*0.7750,
-                               this->height()*0.5622,
+                               this->height()*0.5822,
                                this->width()*0.1275,
                                this->height()*0.2267);
+    _lineSLabel_->setGeometry(this->width()*0.88,
+                               this->height()*0.38,
+                               this->width()*0.1,
+                               this->height()*0.0444);
+    _angleSLabel_->setGeometry(this->width()*0.88,
+                               this->height()*0.4244,
+                               this->width()*0.1,
+                               this->height()*0.0444);
 
     _forwardPusbBtn_->show();
     _backwordPushBtn_->show();
@@ -116,6 +130,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _rightTurnPushBtn_->show();
     _stopPushBtn_->show();
     _backToOrigin_->show();
+    _lineSLabel_->show();
+    _angleSLabel_->show();
     //font
     QFont showConnectStatusFont_;
     showConnectStatusFont_.setPointSize(ui->_showConnectStatus_->height() * kBtnFontScal * 0.6);
@@ -132,6 +148,12 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     ui->_clear->setFont(clearFont_);
     ui->_dateTimeLabel_->setFont(dateTimaLabelFont_);
     _backToOrigin_->setFont(backToOriginFont_);
+    QFont lineSLabelFont_;
+    QFont angleSLabelFont_;
+    lineSLabelFont_.setPointSize(_lineSLabel_->height() * kLabelFontScal * 0.6);
+    angleSLabelFont_.setPointSize(_angleSLabel_->height() * kLabelFontScal * 0.6);
+    _lineSLabel_->setFont(lineSLabelFont_);
+    _angleSLabel_->setFont(angleSLabelFont_);
     //
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = this->width()*0.0313;
@@ -158,6 +180,10 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _moveY = 0;
     _originX = 0.0;
     _originY = 0.0;
+    _lineS = 0.0;
+    _angleS = 0.0;
+    _lineSText = "";
+    _angleSText = "";
     _mode = _qnode->getOprationMode();
     if(_mode = rosgui::QNode::Manual)
     {
@@ -229,7 +255,6 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
 
 void T3_AF_map::backToOrigin()
 {
-    qDebug() << "backToOrigin";
     _qnode->goalUpdate(0.0, 0.0, 0.0);
 }
 
@@ -238,22 +263,27 @@ void T3_AF_map::manualCmd()
     if(kForwardName == QObject::sender()->objectName())
     {
         _qnode->setManualCmd(rosgui::QNode::Forward);
+//        qDebug() << "manualCmd - W";
     }
     else if(kBackwardName == QObject::sender()->objectName())
     {
         _qnode->setManualCmd(rosgui::QNode::Backward);
+//        qDebug() << "manualCmd - B";
     }
     else if(kLeftTurnName == QObject::sender()->objectName())
     {
         _qnode->setManualCmd(rosgui::QNode::LeftTurn);
+//        qDebug() << "manualCmd - L";
     }
     else if(kRighTurnName == QObject::sender()->objectName())
     {
         _qnode->setManualCmd(rosgui::QNode::RightTurn);
+//        qDebug() << "manualCmd - R";
     }
     else
     {
         _qnode->setManualCmd(rosgui::QNode::Stop);
+//        qDebug() << "manualCmd - S";
     }
 }
 
@@ -324,7 +354,6 @@ void T3_AF_map::autoMode()
             buttonStatus(false);
         }
     }
-    //_qnode->operationMode(mode);
 }
 
 void T3_AF_map::stopRobot()
@@ -379,7 +408,20 @@ void T3_AF_map::paintEvent(QPaintEvent *)
         paint_.drawLine(_moveX, _moveY, _arrow_[0], _arrow_[1]);
         paint_.drawLine(_moveX, _moveY, _arrow_[2], _arrow_[3]);
     }
+    showSpeed();
 }
+
+void T3_AF_map::showSpeed()
+{
+    _qnode->getRobotSpeed(&_lineS, &_angleS);
+    _lineSText = "线速度： " + QString::number(_lineS, 10, 1) + " m/s";
+    _angleSText = "角速度： " + QString::number(_angleS, 10, 1) + " m/s";
+    _lineSLabel_->setText(_lineSText);
+    _angleSLabel_->setText(_angleSText);
+    update();
+}
+
+
 
 void T3_AF_map::pathClear()
 {
@@ -528,6 +570,41 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
     {
     case Qt::Key_Escape:
         break;
+    case Qt::Key_W:
+        if(_forwardPusbBtn_->isEnabled())
+        {
+            _forwardPusbBtn_->clicked();
+            qDebug() << "W";
+        }
+        break;
+    case Qt::Key_X:
+        if(_backwordPushBtn_->isEnabled())
+        {
+            _backwordPushBtn_->clicked();
+            qDebug() << "B";
+        }
+        break;
+    case Qt::Key_A:
+        if(_leftTurnPushBtn_->isEnabled())
+        {
+            _leftTurnPushBtn_->clicked();
+            qDebug() << "L";
+        }
+        break;
+    case Qt::Key_S:
+        if(_stopPushBtn_->isEnabled())
+        {
+            _stopPushBtn_->clicked();
+            qDebug() << "S";
+        }
+        break;
+    case Qt::Key_D:
+        if(_rightTurnPushBtn_->isEnabled())
+        {
+            _rightTurnPushBtn_->clicked();
+            qDebug() << "R";
+        }
+        break;
     default:
         QDialog::keyPressEvent(event);
     }
@@ -586,6 +663,8 @@ T3_AF_map::~T3_AF_map()
     delete _rightTurnPushBtn_;
     delete _stopPushBtn_;
     delete _backToOrigin_;
+    delete _lineSLabel_;
+    delete _angleSLabel_;
     //日志
     T3LOG("7- 导航界面析构");
 }
