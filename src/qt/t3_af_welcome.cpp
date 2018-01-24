@@ -28,10 +28,23 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     ui->_dateTimeLabel_->setGeometry(0.0125*this->width(), 0.02222*this->height(), 0.3125*this->width(), 0.04444*this->height());
     ui->_dateTimeLabel_->setText("");
     ui->_dateTimeLabel_->setStyleSheet("color:white");
+
+    ui->_battery_->setGeometry(this->width()*0.9288,
+                               this->height()*0.0222,
+                               this->width()*0.0588,
+                               this->height()*0.0444);
+    ui->_battIMG_->setGeometry(this->width()*0.7913,
+                               this->height()*0.0222,
+                               this->width()*0.1288,
+                               this->height()*0.0444);
+    _qnode = rosgui::QNode::getInstance();
     //font
     QFont dateTimeLabelFont_;
     dateTimeLabelFont_.setPointSize(ui->_dateTimeLabel_->height() * kLabelFontScal);
     ui->_dateTimeLabel_->setFont(dateTimeLabelFont_);
+    QFont battFont_;
+    battFont_.setPointSize(ui->_battery_->height() * kLabelFontScal);
+    ui->_battery_->setFont(battFont_);
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(300);
@@ -63,8 +76,6 @@ void T3_AF_welcome::enterSystem()
     T3_AF_mainWindow *mainWindow_ = new T3_AF_mainWindow(this);
     mainWindow_->show();
 
-    for(int idx = 0; idx < kDelay; idx++){}
-
     this->hide();
 }
 
@@ -92,6 +103,35 @@ void T3_AF_welcome::keyPressEvent(QKeyEvent *event)
     default:
         break;
     }
+}
+
+void T3_AF_welcome::battery()
+{
+    _battInt = _qnode->getBatt();
+    _battQString = QString::number(_battInt) + "%";
+    ui->_battery_->setText(_battQString);
+    if(_battInt <= 30)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+    }
+    else if(_battInt > 30 && _battInt <= 60)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+    }
+    else if(_battInt > 60 && _battInt <= 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+    }
+    else if(_battInt > 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+    }
+    update();
+}
+
+void T3_AF_welcome::paintEvent(QPaintEvent *)
+{
+    battery();
 }
 
 //界面析构函数

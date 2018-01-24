@@ -71,10 +71,18 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                 this->height()*0.5750,
                                 this->width()*0.1125,
                                 this->height()*0.0667);
-    ui->_dateTimeLabel_->setGeometry(this->width()*0.6500,
+    ui->_dateTimeLabel_->setGeometry(this->width()*0.6450,
                                      this->height()*0.9333,
                                      this->width()*0.1620,
                                      this->height()*0.034);
+    ui->_battery_->setGeometry(this->width()*0.636,
+                               this->height()*0.93,
+                               this->width()*0.0438,
+                               this->height()*0.034);
+    ui->_battIMG_->setGeometry(this->width()*0.5100,
+                               this->height()*0.9403,
+                               this->width()*0.1188,
+                               this->height()*0.027);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9313,
                                    this->height()*0.0178,
                                    this->width()*0.0375,
@@ -112,7 +120,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                      this->width()*0.0750,
                                      this->height()*0.2267);
     _stopPushBtn_->setGeometry(this->width()*0.7750,
-                               this->height()*0.5822,
+                               this->height()*0.5622,
                                this->width()*0.1275,
                                this->height()*0.2267);
     _lineSLabel_->setGeometry(this->width()*0.875,
@@ -123,6 +131,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                this->height()*0.4244,
                                this->width()*0.1,
                                this->height()*0.0444);
+
     _forwardPusbBtn_->setCheckable(true);
     _forwardPusbBtn_->show();
     _backwordPushBtn_->show();
@@ -154,6 +163,9 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     angleSLabelFont_.setPointSize(_angleSLabel_->height() * kLabelFontScal * 0.6);
     _lineSLabel_->setFont(lineSLabelFont_);
     _angleSLabel_->setFont(angleSLabelFont_);
+    QFont battFont_;
+    battFont_.setPointSize(ui->_battery_->height() * kLabelFontScal * 0.75);
+    ui->_battery_->setFont(battFont_);
     //
     _qnode = rosgui::QNode::getInstance();
     _mapStartX = this->width()*0.0313;
@@ -184,6 +196,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _angleS = 0.0;
     _lineSText = "";
     _angleSText = "";
+    _battInt = 0;
+    _battQString = "";
     _mode = _qnode->getOprationMode();
     if(_mode = rosgui::QNode::Manual)
     {
@@ -252,6 +266,31 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin);
     //日志
     T3LOG("7+ 导航界面构造");
+}
+
+
+void T3_AF_map::battery()
+{
+    _battInt = _qnode->getBatt();
+    _battQString = QString::number(_battInt) + "%";
+    ui->_battery_->setText(_battQString);
+    if(_battInt <= 30)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+    }
+    else if(_battInt > 30 && _battInt <= 60)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+    }
+    else if(_battInt > 60 && _battInt <= 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+    }
+    else if(_battInt > 90)
+    {
+        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+    }
+    update();
 }
 
 void T3_AF_map::backToOrigin()
@@ -410,6 +449,7 @@ void T3_AF_map::paintEvent(QPaintEvent *)
         paint_.drawLine(_moveX, _moveY, _arrow_[2], _arrow_[3]);
     }
     showSpeed();
+    battery();
 }
 
 void T3_AF_map::showSpeed()
@@ -575,35 +615,55 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
     case Qt::Key_W:
         if(_forwardPusbBtn_->isEnabled())
         {
+            _forwardPusbBtn_->setStyleSheet("border-image:url(:/Pictures/forward_false.png)");
             _forwardPusbBtn_->clicked();
-            qDebug() << "W";
+            sleepBtn(1);
+            _forwardPusbBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/forward_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/forward_false.png);}");
+//            qDebug() << "W";
         }
         break;
     case Qt::Key_X:
         if(_backwordPushBtn_->isEnabled())
         {
+            _backwordPushBtn_->setStyleSheet("border-image:url(:/Pictures/backward_false.png)");
             _backwordPushBtn_->clicked();
+            sleepBtn(1);
+            _backwordPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/backward_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/backward_false.png);}");
 //            qDebug() << "B";
         }
         break;
     case Qt::Key_A:
         if(_leftTurnPushBtn_->isEnabled())
         {
+            _leftTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/leftTurn_false.png)");
             _leftTurnPushBtn_->clicked();
+            sleepBtn(1);
+            _leftTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/leftTurn_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/leftTurn_false.png);}");
 //            qDebug() << "L";
         }
         break;
     case Qt::Key_S:
         if(_stopPushBtn_->isEnabled())
         {
+            _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/stop_false.png)");
             _stopPushBtn_->clicked();
+            sleepBtn(1);
+            _stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/stop_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/stop_false.png);}");
 //            qDebug() << "S";
         }
         break;
     case Qt::Key_D:
         if(_rightTurnPushBtn_->isEnabled())
         {
+            _rightTurnPushBtn_->setStyleSheet("border-image:url(:/Pictures/rightTurn_false.png)");
             _rightTurnPushBtn_->clicked();
+            sleepBtn(1);
+            _rightTurnPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/rightTurn_true.png);}"
+                                            "QPushButton:pressed{border-image:url(:/Pictures/rightTurn_false.png);}");
 //            qDebug() << "R";
         }
         break;
@@ -652,11 +712,20 @@ void T3_AF_map::ifConnected()
     ui->_showConnectStatus_->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/off.png)");
 }
+
+void T3_AF_map::sleepBtn(int delayTime)
+{
+    QTime dead_ = QTime::currentTime().addMSecs(delayTime);
+    while(QTime::currentTime() < dead_)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
 void T3_AF_map::networkDisconnected()
 {
   ui->_videoLabel_->clear();
   ui->_videoLabel_->setText("网络连接断开，请检查网络");
 }
+
 //界面析构函数
 T3_AF_map::~T3_AF_map()
 {
@@ -672,5 +741,3 @@ T3_AF_map::~T3_AF_map()
     //日志
     T3LOG("7- 导航界面析构");
 }
-
-

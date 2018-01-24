@@ -63,9 +63,43 @@
     <string>_logoLabel_</string>
    </property>
   </widget>
+  <widget class="QLabel" name="_battery_">
+   <property name="geometry">
+    <rect>
+     <x>743</x>
+     <y>10</y>
+     <width>47</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_battIMG_">
+   <property name="geometry">
+    <rect>
+     <x>601</x>
+     <y>10</y>
+     <width>127</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>_gifLabel_</zorder>
   <zorder>_enterSystemPushBtn_</zorder>
   <zorder>_dateTimeLabel_</zorder>
+  <zorder>_battery_</zorder>
+  <zorder>_battIMG_</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

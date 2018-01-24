@@ -70,6 +70,10 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
                               this->height()*0.1489,
                               this->width()*0.2188,
                               this->height()*0.5200);
+    ui->_wholeBack_->setGeometry(0,
+                                 0,
+                                 this->width(),
+                                 this->height());
     //font
     QFont exitPushBtnLabel_;
     exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);

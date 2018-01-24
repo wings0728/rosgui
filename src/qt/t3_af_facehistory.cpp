@@ -19,17 +19,21 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
     ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
     //size
     ui->_backgroungLabel_->setGeometry(this->width()*0.4625,
-                                       this->height()*0.1556,
+                                       this->height()*0.0889,
                                        this->width()*0.5063,
                                        this->height()*0.8000);
     ui->_exitPushBtn_->setGeometry(this->width()*0.9000,
-                                   this->height()*0.1556,
+                                   this->height()*0.0889,
                                    this->width()*0.0688,
                                    this->height()*0.0556);
     ui->_faceInfoTableView_->setGeometry(this->width()*0.4950,
-                                         this->height()*0.2156,
+                                         this->height()*0.1489,
                                          this->width()*0.4388,
                                          this->height()*0.6911);
+    ui->_wholeBack_->setGeometry(0,
+                                 0,
+                                 this->width(),
+                                 this->height());
     //font
     QFont exitPushBtnLabel_;
     exitPushBtnLabel_.setPointSize(ui->_exitPushBtn_->height() * kBtnFontScal);
