@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/Pictures/mainWindow_stop.png)</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -186,6 +186,30 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="_battGIF_">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>400</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>_dateTimeLabel_</zorder>
+  <zorder>_exitPushBtn_</zorder>
+  <zorder>_showConnectStatus_</zorder>
+  <zorder>_clear</zorder>
+  <zorder>_videoLabel_</zorder>
+  <zorder>_modePushBtn_</zorder>
+  <zorder>_stopPushBtn_</zorder>
+  <zorder>_videoSquareLabel_</zorder>
+  <zorder>_battery_</zorder>
+  <zorder>_battGIF_</zorder>
+  <zorder>_battIMG_</zorder>
  </widget>
  <resources/>
  <connections/>

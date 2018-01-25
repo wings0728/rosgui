@@ -37,6 +37,15 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
                                this->height()*0.0222,
                                this->width()*0.1288,
                                this->height()*0.0444);
+    ui->_battGIF_->setGeometry(this->width()*0.7913,
+                               this->height()*0.0222,
+                               this->width()*0.1288,
+                               this->height()*0.0444);
+    QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
+    battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
+    battLow_->setSpeed(130);
+    ui->_battGIF_->setMovie(battLow_);
+    battLow_->start();
     _qnode = rosgui::QNode::getInstance();
     //font
     QFont dateTimeLabelFont_;
@@ -112,7 +121,7 @@ void T3_AF_welcome::battery()
     ui->_battery_->setText(_battQString);
     if(_battInt <= 30)
     {
-        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+        ui->_battIMG_->setStyleSheet("");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {

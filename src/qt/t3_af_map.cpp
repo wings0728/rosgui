@@ -44,6 +44,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _backToOrigin_->setFocusPolicy(Qt::NoFocus);
     _backToOrigin_->setText("回到原点");
     _backToOrigin_->setStyleSheet("border-image:url(:/Pictures/clearPath.png)");
+    ui->_stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/mainWindow_stop.png);}"
+                                     "QPushButton:pressed{border-image:url(:/Pictures/mainWindow_stop2.png);}");
     _lineSLabel_->setText("");
     _angleSLabel_->setText("");
     _lineSLabel_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
@@ -81,6 +83,10 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                this->width()*0.0438,
                                this->height()*0.034);
     ui->_battIMG_->setGeometry(this->width()*0.5100,
+                               this->height()*0.9403,
+                               this->width()*0.1188,
+                               this->height()*0.027);
+    ui->_battGIF_->setGeometry(this->width()*0.5100,
                                this->height()*0.9403,
                                this->width()*0.1188,
                                this->height()*0.027);
@@ -132,6 +138,11 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
                                this->height()*0.4244,
                                this->width()*0.1,
                                this->height()*0.0444);
+    QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
+    battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
+    battLow_->setSpeed(130);
+    ui->_battGIF_->setMovie(battLow_);
+    battLow_->start();
 
     _forwardPusbBtn_->setCheckable(true);
     _forwardPusbBtn_->show();
@@ -276,7 +287,7 @@ void T3_AF_map::battery()
     ui->_battery_->setText(_battQString);
     if(_battInt <= 30)
     {
-        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+        ui->_battIMG_->setStyleSheet("");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {
@@ -429,9 +440,12 @@ void T3_AF_map::paintEvent(QPaintEvent *)
     paint_.setPen(QPen(Qt::green, 2));
     if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)))
     {
-        paint_.drawLine(_startX, _startY, _moveX, _moveY);
-        paint_.drawLine(_moveX, _moveY, _arrow_[0], _arrow_[1]);
-        paint_.drawLine(_moveX, _moveY, _arrow_[2], _arrow_[3]);
+//        paint_.drawLine(_startX, _startY, _moveX, _moveY);
+//        paint_.drawLine(_startX, _startY, _arrow_[0], _arrow_[1]);
+//        paint_.drawLine(_startX, _startY, _arrow_[2], _arrow_[3]);
+        paint_.drawLine(_arrow_[0], _arrow_[1], _arrow_[2], _arrow_[3]);
+        paint_.drawLine(_arrow_[2], _arrow_[3], _arrow_[4], _arrow_[5]);
+        paint_.drawLine(_arrow_[4], _arrow_[5], _arrow_[0], _arrow_[1]);
     }
     showSpeed();
     battery();
@@ -454,6 +468,10 @@ void T3_AF_map::pathClear()
     _pathX.clear();
     _pathY.clear();
     _route.clear();
+        _startX = 0;
+        _startY = 0;
+        _moveX = 0;
+        _moveY = 0;
     update();
 }
 
@@ -463,13 +481,23 @@ void T3_AF_map::mouseMoveEvent(QMouseEvent *m)
     _moveX = m->x();
     _moveY = m->y();
     //_arrow_[0]~ax,[1]~ay,[2]~bx,[3]~by
-    float cArrow = 8.0;
-    float a = atan2(_startY - _moveY, _moveX - _startX);
-    float alfaArrow = kPi/6;
-    _arrow_[0] = _moveX - cArrow * cos(a - alfaArrow);
-    _arrow_[1] = _moveY + cArrow * sin(a - alfaArrow);
-    _arrow_[2] = _moveX - cArrow * sin(kPi/2 - a - alfaArrow);
-    _arrow_[3] = _moveY + cArrow * cos(kPi/2 - a - alfaArrow);
+//    float cArrow = 8.0;
+//    float a = atan2(_startY - _moveY, _moveX - _startX);
+//    float alfaArrow = kPi/6;
+//    _arrow_[0] = _startX - cArrow * cos(a - alfaArrow);
+//    _arrow_[1] = _startY + cArrow * sin(a - alfaArrow);
+//    _arrow_[2] = _startX - cArrow * sin(kPi/2 - a - alfaArrow);
+//    _arrow_[3] = _startY + cArrow * cos(kPi/2 - a - alfaArrow);
+    float cShort = 3.0;
+    float cLong = 10.0;
+    float angle = atan2(_startY - _moveY, _moveX - _startX);
+    //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
+    _arrow_[0] = _startX - cShort*sin(angle);
+    _arrow_[1] = _startY - cShort*cos(angle);
+    _arrow_[2] = _startX + cLong*cos(angle);
+    _arrow_[3] = _startY - cLong*sin(angle);
+    _arrow_[4] = _startX + cShort*sin(angle);
+    _arrow_[5] = _startY + cShort*cos(angle);
     update();
 }
 
@@ -484,10 +512,10 @@ void T3_AF_map::mousePressEvent(QMouseEvent *p)
 void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
 {
     getTarget();
-    _startX = 0;
-    _startY = 0;
-    _moveX = 0;
-    _moveY = 0;
+//    _startX = 0;
+//    _startY = 0;
+//    _moveX = 0;
+//    _moveY = 0;
     update();
 
 }
@@ -500,7 +528,6 @@ void T3_AF_map::getTarget()
         float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
         float a = atan2(_startY - _moveY, _moveX - _startX);
         _qnode->goalUpdate(x, y, a);
-        qDebug() << x << y << a;
     }
 }
 
@@ -512,8 +539,6 @@ void T3_AF_map::exitToMainWindow()
       _netWork->closeVideo();
     }
     _mainWindow->show();
-
-    for(int idx = 0; idx < kDelay; idx++){}
 
     this->close();
     delete this;

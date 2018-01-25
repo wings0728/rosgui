@@ -254,6 +254,19 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="_battGIF_">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>380</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>_timeLabel_</zorder>
   <zorder>_dateLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
@@ -265,10 +278,11 @@
   <zorder>_vocalPushBtn_</zorder>
   <zorder>_headLabel_</zorder>
   <zorder>_battery_</zorder>
-  <zorder>_battIMG_</zorder>
   <zorder>_squareLabel_</zorder>
   <zorder>_logListView_</zorder>
   <zorder>_morePushBtn_</zorder>
+  <zorder>_battGIF_</zorder>
+  <zorder>_battIMG_</zorder>
  </widget>
  <resources/>
  <connections/>
