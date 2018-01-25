@@ -97,6 +97,7 @@ private:
   ros::Publisher _robotGoal;
   ros::Publisher _cmdVelPub;
   ros::Publisher _checkNetPub;
+  ros::Publisher _oprationModePub;
   ros::Subscriber _robotPoseSub;
   ros::Subscriber _globalPlanSub;
   ros::Subscriber _batterySub;

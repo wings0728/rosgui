@@ -76,6 +76,7 @@ bool QNode::init(int argc, char** argv ) {
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
   _cmdVelPub = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
   _checkNetPub = n.advertise<std_msgs::Bool>("checkNet",10);
+  _oprationModePub = n.advertise<std_msgs::Bool>("oprationMode", 10);
   //sub
   _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
   _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
@@ -251,7 +252,11 @@ bool QNode::goalUpdate(float x, float y, float z)
     goalMsg_.x = x;
     goalMsg_.y = y;
     goalMsg_.z = z;
-//    qDebug() << "get pose";
+    double z0 = sin(z/2);
+    double w = cos(z/2);
+    double angle = atan2(2*(w*z0), 1-2*z0*z0);
+    ROS_INFO("%f %f", z, angle);
+   // qDebug() << "get pose";
     _robotGoal.publish(goalMsg_);
     return true;
   }else
@@ -329,6 +334,9 @@ void QNode::setOperationMode(OprationMode mode)
 {
   _oprationMode = mode;
 //    qDebug() << _oprationMode;
+  std_msgs::Bool msg;
+  msg.data = _oprationMode;
+  _oprationModePub.publish(msg);
 }
 
 QNode::OprationMode QNode::getOprationMode()
