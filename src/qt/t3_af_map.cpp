@@ -306,7 +306,19 @@ void T3_AF_map::battery()
 
 void T3_AF_map::backToOrigin()
 {
-    _qnode->goalUpdate(0.0, 0.0, 0.0);
+    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+    {
+        _qnode->goalUpdate(0.0, 0.0, 0.0);
+    }
+    else
+    {
+        ui->_modePushBtn_->setText("自动模式           ");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
+        _qnode->setManualCmd(rosgui::QNode::Stop);
+        _qnode->setOperationMode(rosgui::QNode::Auto);
+        buttonStatus(false);
+        _qnode->goalUpdate(0.0, 0.0, 0.0);
+    }
 }
 
 void T3_AF_map::manualCmd()
@@ -376,6 +388,7 @@ void T3_AF_map::autoMode()
     {
         ui->_modePushBtn_->setText("自动模式           ");
         ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
+        _qnode->setManualCmd(rosgui::QNode::Stop);
         _qnode->setOperationMode(rosgui::QNode::Auto);
         buttonStatus(false);
     }
