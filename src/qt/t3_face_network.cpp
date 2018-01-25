@@ -126,7 +126,7 @@ void T3_Face_Network::readFrameData()
 
         }
         stream_ >> _frameData;
-        _decoder_->decoderFrame(_frameData.data(),_frameData.size());
+        //_decoder_->decoderFrame(_frameData.data(),_frameData.size());
         buf = _networkDataBuffer.right(lenght - _blockSize);
         _networkDataBuffer = buf;
         _blockSize = 0;
@@ -199,7 +199,8 @@ void T3_Face_Network::processUDPData()
 
         data.resize(_udpSocket->pendingDatagramSize());
         _udpSocket->readDatagram(data.data(),data.size());
-        //_decoder_->decoderFrame(data.data(),data.size());
+        _decoder_->decoderFrame(data.data(),data.size());
+        qDebug() << "===============================";
     }
 }
 
