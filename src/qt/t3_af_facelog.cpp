@@ -303,9 +303,11 @@ void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
           ui->_nameLineEdit_->clear();
           ui->_ageLineEdit_->clear();
           ui->_userImageLabel_->setStyleSheet("");
+          ui->_imageAddressLineEdit_->clear();
           name_ = "";
           age_ = NULL;
           role_ = "";
+          on__clearPushBtn__clicked();
           if(_network->_isNetworkConnected_)
           {
             _network->updateClientDataBase();
