@@ -416,6 +416,19 @@ color:black;
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="_battGIF_">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>370</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>_backgroundLabel_</zorder>
   <zorder>_userImageLabel_</zorder>
   <zorder>_addUserBackgroundLabel_</zorder>
@@ -437,6 +450,7 @@ color:black;
   <zorder>_userTypeComboBox_</zorder>
   <zorder>_faceInfoTableView_</zorder>
   <zorder>_battery_</zorder>
+  <zorder>_battGIF_</zorder>
   <zorder>_battIMG_</zorder>
  </widget>
  <resources/>

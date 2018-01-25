@@ -69,6 +69,7 @@ private:
     void mouseReleaseEvent(QMouseEvent *r);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent * event);
     rosgui::QNode *_qnode;
     float _mapStartX;
     float _mapStartY;
@@ -115,6 +116,7 @@ private:
     QLabel *_angleSLabel_;
     int _battInt;
     QString _battQString;
+    int i;
 
 
 };
