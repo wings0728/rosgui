@@ -298,7 +298,7 @@ void T3_AF_face::keyPressEvent(QKeyEvent *event)
 void T3_AF_face::printVideo(QImage faceImage)
 {
   //faceImage = faceImage.mirrored(true,false);
-  faceImage = faceImage.scaled(_videoLabelWidth,_videoLabelHeight,Qt::KeepAspectRatio);
+
   QPainter paint(&faceImage);
   QPen pen(Qt::yellow,2);
   paint.setPen(pen);
@@ -326,6 +326,7 @@ void T3_AF_face::printVideo(QImage faceImage)
  }
 
   paint.end();
+  faceImage = faceImage.scaled(_videoLabelWidth,_videoLabelHeight,Qt::KeepAspectRatio);
   ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 

@@ -6,6 +6,7 @@
 #include <QTcpSocket>
 #include <QHostAddress>
 #include <QUdpSocket>
+#include <QTimer>
 #include "t3_af_config.hpp"
 #include "t3_library.hpp"
 #include "t3_face_decoder.hpp"
@@ -28,7 +29,7 @@ public:
     static T3_Face_Network* getT3FaceNetwork();
 
     ~T3_Face_Network();
-    void getVideo();
+
     void closeVideo();
     void sendTTS(int sign, QString string);
     bool _isNetworkConnected_ = false;
@@ -36,6 +37,7 @@ public:
     FrameLineData *_frameLineData_;
     void updateClientDataBase();
     void sendDeteleFaceInfoById(int id);
+    void getVideo();
 
 private:
     T3_Face_Network();
@@ -64,6 +66,8 @@ private:
     QList<int> _idList;
     quint8 _sign = 0;//写数据标识位,用来发送命令,1表示更新数据库,2表示请求视频数据,3用来停止视频传输.
     //quint32 _id;
+    QTimer *_videoTimer;
+    QTimer *_getVideotimer;
     void readFrameData();
     void processUDPData();
 
@@ -73,6 +77,9 @@ private slots:
     void getSocket();
     void analyzeNetworkData();
     void socketDisconnected();
+    void stopVideoTimer();
+    void resendTheVideo();
+    void reGetTheVideo();
 
 signals:
     void getLog(int id);

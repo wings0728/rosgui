@@ -10,8 +10,12 @@ T3_Face_Network::T3_Face_Network()
     _frameLineData_ = new FrameLineData();
     _udpSocket = new QUdpSocket(this);
     _udpSocket->bind(8888,QUdpSocket::ShareAddress);
+    _videoTimer = new QTimer();
+    _getVideotimer = new QTimer();
+    connect(_getVideotimer,&QTimer::timeout,this,&T3_Face_Network::reGetTheVideo);
     connect(_udpSocket,&QUdpSocket::readyRead,this,&T3_Face_Network::processUDPData);
-
+    connect(_decoder_,&Decoder::newFrame,this,&T3_Face_Network::stopVideoTimer);
+    connect(_videoTimer,&QTimer::timeout,this,&T3_Face_Network::resendTheVideo);
 }
 T3_Face_Network::~T3_Face_Network()
 {
@@ -190,8 +194,13 @@ void T3_Face_Network::sendTTS(int sign, QString string)
     stream_ << string;
     _socket->write(block_);
 }
+
 void T3_Face_Network::processUDPData()
 {
+    if(!_videoTimer->isActive())
+    {
+      _videoTimer->start(4000);
+    }
 
     while(_udpSocket->hasPendingDatagrams())
     {
@@ -200,7 +209,7 @@ void T3_Face_Network::processUDPData()
         data.resize(_udpSocket->pendingDatagramSize());
         _udpSocket->readDatagram(data.data(),data.size());
         _decoder_->decoderFrame(data.data(),data.size());
-        qDebug() << "===============================";
+
     }
 }
 
@@ -214,4 +223,24 @@ void T3_Face_Network::sendDeteleFaceInfoById(int id)
     stream_ << (quint32)_sign ;
     stream_ << (quint32)id;
     _socket->write(block_);
+}
+
+void T3_Face_Network::stopVideoTimer()
+{
+  _videoTimer->stop();
+}
+
+void T3_Face_Network::resendTheVideo()
+{
+  _videoTimer->stop();
+  closeVideo();
+  _decoder_->initDecoder();
+  _getVideotimer->start(1000);
+
+}
+
+void T3_Face_Network::reGetTheVideo()
+{
+  _getVideotimer->stop();
+  getVideo();
 }
