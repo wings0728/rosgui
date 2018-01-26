@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   qt_build
   t3_description
   message_generation
+  tf
 )
 
 ################################################
