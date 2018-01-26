@@ -95,10 +95,24 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="_battGIF_">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>390</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>_gifLabel_</zorder>
   <zorder>_enterSystemPushBtn_</zorder>
   <zorder>_dateTimeLabel_</zorder>
   <zorder>_battery_</zorder>
+  <zorder>_battGIF_</zorder>
   <zorder>_battIMG_</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

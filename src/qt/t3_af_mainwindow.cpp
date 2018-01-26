@@ -19,7 +19,8 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     _stopPushBtn_ = new QPushButton(this);
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
     _battQString = "";
-    _stopPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_stop.png)");
+    _stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/mainWindow_stop.png);}"
+                                 "QPushButton:pressed{border-image:url(:/Pictures/mainWindow_stop2.png);}");
     _stopPushBtn_->show();
     _stopPushBtn_->setText("");
     ui->_dateLabel_->setText("");
@@ -172,6 +173,15 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                this->height()*0.91,
                                this->width()*0.2375,
                                this->height()*0.06);
+    ui->_battGIF_->setGeometry(this->width()*0.3430,
+                               this->height()*0.91,
+                               this->width()*0.2375,
+                               this->height()*0.06);
+    QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
+    battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
+    battLow_->setSpeed(130);
+    ui->_battGIF_->setMovie(battLow_);
+    battLow_->start();
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
@@ -262,7 +272,7 @@ void T3_AF_mainWindow::battery()
     ui->_battery_->setText(_battQString);
     if(_battInt <= 30)
     {
-        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+        ui->_battIMG_->setStyleSheet("");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {

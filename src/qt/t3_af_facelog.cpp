@@ -116,9 +116,18 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                this->width()*0.0613,
                                this->height()*0.0467);
     ui->_battIMG_->setGeometry(this->width()*0.33,
-                               this->height()*0.965,
+                               this->height()*0.962,
                                this->width()*0.1012,
                                this->height()*0.0284);
+    ui->_battGIF_->setGeometry(this->width()*0.33,
+                               this->height()*0.962,
+                               this->width()*0.1012,
+                               this->height()*0.0284);
+    QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
+    battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
+    battLow_->setSpeed(130);
+    ui->_battGIF_->setMovie(battLow_);
+    battLow_->start();
     QFont battFont_;
     battFont_.setPointSize(ui->_battery_->height() * kLabelFontScal * 0.6);
     ui->_battery_->setFont(battFont_);
@@ -391,7 +400,7 @@ void T3_AF_faceLog::battery()
     ui->_battery_->setText(_battQString);
     if(_battInt <= 30)
     {
-        ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_4.png)");
+        ui->_battIMG_->setStyleSheet("");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {
