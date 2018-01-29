@@ -10,8 +10,12 @@ T3_Face_Network::T3_Face_Network()
     _frameLineData_ = new FrameLineData();
     _udpSocket = new QUdpSocket(this);
     _udpSocket->bind(8888,QUdpSocket::ShareAddress);
+    _videoTimer = new QTimer();
+    _getVideotimer = new QTimer();
+    connect(_getVideotimer,&QTimer::timeout,this,&T3_Face_Network::reGetTheVideo);
     connect(_udpSocket,&QUdpSocket::readyRead,this,&T3_Face_Network::processUDPData);
-
+    connect(_decoder_,&Decoder::newFrame,this,&T3_Face_Network::stopVideoTimer);
+    connect(_videoTimer,&QTimer::timeout,this,&T3_Face_Network::resendTheVideo);
 }
 T3_Face_Network::~T3_Face_Network()
 {
@@ -26,6 +30,7 @@ T3_Face_Network* T3_Face_Network::getT3FaceNetwork()
 
 void T3_Face_Network::getSocket()
 {
+    qDebug() << "network";
     _socket = _server->nextPendingConnection();
     _isNetworkConnected_ = true;
     connect(_socket,&QTcpSocket::readyRead,this,&T3_Face_Network::analyzeNetworkData);
@@ -125,7 +130,12 @@ void T3_Face_Network::readFrameData()
             _frameLineData_->dot2List.replace(i,_dot2);
 
         }
-        stream_ >> _frameData;
+        //stream_ >> _frameData;
+        QString datetime_;
+        stream_ >> datetime_;
+        //qDebug() << datetime_;
+        QString dataTimeString = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+        //qDebug() <<  dataTimeString;
         //_decoder_->decoderFrame(_frameData.data(),_frameData.size());
         buf = _networkDataBuffer.right(lenght - _blockSize);
         _networkDataBuffer = buf;
@@ -190,8 +200,13 @@ void T3_Face_Network::sendTTS(int sign, QString string)
     stream_ << string;
     _socket->write(block_);
 }
+
 void T3_Face_Network::processUDPData()
 {
+    if(!_videoTimer->isActive())
+    {
+      _videoTimer->start(4000);
+    }
 
     while(_udpSocket->hasPendingDatagrams())
     {
@@ -199,8 +214,11 @@ void T3_Face_Network::processUDPData()
 
         data.resize(_udpSocket->pendingDatagramSize());
         _udpSocket->readDatagram(data.data(),data.size());
-        _decoder_->decoderFrame(data.data(),data.size());
-//        qDebug() << "===============================";
+
+        qDebug() << data.size();
+        readTheUDPData(data);
+        //_decoder_->decoderFrame(data.data(),data.size());
+
     }
 }
 
@@ -214,4 +232,78 @@ void T3_Face_Network::sendDeteleFaceInfoById(int id)
     stream_ << (quint32)_sign ;
     stream_ << (quint32)id;
     _socket->write(block_);
+}
+
+void T3_Face_Network::stopVideoTimer()
+{
+  _videoTimer->stop();
+}
+
+void T3_Face_Network::resendTheVideo()
+{
+  _videoTimer->stop();
+  closeVideo();
+  _decoder_->initDecoder();
+  _getVideotimer->start(1000);
+
+}
+
+void T3_Face_Network::reGetTheVideo()
+{
+  _getVideotimer->stop();
+  getVideo();
+}
+
+void T3_Face_Network::readTheUDPData(QByteArray data)
+{
+  if(true)
+  {
+      QDataStream stream_(&data,QIODevice::ReadOnly);
+     quint32 size_ = 0;
+     stream_ >> size_;
+     qDebug() << size_;
+      stream_ >> _frameData;
+
+      stream_ >> _personNum;
+      qDebug() << _personNum;
+      _frameLineData_->personNum = _personNum;
+      for(int i =0 ; i<_personNum; i++)
+      {
+
+          stream_ >> _id;
+          stream_ >> _left;
+          stream_ >> _right;
+          stream_ >> _top;
+          stream_ >> _bottom;
+          stream_ >> _dot1;
+          stream_ >> _dot2;
+
+          if(_idList.size() <= _personNum)
+          {
+              _frameLineData_->idList << _id;
+              _frameLineData_->leftList << _left;
+              _frameLineData_->rightList << _right;
+              _frameLineData_->topList << _top;
+              _frameLineData_->bottomList << _bottom;
+              _frameLineData_->dot1List << _dot1;
+              _frameLineData_->dot2List << _dot2;
+          }
+
+          _frameLineData_->idList.replace(i,_id);
+          _frameLineData_->leftList.replace(i,_left);
+          _frameLineData_->rightList.replace(i,_right);
+          _frameLineData_->bottomList.replace(i,_bottom);
+          _frameLineData_->topList.replace(i,_top);
+          _frameLineData_->dot1List.replace(i,_dot1);
+          _frameLineData_->dot2List.replace(i,_dot2);
+
+      }
+
+      QString datetime_;
+      stream_ >> datetime_;
+      qDebug() << datetime_;
+      QString dataTimeString = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+      qDebug() <<  dataTimeString;
+      _decoder_->decoderFrame(_frameData.data(),_frameData.size());
+  }
 }

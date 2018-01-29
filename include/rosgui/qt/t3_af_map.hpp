@@ -92,6 +92,8 @@ private:
     double _angleS;
     QString _lineSText;
     QString _angleSText;
+    int _videoLabelWidth = 0;
+    int _videoLabelHeight = 0;
 
 
 

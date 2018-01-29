@@ -828,12 +828,13 @@ void T3_AF_map::printVideo(QImage faceImage)
          query_.exec();
          query_.next();
          QString name_ = query_.value(0).toString();
-         paint.drawText(QPointF(_frameLineData->dot2List[i]-1,_frameLineData->dot1List[i]),name_);
+         paint.drawText(QPointF(_frameLineData->dot2List[i]-1-(_frameLineData->rightList[i]-_frameLineData->leftList[i]),_frameLineData->dot1List[i]),name_);
      }
 
  }
 
   paint.end();
+  faceImage = faceImage.scaled(ui->_videoLabel_->width(),ui->_videoLabel_->height(),Qt::KeepAspectRatio);
   ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 
