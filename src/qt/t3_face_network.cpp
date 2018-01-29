@@ -214,9 +214,11 @@ void T3_Face_Network::processUDPData()
 
         data.resize(_udpSocket->pendingDatagramSize());
         _udpSocket->readDatagram(data.data(),data.size());
+
         qDebug() << data.size();
         readTheUDPData(data);
         //_decoder_->decoderFrame(data.data(),data.size());
+
     }
 }
 
