@@ -39,12 +39,14 @@ private slots:
     void timeUpdate();
     void printVideo(QImage faceImage);
     void networkDisconnected();
+    void log(int id);
 
 private:
     Ui::T3_AF_face *ui;
     T3Dialog *_mainWindow;
     T3Dialog *_father;
     T3_Face_Network *_netWork;
+    QStringList _strList;
 
     Decoder *_decoder;
     FrameLineData *_frameLineData;
