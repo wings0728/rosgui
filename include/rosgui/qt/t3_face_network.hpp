@@ -41,6 +41,7 @@ public:
 
 private:
     T3_Face_Network();
+    void readTheUDPData(QByteArray data);
     QTcpServer *_server;
     QTcpSocket *_socket;
     QByteArray _networkDataBuffer;//
