@@ -77,6 +77,8 @@ private:
     float _mapHeight;
     int _startX;
     int _startY;
+    int _startXCurrent;
+    int _startYcurrent;
     int _moveX;
     int _moveY;
     float _originX;
