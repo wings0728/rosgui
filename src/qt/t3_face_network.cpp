@@ -41,40 +41,31 @@ void T3_Face_Network::getSocket()
 
 void T3_Face_Network::analyzeNetworkData()
 {
-
-    _networkDataBuffer.append(_socket->readAll());
-    QDataStream stream_(&_networkDataBuffer,QIODevice::ReadOnly) ;
+    qDebug() << "read the data";
+    QDataStream stream_(_socket) ;
     stream_.setVersion(QDataStream::Qt_5_5);
-    if(0 == _blockSize)
-    {
-        stream_ >> _blockSize;
-        stream_ >> _readSign;
 
-        switch(_readSign)
-        {
-            case 1:
-                readFrameData();
-            break;
-            case 2:
-                stream_ >> _id;
-                getLog(_id);
-            break;
-
-        }
-    }else
+    stream_ >> _blockSize;
+    qDebug() << _blockSize;
+    stream_ >> _readSign;
+    qDebug() << _readSign;
+    switch(_readSign)
     {
-      switch(_readSign)
-      {
-          case 1:
-              readFrameData();
-          break;
-          case 2:
-              stream_ >> _id;
-              emit getLog(_id);
-          break;
-      }
+        case 1:
+            readFrameData();
+        break;
+        case 2:
+            stream_ >> _id;
+            qDebug() << _id;
+            getLog(_id);
+            _blockSize = 0;
+        break;
 
     }
+
+
+
+
 
 }
 
@@ -214,8 +205,6 @@ void T3_Face_Network::processUDPData()
 
         data.resize(_udpSocket->pendingDatagramSize());
         _udpSocket->readDatagram(data.data(),data.size());
-
-        qDebug() << data.size();
         readTheUDPData(data);
         //_decoder_->decoderFrame(data.data(),data.size());
 
@@ -261,11 +250,8 @@ void T3_Face_Network::readTheUDPData(QByteArray data)
       QDataStream stream_(&data,QIODevice::ReadOnly);
      quint32 size_ = 0;
      stream_ >> size_;
-     qDebug() << size_;
       stream_ >> _frameData;
-
       stream_ >> _personNum;
-      qDebug() << _personNum;
       _frameLineData_->personNum = _personNum;
       for(int i =0 ; i<_personNum; i++)
       {
@@ -301,9 +287,6 @@ void T3_Face_Network::readTheUDPData(QByteArray data)
 
       QString datetime_;
       stream_ >> datetime_;
-      qDebug() << datetime_;
-      QString dataTimeString = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-      qDebug() <<  dataTimeString;
       _decoder_->decoderFrame(_frameData.data(),_frameData.size());
   }
 }

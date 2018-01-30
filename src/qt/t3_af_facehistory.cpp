@@ -50,7 +50,7 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
 //    animation_->start();
     //
     _model = new QSqlQueryModel(this);
-    _model->setQuery("select * from T3FaceRecord limit 0,10");
+    _model->setQuery("select * from T3FaceRecord");
     //_model->select();
     _model->setHeaderData(0,Qt::Horizontal,"记录编号");
     _model->setHeaderData(1,Qt::Horizontal,"身份编号");
