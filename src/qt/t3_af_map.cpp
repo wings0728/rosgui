@@ -200,6 +200,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     }
     _startX = 0;
     _startY = 0;
+    _startXCurrent = 0;
+    _startYcurrent = 0;
     _moveX = 0;
     _moveY = 0;
     _originX = 0.0;
@@ -309,6 +311,23 @@ void T3_AF_map::backToOrigin()
     if(rosgui::QNode::Auto == _qnode->getOprationMode())
     {
         _qnode->goalUpdate(0.0, 0.0, 0.0);
+        _startX = _mapStartX - _originX * _scale;
+        _startXCurrent = _startX;
+        _moveX = _startX + 1;
+        _startY = _mapStartY + _mapHeight + _originY * _scale;
+        _startYcurrent = _startY;
+        _moveY = _startY;
+        float cShort = 3.0;
+        float cLong = 10.0;
+        float angle = atan2(_startY - _moveY, _moveX - _startX);
+    //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
+        _arrow_[0] = _startX - cShort*sin(angle);
+        _arrow_[1] = _startY - cShort*cos(angle);
+        _arrow_[2] = _startX + cLong*cos(angle);
+        _arrow_[3] = _startY - cLong*sin(angle);
+        _arrow_[4] = _startX + cShort*sin(angle);
+        _arrow_[5] = _startY + cShort*cos(angle);
+        update();
     }
     else
     {
@@ -318,6 +337,23 @@ void T3_AF_map::backToOrigin()
         _qnode->setOperationMode(rosgui::QNode::Auto);
         buttonStatus(false);
         _qnode->goalUpdate(0.0, 0.0, 0.0);
+        _startX = _mapStartX - _originX * _scale;
+        _startXCurrent = _startX;
+        _moveX = _startX + 1;
+        _startY = _mapStartY + _mapHeight + _originY * _scale;
+        _startYcurrent = _startY;
+        _moveY = _startY;
+        float cShort = 3.0;
+        float cLong = 10.0;
+        float angle = atan2(_startY - _moveY, _moveX - _startX);
+    //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
+        _arrow_[0] = _startX - cShort*sin(angle);
+        _arrow_[1] = _startY - cShort*cos(angle);
+        _arrow_[2] = _startX + cLong*cos(angle);
+        _arrow_[3] = _startY - cLong*sin(angle);
+        _arrow_[4] = _startX + cShort*sin(angle);
+        _arrow_[5] = _startY + cShort*cos(angle);
+        update();
     }
 }
 
@@ -398,6 +434,12 @@ void T3_AF_map::autoMode()
         ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
         _qnode->setOperationMode(rosgui::QNode::Manual);
         buttonStatus(true);
+        _startX = 0;
+        _startY = 0;
+        _startXCurrent = 0;
+        _startYcurrent = 0;
+        _moveX = 0;
+        _moveY = 0;
     }
 }
 
@@ -460,6 +502,8 @@ void T3_AF_map::paintEvent(QPaintEvent *)
         paint_.drawLine(_arrow_[2], _arrow_[3], _arrow_[4], _arrow_[5]);
         paint_.drawLine(_arrow_[4], _arrow_[5], _arrow_[0], _arrow_[1]);
     }
+
+
     showSpeed();
     battery();
 }
@@ -481,18 +525,22 @@ void T3_AF_map::pathClear()
     _pathX.clear();
     _pathY.clear();
     _route.clear();
-        _startX = 0;
-        _startY = 0;
-        _moveX = 0;
-        _moveY = 0;
+    _startX = 0;
+    _startY = 0;
+    _startXCurrent = 0;
+    _startYcurrent = 0;
+    _moveX = 0;
+    _moveY = 0;
     update();
 }
 
 //mouseMoveEvent
 void T3_AF_map::mouseMoveEvent(QMouseEvent *m)
 {
-    _moveX = m->x();
-    _moveY = m->y();
+    if(rosgui::QNode::Auto == _qnode->getOprationMode() & (_startXCurrent > _mapStartX) & (_startYcurrent > _mapStartY) & (_startXCurrent < (_mapStartX + _mapWidth)) & (_startYcurrent < (_mapStartY + _mapHeight)))
+    {
+        _moveX = m->x();
+        _moveY = m->y();
     //_arrow_[0]~ax,[1]~ay,[2]~bx,[3]~by
 //    float cArrow = 8.0;
 //    float a = atan2(_startY - _moveY, _moveX - _startX);
@@ -501,25 +549,36 @@ void T3_AF_map::mouseMoveEvent(QMouseEvent *m)
 //    _arrow_[1] = _startY + cArrow * sin(a - alfaArrow);
 //    _arrow_[2] = _startX - cArrow * sin(kPi/2 - a - alfaArrow);
 //    _arrow_[3] = _startY + cArrow * cos(kPi/2 - a - alfaArrow);
-    float cShort = 3.0;
-    float cLong = 10.0;
-    float angle = atan2(_startY - _moveY, _moveX - _startX);
+        float cShort = 3.0;
+        float cLong = 10.0;
+        float angle = atan2(_startY - _moveY, _moveX - _startX);
     //pose[0]~ax,[1]~ay,[2]~bx,[3]~by,[4]~cx,[5]~cy
-    _arrow_[0] = _startX - cShort*sin(angle);
-    _arrow_[1] = _startY - cShort*cos(angle);
-    _arrow_[2] = _startX + cLong*cos(angle);
-    _arrow_[3] = _startY - cLong*sin(angle);
-    _arrow_[4] = _startX + cShort*sin(angle);
-    _arrow_[5] = _startY + cShort*cos(angle);
-    update();
+        _arrow_[0] = _startX - cShort*sin(angle);
+        _arrow_[1] = _startY - cShort*cos(angle);
+        _arrow_[2] = _startX + cLong*cos(angle);
+        _arrow_[3] = _startY - cLong*sin(angle);
+        _arrow_[4] = _startX + cShort*sin(angle);
+        _arrow_[5] = _startY + cShort*cos(angle);
+        update();
+    }
 }
 
 //mousePressEvent
 void T3_AF_map::mousePressEvent(QMouseEvent *p)
 {
-    _startX = p->x();
-    _startY = p->y();
-    update();
+    if(rosgui::QNode::Auto == _qnode->getOprationMode() & (p->x() > _mapStartX) & (p->y() > _mapStartY) & (p->x() < (_mapStartX + _mapWidth)) & (p->y() < (_mapStartY + _mapHeight)))
+    {
+        _startX = p->x();
+        _startY = p->y();
+        _startXCurrent = p->x();
+        _startYcurrent = p->y();
+        update();
+    }
+    else
+    {
+        _startYcurrent = p->y();
+        _startXCurrent = p->x();
+    }
 }
 
 void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
@@ -535,7 +594,7 @@ void T3_AF_map::mouseReleaseEvent(QMouseEvent *)
 
 void T3_AF_map::getTarget()
 {
-    if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)))
+    if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)) & (_startX == _startXCurrent) & (_startY == _startYcurrent))
     {
         float x = (_startX - _mapStartX)/_scale + _originX;
         float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
@@ -547,14 +606,20 @@ void T3_AF_map::getTarget()
 //退出
 void T3_AF_map::exitToMainWindow()
 {
-    if(_netWork->_isNetworkConnected_)
+    if((_lineS > -0.01) && (_lineS < 0.01) && (_angleS > -0.01) && (_angleS < 0.01))
     {
-      _netWork->closeVideo();
+        if(_netWork->_isNetworkConnected_)
+        {
+            _netWork->closeVideo();
+        }
+        _mainWindow->show();
+        this->close();
+        delete this;
     }
-    _mainWindow->show();
-
-    this->close();
-    delete this;
+    else
+    {
+        T3_AF_warning *_warning = new T3_AF_warning(this, "请停止机器人后进行本操作");
+    }
 }
 
 //getPoint
