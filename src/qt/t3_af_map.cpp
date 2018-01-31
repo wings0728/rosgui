@@ -649,6 +649,7 @@ void T3_AF_map::getPoint()
     //---------jason end
     float px = _mapStartX + (x - _originX) * _scale;
     float py = _mapStartY + _mapHeight - (y - _originY)*_scale;
+    qDebug() << "px:" << px << "py:" << py << "_mapStartX:" << _mapStartX << "_mapStartY:" << _mapStartY << "_mapWidth:" <<_mapWidth << "_mapHeight:" << _mapHeight;
     _pathX.append(px);
     _pathY.append(py);
     float angle = atan2(2 * w * z, 1 - 2 * z * z);
