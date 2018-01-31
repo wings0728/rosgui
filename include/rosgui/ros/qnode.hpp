@@ -97,7 +97,8 @@ private:
   ros::Publisher _robotGoal;
   ros::Publisher _cmdVelPub;
   ros::Publisher _checkNetPub;
-  ros::Subscriber _robotPoseSub;
+  ros::Publisher _oprationModePub;
+  ros::Subscriber _odomSub;
   ros::Subscriber _globalPlanSub;
   ros::Subscriber _batterySub;
   QStringListModel logging_model;
@@ -125,7 +126,7 @@ private:
 //    bool init(const std::string &master_url, const std::string &host_url);
     void pubRobotSpeed();
     void getParam(ros::NodeHandle& n);
-    void getPoseCallback(const nav_msgs::Odometry& msg);
+    void getOdomCallback(const nav_msgs::Odometry& msg);
     void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
     void getStateCallback(const rosgui::SensorState& msg);
 

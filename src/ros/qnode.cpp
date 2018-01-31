@@ -21,6 +21,7 @@
 #include "yaml-cpp/yaml.h"
 #include <math.h>
 #include <std_msgs/Bool.h>
+#include <tf/transform_listener.h>
 
 /*****************************************************************************
 ** Namespaces
@@ -76,8 +77,9 @@ bool QNode::init(int argc, char** argv ) {
   _robotGoal = n.advertise<t3_description::goal>("robotGoal", 100);
   _cmdVelPub = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
   _checkNetPub = n.advertise<std_msgs::Bool>("checkNet",10);
+  _oprationModePub = n.advertise<std_msgs::Bool>("oprationMode", 10);
   //sub
-  _robotPoseSub = n.subscribe(_robotPoseTopicName.c_str(), 100, &QNode::getPoseCallback, this);
+  _odomSub = n.subscribe("odom", 100, &QNode::getOdomCallback, this);
   _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
   _batterySub = n.subscribe("sensor_state",100, &QNode::getStateCallback, this);
 
@@ -106,7 +108,7 @@ void QNode::getParam(ros::NodeHandle& n)
 {
 //  double tempX;
   //get param
-  n.param("robotPoseTopicName", _robotPoseTopicName, std::string("/odometry/filtered_map"));
+//  n.param("robotPoseTopicName", _robotPoseTopicName, std::string("/odometry/filtered_map"));
   n.param("globalPlanTopicName", _globalPlanTopicName, std::string("/TrajectoryPlannerROS/global_plan"));
   n.param("originX", _mapOrigin[0], 0.0);
   n.param("originY", _mapOrigin[1], 0.0);
@@ -139,21 +141,21 @@ void QNode::getStateCallback(const SensorState &msg)
   _battPer = (int)msg.battery;
 }
 
-void QNode::getPoseCallback(const nav_msgs::Odometry& msg)
+void QNode::getOdomCallback(const nav_msgs::Odometry& msg)
 {
-  if(msg.header.frame_id == "")
-  {
-    ROS_WARN("Received initial pose with empty frame_id.  You should always supply a frame_id.");
-  }
+//  if(msg.header.frame_id == "")
+//  {
+//    ROS_WARN("Received initial pose with empty frame_id.  You should always supply a frame_id.");
+//  }
   //ROS_WARN("get pose");
-  _robotPose[0] = msg.pose.pose.position.x;
-  _robotPose[1] = msg.pose.pose.position.y;
-  _robotPose[2] = msg.pose.pose.orientation.z;
-  _robotPose[3] = msg.pose.pose.orientation.w;
+//  _robotPose[0] = msg.pose.pose.position.x;
+//  _robotPose[1] = msg.pose.pose.position.y;
+//  _robotPose[2] = msg.pose.pose.orientation.z;
+//  _robotPose[3] = msg.pose.pose.orientation.w;
 
   _OdomLinearX = msg.twist.twist.linear.x;
   _OdomAngularZ = msg.twist.twist.angular.z;
-  Q_EMIT poseUpdated();
+//  Q_EMIT poseUpdated();
 }
 
 ///
@@ -179,62 +181,47 @@ void QNode::getGlobalPlanCallback(const nav_msgs::Path& pathMsg)
 }
 
 void QNode::run() {
-	ros::Rate loop_rate(1);
+  tf::TransformListener listener;
+  ros::Rate loop_rate(10);
 //  int count = 0;
-	while ( ros::ok() ) {
 
+	while ( ros::ok() ) {
+    tf::StampedTransform transform;
+    try{
+      ros::Time now = ros::Time::now();
+      listener.waitForTransform("/map", "/base_footprint",
+                                now, ros::Duration(3.0));
+      listener.lookupTransform("/map", "/base_footprint",
+                               now, transform);
+
+      _robotPose[0] = transform.getOrigin().x();
+      _robotPose[1] = transform.getOrigin().y();
+      _robotPose[2] = transform.getRotation().getZ();
+      _robotPose[3] = transform.getRotation().getW();
+
+      Q_EMIT poseUpdated();
+    }
+
+    catch (tf::TransformException &ex) {
+      ROS_ERROR("%s",ex.what());
+      ros::Duration(1.0).sleep();
+      continue;
+    }
 //    std_msgs::String msg;
 //    std::stringstream ss;
 //    ss << "hello world " << count;
 //    msg.data = ss.str();
 //    chatter_publisher.publish(msg);
 //    log(Info,std::string("I sent: ")+msg.data);
-    std_msgs::Bool checkMsg;
-    checkMsg.data = true;
-    _checkNetPub.publish(checkMsg);
+//    std_msgs::Bool checkMsg;
+//    checkMsg.data = true;
+//    _checkNetPub.publish(checkMsg);
 		ros::spinOnce();
 		loop_rate.sleep();
 //		++count;
 	}
-	std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+//	std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
 	Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
-}
-
-
-void QNode::log( const LogLevel &level, const std::string &msg) {
-  logging_model.insertRows(logging_model.rowCount(),1);
-  std::stringstream logging_model_msg;
-  switch ( level ) {
-    case(Debug) : {
-        ROS_DEBUG_STREAM(msg);
-        logging_model_msg << "[DEBUG] [" << ros::Time::now() << "]: " << msg;
-        break;
-    }
-    case(Info) : {
-        ROS_INFO_STREAM(msg);
-        logging_model_msg << "[INFO] [" << ros::Time::now() << "]: " << msg;
-        break;
-    }
-    case(Warn) : {
-        ROS_WARN_STREAM(msg);
-        logging_model_msg << "[INFO] [" << ros::Time::now() << "]: " << msg;
-        break;
-    }
-    case(Error) : {
-        ROS_ERROR_STREAM(msg);
-        logging_model_msg << "[ERROR] [" << ros::Time::now() << "]: " << msg;
-        break;
-    }
-    case(Fatal) : {
-        ROS_FATAL_STREAM(msg);
-        logging_model_msg << "[FATAL] [" << ros::Time::now() << "]: " << msg;
-        break;
-    }
-  }
-  QVariant new_row(QString(logging_model_msg.str().c_str()));
-  logging_model.setData(logging_model.index(logging_model.rowCount()-1),new_row);
-//  Q_EMIT loggingUpdated(); // used to readjust the scrollbar
-  Q_EMIT poseUpdated();
 }
 
 ///
@@ -251,7 +238,11 @@ bool QNode::goalUpdate(float x, float y, float z)
     goalMsg_.x = x;
     goalMsg_.y = y;
     goalMsg_.z = z;
-//    qDebug() << "get pose";
+    double z0 = sin(z/2);
+    double w = cos(z/2);
+    double angle = atan2(2*(w*z0), 1-2*z0*z0);
+    ROS_INFO("%f %f", z, angle);
+   // qDebug() << "get pose";
     _robotGoal.publish(goalMsg_);
     return true;
   }else
@@ -329,6 +320,9 @@ void QNode::setOperationMode(OprationMode mode)
 {
   _oprationMode = mode;
 //    qDebug() << _oprationMode;
+  std_msgs::Bool msg;
+  msg.data = _oprationMode;
+  _oprationModePub.publish(msg);
 }
 
 QNode::OprationMode QNode::getOprationMode()

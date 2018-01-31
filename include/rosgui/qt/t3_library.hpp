@@ -3,8 +3,8 @@
 
 //Database
 
-//#define kDatabaseName "T3Face"
-#define kDatabaseName "face"
+#define kDatabaseName "T3Face"
+//#define kDatabaseName "face"
 #define kDatabaseUserName "T3"
 #define kDatabasePassword "T3"
 #define kDatabaseEngine "QMYSQL"

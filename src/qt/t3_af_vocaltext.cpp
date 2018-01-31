@@ -217,16 +217,28 @@ void T3_AF_vocalText::initUserTypeListView()
 void T3_AF_vocalText::on__add__clicked()
 {
     QString userType_ = ui->_groupName_->text();
-    QSqlQuery query_;
-    query_.prepare("insert into T3FaceUserType values(NULL,?,?,1)");
+    QSqlQuery query_ ;
+    query_.prepare("select * from T3Face where role = ?");
     query_.bindValue(0,userType_);
-    query_.bindValue(1,"欢迎来到杉科机器人");
-    int ret = query_.exec();
-    qDebug() << ret;
-    T3_AF_warning *warning_ = new T3_AF_warning(this,"添加成功",success);
-    warning_->show();
-    ui->_groupName_->clear();
-    initUserTypeListView();
+    query_.exec();
+    if(query_.next()||"" == userType_)
+    {
+      T3_AF_warning *warning_ = new T3_AF_warning(this,"添加失败,组别为空或者已经存在");
+      warning_->show();
+    }else
+    {
+      query_.prepare("insert into T3FaceUserType values(NULL,?,?,1)");
+      query_.bindValue(0,userType_);
+      query_.bindValue(1,"欢迎来到杉科机器人");
+      int ret = query_.exec();
+      qDebug() << ret;
+      T3_AF_warning *warning_ = new T3_AF_warning(this,"添加成功",success);
+      warning_->show();
+      ui->_groupName_->clear();
+      initUserTypeListView();
+    }
+
+
 
 }
 

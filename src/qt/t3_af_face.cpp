@@ -163,6 +163,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_morePushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterFaceHistory);
     connect(ui->_vocalPushBtn_, &QPushButton::clicked, this, &T3_AF_face::enterVocalText);
     connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_face::stopRobot);
+
     //视频展示
      _netWork = T3_Face_Network::getT3FaceNetwork();
      _decoder = _netWork->_decoder_;
@@ -179,6 +180,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_face::networkDisconnected);
      _frameLineData = _netWork->_frameLineData_;
      connect(_decoder,&Decoder::newFrame,this,&T3_AF_face::printVideo);
+     connect(_netWork,&T3_Face_Network::getLog,this,&T3_AF_face::log);
      //数据库连接
      _database = QSqlDatabase::addDatabase(kDatabaseEngine);
      _database.setDatabaseName(kDatabaseName);
@@ -186,20 +188,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      _database.setUserName(kDatabaseUserName);
      _database.setPassword(kDatabasePassword);
      _database.open();
-     //记录日志展示
-     QStringList strList ;
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     strList.append("1");
-     _stringListModel = new QStringListModel(strList);
-     ui->_logListView_->setModel(_stringListModel);
+
     //
      _qnode = rosgui::QNode::getInstance();
      _battQString = "";
@@ -308,7 +297,7 @@ void T3_AF_face::keyPressEvent(QKeyEvent *event)
 void T3_AF_face::printVideo(QImage faceImage)
 {
   //faceImage = faceImage.mirrored(true,false);
-  faceImage = faceImage.scaled(_videoLabelWidth,_videoLabelHeight,Qt::KeepAspectRatio);
+
   QPainter paint(&faceImage);
   QPen pen(Qt::yellow,2);
   paint.setPen(pen);
@@ -330,12 +319,13 @@ void T3_AF_face::printVideo(QImage faceImage)
          query_.exec();
          query_.next();
          QString name_ = query_.value(0).toString();
-         paint.drawText(QPointF(_videoLabelWidth - _frameLineData->dot2List[i]-1,_frameLineData->dot1List[i]),name_);
+         paint.drawText(QPointF(_frameLineData->dot2List[i]-1-(_frameLineData->rightList[i]-_frameLineData->leftList[i]),_frameLineData->dot1List[i]),name_);
      }
 
  }
 
   paint.end();
+  faceImage = faceImage.scaled(_videoLabelWidth,_videoLabelHeight,Qt::KeepAspectRatio);
   ui->_videoLabel_->setPixmap(QPixmap::fromImage(faceImage));
 }
 
@@ -348,6 +338,28 @@ void T3_AF_face::networkDisconnected()
 {
   ui->_videoLabel_->clear();
   ui->_videoLabel_->setText("网络连接断开，请重新连接");
+}
+
+void T3_AF_face::log(int id)
+{
+  qDebug() << "log:" << id ;
+  QSqlQuery query_;
+  query_.prepare("select name from T3Face where id = ?");
+  query_.bindValue(0,id);
+  query_.exec();
+  query_.next();
+  QString name = query_.value(0).toString();
+  QString time = QTime::currentTime().toString("hh:mm:ss");
+  QString showString = time +"    "+ name;
+  //记录日志展示
+  if( 8 <=_strList.size())
+  {
+    _strList.removeAt(0);
+  }
+  _strList.append(showString);
+
+  _stringListModel = new QStringListModel(_strList);
+  ui->_logListView_->setModel(_stringListModel);
 }
 
 //界面析构函数
