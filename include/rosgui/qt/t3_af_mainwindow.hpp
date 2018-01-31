@@ -32,6 +32,8 @@ public:
     void stopRobot();
     void battery();
 
+signals:
+    void updateMode();
 
 private slots:
     void timeUpdate();
@@ -40,6 +42,7 @@ private slots:
 private:
     Ui::T3_AF_mainWindow *ui;
     T3Dialog *_welcome;
+    T3Dialog *_map;
     void paintEvent(QPaintEvent *event);
     T3_AF_getWeather *_weather;
     void closeEvent(QCloseEvent *event);
