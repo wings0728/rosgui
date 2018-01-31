@@ -8,6 +8,8 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     _welcome(welcome)
 {
     _father = new T3Dialog;
+    _map = new T3_AF_map(this);
+    _map->hide();
     //界面布局初始化
     ui->setupUi(this);
     this->setGeometry(0, 0, _father->_width_, _father->_height_);
@@ -177,6 +179,7 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                this->height()*0.91,
                                this->width()*0.2375,
                                this->height()*0.06);
+
     QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
     battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
     battLow_->setSpeed(130);
@@ -249,10 +252,12 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     //connect(ui->_robotInfoPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::toRobotInfo);
     connect(_weather, &T3_AF_getWeather::getReady, this, &T3_AF_mainWindow::weatherUpdate);
     connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::stopRobot);
+
     //
     _qnode = rosgui::QNode::getInstance();
     //日志
     T3LOG("3+ 主界面构造");
+
 }
 
 //显示时间
@@ -332,9 +337,6 @@ void T3_AF_mainWindow::toFace()
 {
     T3_AF_face *face_ = new T3_AF_face(this);
     face_->show();
-
-    for(int idx = 0; idx < kDelay; idx++){}
-
     this->hide();
 }
 
@@ -343,18 +345,14 @@ void T3_AF_mainWindow::toWeatherForecast()
 {
     T3_AF_weatherForecast *weatherForecast_ = new T3_AF_weatherForecast(this);
     weatherForecast_->show();
-
-    for(int idx = 0; idx < kDelay; idx++){}
-
     this->hide();
 }
 
 //进入map
 void T3_AF_mainWindow::toMap()
 {
-    T3_AF_map *map_ = new T3_AF_map(this);
-    map_->show();
-    for(int idx = 0; idx < kDelay; idx++){}
+    _map->show();
+    emit updateMode();
     this->hide();
 }
 
@@ -363,9 +361,6 @@ void T3_AF_mainWindow::toRobotInfo()
 {
     T3_AF_robotInfo *robotInfo_ = new T3_AF_robotInfo(this);
     robotInfo_->show();
-
-    for(int idx = 0; idx < kDelay; idx++){}
-
     this->hide();
 }
 
@@ -392,6 +387,7 @@ T3_AF_mainWindow::~T3_AF_mainWindow()
     delete ui;
     delete _weather;
     delete _stopPushBtn_;
+    delete _map;
     //日志
     T3LOG("3- 主界面析构");
 }

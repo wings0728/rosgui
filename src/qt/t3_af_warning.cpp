@@ -12,7 +12,7 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string, BgType bgType) :
     T3LOG("*+ warning create");
     ui->setupUi(this);
     this->setGeometry(0, 0, _father->_width_, _father->_height_);
-//    this->move(0, 0);
+    //    this->move(0, 0);
 //    this->resize(_father->_width_, _father->_height_);
     this->setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     this->setAttribute(Qt::WA_TranslucentBackground, true);

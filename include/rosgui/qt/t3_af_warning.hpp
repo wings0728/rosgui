@@ -3,6 +3,7 @@
 
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
+
 enum BgType
 {
   warning,

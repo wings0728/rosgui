@@ -5,6 +5,7 @@
 #include "T3Dialog.hpp"
 #include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
+#include "t3_af_mainwindow.hpp"
 
 #include <QTime>
 #include <QList>
@@ -54,6 +55,7 @@ public:
 private slots:
     void timeUpdate();
     void autoMode();
+    void checkMode();
     void printVideo(QImage faceImage);
     void ifConnected();
     void networkDisconnected();
@@ -106,7 +108,6 @@ private:
 
     float _realWidth;
     float _realHeight;
-    rosgui::QNode::OprationMode _mode;
     //ui
     QPushButton *_forwardPusbBtn_;
     QPushButton *_backwordPushBtn_;

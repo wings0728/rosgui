@@ -143,7 +143,6 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     battLow_->setSpeed(130);
     ui->_battGIF_->setMovie(battLow_);
     battLow_->start();
-
     _forwardPusbBtn_->setCheckable(true);
     _forwardPusbBtn_->show();
     _backwordPushBtn_->show();
@@ -184,8 +183,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _mapStartY = this->height()*0.0800;
     QImage realMap_;
     realMap_.load(":/Pictures/map_realMap.pgm");
-    _realWidth = realMap_.width()/20;
-    _realHeight = realMap_.height()/20;
+    _realWidth = ((float)(realMap_.width()))/20.0;
+    _realHeight = ((float)(realMap_.height()))/20.0;
     if(_realWidth >= _realHeight)
     {
         _mapWidth = this->width()*0.45;
@@ -198,6 +197,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
         _scale = _mapHeight / _realHeight;
         _mapWidth = _scale * _realWidth;
     }
+    qDebug() << "_mapWidth" << _mapWidth << "_mapHeight" << _mapHeight << "_scale" << _scale;
     _startX = 0;
     _startY = 0;
     _startXCurrent = 0;
@@ -212,19 +212,19 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _angleSText = "";
     _battInt = 0;
     _battQString = "";
-    _mode = _qnode->getOprationMode();
-    if(_mode == rosgui::QNode::Manual)
-    {
-        ui->_modePushBtn_->setText("           手动模式");
-        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
-        buttonStatus(true);
-    }
-    else
-    {
-        ui->_modePushBtn_->setText("自动模式           ");
-        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
-        buttonStatus(false);
-    }
+    checkMode();
+//    if(_qnode->getOprationMode() == rosgui::QNode::Manual)
+//    {
+//        ui->_modePushBtn_->setText("           手动模式");
+//        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+//        buttonStatus(true);
+//    }
+//    else
+//    {
+//        ui->_modePushBtn_->setText("自动模式           ");
+//        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
+//        buttonStatus(false);
+//    }
     //界面浮现动画
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(150);
@@ -270,7 +270,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
      _database.setUserName(kDatabaseUserName);
      _database.setPassword(kDatabasePassword);
      _database.open();
-
+    connect(_mainWindow, SIGNAL(updateMode()), this, SLOT(checkMode()));
     connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_forwardPusbBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_backwordPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
@@ -281,6 +281,21 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     T3LOG("7+ 导航界面构造");
 }
 
+void T3_AF_map::checkMode()
+{
+    if(_qnode->getOprationMode() == rosgui::QNode::Manual)
+    {
+        ui->_modePushBtn_->setText("           手动模式");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+        buttonStatus(true);
+    }
+    else
+    {
+        ui->_modePushBtn_->setText("自动模式           ");
+        ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
+        buttonStatus(false);
+    }
+}
 
 void T3_AF_map::battery()
 {
@@ -419,8 +434,7 @@ void T3_AF_map::buttonStatus(bool status)
 //test
 void T3_AF_map::autoMode()
 {
-    _mode = _qnode->getOprationMode();
-    if(_mode == rosgui::QNode::Manual)
+    if(_qnode->getOprationMode() == rosgui::QNode::Manual)
     {
         ui->_modePushBtn_->setText("自动模式           ");
         ui->_modePushBtn_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
@@ -442,6 +456,7 @@ void T3_AF_map::autoMode()
         _moveY = 0;
     }
 }
+
 
 void T3_AF_map::stopRobot()
 {
@@ -613,8 +628,7 @@ void T3_AF_map::exitToMainWindow()
             _netWork->closeVideo();
         }
         _mainWindow->show();
-        this->close();
-        delete this;
+        this->hide();
     }
     else
     {
