@@ -632,7 +632,17 @@ void T3_AF_map::exitToMainWindow()
     }
     else
     {
-        T3_AF_warning *_warning = new T3_AF_warning(this, "请停止机器人后进行本操作");
+        if(rosgui::QNode::Auto == _qnode->getOprationMode())
+        {
+            if(_netWork->_isNetworkConnected_)
+            {
+                _netWork->closeVideo();
+            }
+            _mainWindow->show();
+            this->hide();
+        }
+        else
+        {T3_AF_warning *_warning = new T3_AF_warning(this, "请停止机器人后进行本操作");}
     }
 }
 
