@@ -34,10 +34,12 @@ public:
 
 signals:
     void updateMode();
+    //void lowBattSignal();
 
 private slots:
     void timeUpdate();
     void weatherUpdate(Today today);
+    //void lowBatt();
 
 private:
     Ui::T3_AF_mainWindow *ui;

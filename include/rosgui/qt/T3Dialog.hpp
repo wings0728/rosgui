@@ -19,7 +19,6 @@ public:
     float _height_;
 
 
-
 //    QSize sizeHint() const
 //    {
 //        return QSize(1200, 1000);
