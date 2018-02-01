@@ -614,7 +614,12 @@ void T3_AF_map::getTarget()
         float x = (_startX - _mapStartX)/_scale + _originX;
         float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
         float a = atan2(_startY - _moveY, _moveX - _startX);
+        if((a >= 3.14) || (a < -3.14))
+        {
+          a = -3.140;
+        }
         _qnode->goalUpdate(x, y, a);
+//        qDebug() << _startX << _startY << _startXCurrent << _startYcurrent << _moveX << _moveY << x << y << a;
     }
 }
 
