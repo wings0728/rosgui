@@ -37,6 +37,11 @@ int Decoder::initDecoder()
             printf("Could not open output YUV file\n");
             return -1;
         }
+        _outFile = fopen("ds.h264", "wb");
+        if (!_outFile) {
+            printf("Could not open ");
+            return -1;
+        }
 
         pFrame = av_frame_alloc();
         pFrameRGB = av_frame_alloc();
@@ -99,6 +104,7 @@ int Decoder::decoderFrame(char *data, int dataSize)
     cur_size = dataSize;
 
     while (cur_size>0){
+      fwrite(cur_ptr, 1, cur_size, _outFile);
 
                int len = av_parser_parse2(
                    pCodecParserCtx, pCodecCtx,
@@ -197,6 +203,7 @@ int Decoder::closeDecoder()
 
         fclose(fp_in);
         fclose(fp_out);
+        fclose(_outFile);
 
     #if USE_SWSCALE
         sws_freeContext(img_convert_ctx);
