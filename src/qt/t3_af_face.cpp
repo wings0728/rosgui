@@ -351,6 +351,17 @@ void T3_AF_face::log(int id)
   QString name = query_.value(0).toString();
   QString time = QTime::currentTime().toString("hh:mm:ss");
   QString showString = time +"    "+ name;
+
+  query_.prepare("insert into T3FaceRecord values(NULL,?,?,?,?)");
+  query_.bindValue(0,id);
+  query_.bindValue(1,name);
+  query_.bindValue(2,"");
+  query_.bindValue(3,time);
+  bool ret = query_.exec();
+  if(!ret)
+  {
+    qDebug() << "日志添加失败";
+  }
   //记录日志展示
   if( 8 <=_strList.size())
   {
