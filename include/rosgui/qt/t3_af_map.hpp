@@ -52,6 +52,10 @@ public:
     void showSpeed();
 
 
+
+signals:
+    void lowBattSignal();
+
 private slots:
     void timeUpdate();
     void autoMode();
@@ -59,6 +63,10 @@ private slots:
     void printVideo(QImage faceImage);
     void ifConnected();
     void networkDisconnected();
+    void lowBatt();
+    void fullScreenMap();
+    void exitFullScreenMap();
+
 
 
 private:
@@ -81,6 +89,8 @@ private:
     int _startY;
     int _startXCurrent;
     int _startYcurrent;
+    int _startXTemp;
+    int _startYTemp;
     int _moveX;
     int _moveY;
     float _originX;

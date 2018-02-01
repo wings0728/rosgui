@@ -199,6 +199,19 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>80</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>full</string>
+   </property>
+  </widget>
   <zorder>_dateTimeLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_showConnectStatus_</zorder>
@@ -210,6 +223,7 @@
   <zorder>_battery_</zorder>
   <zorder>_battGIF_</zorder>
   <zorder>_battIMG_</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>
