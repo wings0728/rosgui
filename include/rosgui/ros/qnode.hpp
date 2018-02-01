@@ -87,6 +87,7 @@ Q_SIGNALS:
   void rosShutdown();
   void poseUpdated();
   void globalPlanGet();
+  void lowPower();
 
 
 

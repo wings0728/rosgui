@@ -23,6 +23,9 @@
 > `void poseUpdated();`
 *坐标点更新*
 
+> `void lowPower();`
+*低电量*
+
 
 ### 初始化：
 - 包含qnode.hpp
