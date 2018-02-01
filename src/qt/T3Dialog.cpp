@@ -13,4 +13,3 @@ T3Dialog::~T3Dialog()
 {
 }
 
-
