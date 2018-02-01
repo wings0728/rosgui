@@ -32,5 +32,7 @@
 #define kRighTurnName "R"
 #define kStopName "S"
 
+//ros
+#define kLowPowerLimit 20
 
 #endif // T3_AF_CONFIG_H
