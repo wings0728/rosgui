@@ -202,6 +202,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _startY = 0;
     _startXCurrent = 0;
     _startYcurrent = 0;
+    _startXTemp = 0;
+    _startYTemp = 0;
     _moveX = 0;
     _moveY = 0;
     _originX = 0.0;
@@ -247,29 +249,27 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
     connect(ui->_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::stopRobot);
     //视频展示
-     _netWork = T3_Face_Network::getT3FaceNetwork();
-     _decoder = _netWork->_decoder_;
-
-     if(_netWork->_isNetworkConnected_)
-     {
-       _netWork->getVideo();
-     }else
-     {
+    _netWork = T3_Face_Network::getT3FaceNetwork();
+    _decoder = _netWork->_decoder_;
+    if(_netWork->_isNetworkConnected_)
+    {
+      _netWork->getVideo();
+    }else
+    {
             //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
             //warning->show();
-        ui->_videoLabel_->setText("网络未连接，请检查网络");
-     }
-
-     _frameLineData = _netWork->_frameLineData_;
-     connect(_decoder,&Decoder::newFrame,this,&T3_AF_map::printVideo);
-     connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_map::networkDisconnected);
-     //数据库连接
-     _database = QSqlDatabase::addDatabase(kDatabaseEngine);
-     _database.setDatabaseName(kDatabaseName);
-     _database.setHostName(kServerURL);
-     _database.setUserName(kDatabaseUserName);
-     _database.setPassword(kDatabasePassword);
-     _database.open();
+       ui->_videoLabel_->setText("网络未连接，请检查网络");
+    }
+    _frameLineData = _netWork->_frameLineData_;
+    connect(_decoder,&Decoder::newFrame,this,&T3_AF_map::printVideo);
+    connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_map::networkDisconnected);
+    //数据库连接
+    _database = QSqlDatabase::addDatabase(kDatabaseEngine);
+    _database.setDatabaseName(kDatabaseName);
+    _database.setHostName(kServerURL);
+    _database.setUserName(kDatabaseUserName);
+    _database.setPassword(kDatabasePassword);
+    _database.open();
     connect(_mainWindow, SIGNAL(updateMode()), this, SLOT(checkMode()));
     connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_forwardPusbBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
@@ -277,8 +277,15 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(_leftTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin);
+    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
     //日志
     T3LOG("7+ 导航界面构造");
+}
+
+void T3_AF_map::lowBatt()
+{
+    emit lowBattSignal();
+    backToOrigin();
 }
 
 void T3_AF_map::checkMode()
@@ -556,6 +563,8 @@ void T3_AF_map::mouseMoveEvent(QMouseEvent *m)
     {
         _moveX = m->x();
         _moveY = m->y();
+        _startX = _startXTemp;
+        _startY = _startYTemp;
     //_arrow_[0]~ax,[1]~ay,[2]~bx,[3]~by
 //    float cArrow = 8.0;
 //    float a = atan2(_startY - _moveY, _moveX - _startX);
@@ -583,11 +592,10 @@ void T3_AF_map::mousePressEvent(QMouseEvent *p)
 {
     if(rosgui::QNode::Auto == _qnode->getOprationMode() & (p->x() > _mapStartX) & (p->y() > _mapStartY) & (p->x() < (_mapStartX + _mapWidth)) & (p->y() < (_mapStartY + _mapHeight)))
     {
-        _startX = p->x();
-        _startY = p->y();
+        _startXTemp = p->x();
+        _startYTemp = p->y();
         _startXCurrent = p->x();
         _startYcurrent = p->y();
-        update();
     }
     else
     {
@@ -725,6 +733,15 @@ void T3_AF_map::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void T3_AF_map::fullScreenMap()
+{
+    qDebug() << "show full";
+}
+
+void T3_AF_map::exitFullScreenMap()
+{
+    qDebug() << "exit full";
+}
 
 //press
 void T3_AF_map::keyPressEvent(QKeyEvent *event)
@@ -732,6 +749,7 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        exitFullScreenMap();
         break;
     case Qt::Key_W:
         if(_forwardPusbBtn_->isEnabled())
