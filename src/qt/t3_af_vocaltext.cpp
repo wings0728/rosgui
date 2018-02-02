@@ -119,7 +119,23 @@ T3_AF_vocalText::T3_AF_vocalText(QWidget *parent) :
     _network = T3_Face_Network::getT3FaceNetwork();
     //
     T3LOG("vocalText created");
+    _qnode = rosgui::QNode::getInstance();
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
 }
+
+//void T3_AF_vocalText::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
 
 void T3_AF_vocalText::exitVocalText()
 {
@@ -138,6 +154,7 @@ void T3_AF_vocalText::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        exitVocalText();
         break;
     default:
         QDialog::keyPressEvent(event);

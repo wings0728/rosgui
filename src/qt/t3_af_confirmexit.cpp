@@ -51,7 +51,23 @@ T3_AF_confirmExit::T3_AF_confirmExit(T3Dialog *welcome, T3Dialog *mainWindow, QW
     _qnode = rosgui::QNode::getInstance();
     //日志
     T3LOG("4+ 退出确认界面构造");
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
 }
+
+//void T3_AF_confirmExit::lowBatt()
+//{
+//    emit lowBattSignal();
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
 
 //界面背景绘制
 void T3_AF_confirmExit::paintEvent(QPaintEvent *)
@@ -88,6 +104,7 @@ void T3_AF_confirmExit::keyPressEvent(QKeyEvent *event)
     switch (event->key())
     {
     case Qt::Key_Escape:
+        confirmExit();
         break;
     default:
         QDialog::keyPressEvent(event);

@@ -40,10 +40,7 @@ private slots:
     void printVideo(QImage faceImage);
     void networkDisconnected();
     void log(int id);
-    void lowBatt();
-
-signals:
-    void lowBattSignal();
+//    void lowBatt();
 
 private:
     Ui::T3_AF_face *ui;

@@ -72,25 +72,24 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     //链接ui部件与功能
     connect(timer_, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     connect(ui->_enterSystemPushBtn_, &QPushButton::clicked, this, &T3_AF_welcome::enterSystem);
-    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
     //日志
     T3LOG("1+ 欢迎界面构造");
 }
 
-void T3_AF_welcome::lowBatt()
-{
-    emit lowBattSignal();
-    if(rosgui::QNode::Auto == _qnode->getOprationMode())
-    {
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-    else
-    {
-        _qnode->setManualCmd(rosgui::QNode::Stop);
-        _qnode->setOperationMode(rosgui::QNode::Auto);
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-}
+//void T3_AF_welcome::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
 
 //进入logIn
 void T3_AF_welcome::enterSystem()
