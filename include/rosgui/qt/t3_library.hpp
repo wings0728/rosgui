@@ -22,6 +22,7 @@
 
 //netWorkSign
 #define kSendSignTTS 7
+#define kLowPower 8
 
 //TTSUserTypeSign
 

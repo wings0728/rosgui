@@ -21,12 +21,14 @@ namespace Ui {
 class T3_AF_map;
 }
 
+class T3_AF_mainWindow;
+
 class T3_AF_map : public T3Dialog
 {
     Q_OBJECT
 
 public:
-    explicit T3_AF_map(T3Dialog *mainWindow, QWidget *parent = 0);
+    explicit T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent = 0);
     ~T3_AF_map();
 
     void exitToMainWindow();
@@ -66,12 +68,12 @@ private slots:
     void lowBatt();
     void fullScreenMap();
     void exitFullScreenMap();
-
+    void getVideo();
 
 
 private:
     Ui::T3_AF_map *ui;
-    T3Dialog *_mainWindow;
+    T3_AF_mainWindow *_mainWindow;
     T3Dialog *_father;
     void paintEvent(QPaintEvent *event);
     void mouseMoveEvent(QMouseEvent *m);

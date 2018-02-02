@@ -1,9 +1,10 @@
 #include "../../include/rosgui/qt/t3_af_map.hpp"
 #include "ui_t3_af_map.h"
+#include <QDebug>
 
 
 //界面构造函数
-T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
+T3_AF_map::T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent) :
     T3Dialog(parent),
     _mainWindow(mainWindow),
     ui(new Ui::T3_AF_map),
@@ -248,21 +249,9 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     //connect(ui->_update, &QPushButton::clicked, this, &T3_AF_map::getPoint);
     connect(ui->_modePushBtn_, SIGNAL(clicked(bool)), this, SLOT(autoMode()));
     connect(ui->_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_map::stopRobot);
-    //视频展示
-    _netWork = T3_Face_Network::getT3FaceNetwork();
-    _decoder = _netWork->_decoder_;
-    if(_netWork->_isNetworkConnected_)
-    {
-      _netWork->getVideo();
-    }else
-    {
-            //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
-            //warning->show();
-       ui->_videoLabel_->setText("网络未连接，请检查网络");
-    }
-    _frameLineData = _netWork->_frameLineData_;
-    connect(_decoder,&Decoder::newFrame,this,&T3_AF_map::printVideo);
-    connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_map::networkDisconnected);
+    connect(_mainWindow,&T3_AF_mainWindow::showMap,this,&T3_AF_map::getVideo);
+
+    //connect(this,&T3_AF_map);
     //数据库连接
     _database = QSqlDatabase::addDatabase(kDatabaseEngine);
     _database.setDatabaseName(kDatabaseName);
@@ -919,6 +908,7 @@ void T3_AF_map::keyReleaseEvent(QKeyEvent *event)
 
 void T3_AF_map::printVideo(QImage faceImage)
 {
+  qDebug() << "+++++++++++++++++++++++++++++++++++++++++++++++";
   //faceImage = faceImage.mirrored(true,false);
   QPainter paint(&faceImage);
   QPen pen(Qt::yellow,2);
@@ -971,6 +961,25 @@ void T3_AF_map::networkDisconnected()
   ui->_videoLabel_->clear();
   ui->_videoLabel_->setText("网络连接断开，请检查网络");
 }
+void T3_AF_map::getVideo()
+{
+  //视频展示
+  _netWork = T3_Face_Network::getT3FaceNetwork();
+  _decoder = _netWork->_decoder_;
+  if(_netWork->_isNetworkConnected_)
+  {
+    _netWork->getVideo();
+  }else
+  {
+          //T3_AF_warning *warning = new T3_AF_warning(this,"网络未连接");
+          //warning->show();
+     ui->_videoLabel_->setText("网络未连接，请检查网络");
+  }
+  _frameLineData = _netWork->_frameLineData_;
+  connect(_decoder,&Decoder::newFrame,this,&T3_AF_map::printVideo);
+  connect(_netWork,&T3_Face_Network::networkDisconnect,this,&T3_AF_map::networkDisconnected);
+}
+
 
 //界面析构函数
 T3_AF_map::~T3_AF_map()

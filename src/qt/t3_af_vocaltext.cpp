@@ -194,10 +194,9 @@ void T3_AF_vocalText::initUserTypeComboBox()
   while(query_.next())
   {
     QString userType_ = query_.value(0).toString();
-    if("未注册" == userType_)
-    {
+
       ui->_userTypeComboBox_->addItem(userType_);
-    }
+
 
   }
 }
@@ -209,8 +208,10 @@ void T3_AF_vocalText::initUserTypeListView()
   while(query_.next())
   {
     QString userType_ = query_.value(0).toString();
+    if("未注册" != userType_)
+    {
     strList.append(userType_);
-
+    }
 
   }
   _stringListModel = new QStringListModel(strList);

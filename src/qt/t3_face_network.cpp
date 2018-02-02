@@ -9,6 +9,7 @@ T3_Face_Network::T3_Face_Network()
     _decoder_->initDecoder();
     _frameLineData_ = new FrameLineData();
     _udpSocket = new QUdpSocket(this);
+    _node = rosgui::QNode::getInstance();
     _udpSocket->bind(8888,QUdpSocket::ShareAddress);
     _videoTimer = new QTimer();
     _getVideotimer = new QTimer();
@@ -16,6 +17,7 @@ T3_Face_Network::T3_Face_Network()
     connect(_udpSocket,&QUdpSocket::readyRead,this,&T3_Face_Network::processUDPData);
     connect(_decoder_,&Decoder::newFrame,this,&T3_Face_Network::stopVideoTimer);
     connect(_videoTimer,&QTimer::timeout,this,&T3_Face_Network::resendTheVideo);
+    connect(_node,&rosgui::QNode::lowPower,this,&T3_Face_Network::sendLowPowerSingle);
 }
 T3_Face_Network::~T3_Face_Network()
 {
@@ -223,6 +225,17 @@ void T3_Face_Network::sendDeteleFaceInfoById(int id)
     _socket->write(block_);
 }
 
+void T3_Face_Network::sendLowPowerSingle()
+{
+  _sign = kLowPower;
+  QByteArray block_ ;
+  QDataStream stream_(&block_,QIODevice::WriteOnly);
+  stream_.setVersion(QDataStream::Qt_5_5);
+  stream_ << (quint32)sizeof(quint32);
+  stream_ << (quint32)_sign ;
+  _socket->write(block_);
+}
+
 void T3_Face_Network::stopVideoTimer()
 {
   _videoTimer->stop();
@@ -290,3 +303,4 @@ void T3_Face_Network::readTheUDPData(QByteArray data)
       _decoder_->decoderFrame(_frameData.data(),_frameData.size());
   }
 }
+
