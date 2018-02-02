@@ -132,6 +132,9 @@ void getRobotSpeed(double* linearX, double* anglarZ);
 int getBatt();
 ```
 
+### 低电量
+> 当电池电量低时，会发送信号`lowPower()`，同时可以调用函数`bool isLowPower()`来判断现在是否电量过低。
+
 ### 关闭ros
 > 当退出程序时，需要调用此函数来关闭ros。
 ```cpp
