@@ -7,6 +7,8 @@
 #include "t3_face_network.hpp"
 #include "t3_af_warning.hpp"
 
+#include "../ros/qnode.hpp"
+
 namespace Ui {
 class T3_AF_vocalText;
 }
@@ -20,6 +22,12 @@ public:
     ~T3_AF_vocalText();
 
     void exitVocalText();
+
+signals:
+    void lowBattSignal();
+
+private slots:
+    void lowBatt();
 
 private slots:
     void on__delete__clicked();
@@ -42,6 +50,7 @@ private:
     QStringListModel *_stringListModel;
     void initUserTypeComboBox();
     void initUserTypeListView();
+    rosgui::QNode *_qnode;
 };
 
 #endif // T3_AF_VOCALTEXT_H

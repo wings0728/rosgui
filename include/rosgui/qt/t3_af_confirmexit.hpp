@@ -23,6 +23,12 @@ public:
 
     void stopRobot();
 
+signals:
+    void lowBattSignal();
+
+private slots:
+    void lowBatt();
+
 private:
     Ui::T3_AF_confirmExit *ui;
     T3Dialog *_welcome;

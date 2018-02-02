@@ -5,6 +5,9 @@
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 
+#include "../ros/qnode.hpp"
+
+
 namespace Ui {
 class T3_AF_faceHistory;
 }
@@ -19,12 +22,19 @@ public:
 
     void exitFaceHistory();
 
+private slots:
+    void lowBatt();
+
+signals:
+    void lowBattSignal();
+
 private:
     Ui::T3_AF_faceHistory *ui;
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     T3Dialog *_father;
     QSqlQueryModel *_model;
+    rosgui::QNode *_qnode;
 };
 
 #endif // T3_AF_FACEHISTORY_H

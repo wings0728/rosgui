@@ -15,6 +15,8 @@ public:
     explicit T3_AF_common(QWidget *parent = 0);
     ~T3_AF_common();
 
+
+
 private:
     Ui::T3_AF_common *ui;
     T3Dialog *_father;

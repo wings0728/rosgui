@@ -275,6 +275,7 @@ void T3_AF_faceLog::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        exitToFace();
         break;
     default:
         QDialog::keyPressEvent(event);

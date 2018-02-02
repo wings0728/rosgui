@@ -6,6 +6,7 @@
 #include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
 #include "t3_af_mainwindow.hpp"
+#include "t3_af_maponly.hpp"
 
 #include <QTime>
 #include <QList>
@@ -65,7 +66,6 @@ private slots:
     void networkDisconnected();
     void lowBatt();
     void fullScreenMap();
-    void exitFullScreenMap();
 
 
 
@@ -129,7 +129,6 @@ private:
     QLabel *_angleSLabel_;
     int _battInt;
     QString _battQString;
-    int i;
 
 
 };

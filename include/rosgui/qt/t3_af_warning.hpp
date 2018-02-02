@@ -4,6 +4,8 @@
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 
+#include "../ros/qnode.hpp"
+
 enum BgType
 {
   warning,
@@ -25,6 +27,10 @@ public:
 
 private slots:
     void closeThis();
+    void lowBatt();
+
+signals:
+    void lowBattSignal();
 
 private:
     Ui::T3_AF_warning *ui;
@@ -33,6 +39,7 @@ private:
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    rosgui::QNode *_qnode;
 };
 
 #endif // T3_AF_WARNING_H

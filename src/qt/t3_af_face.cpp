@@ -303,6 +303,7 @@ void T3_AF_face::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        exitToMainWindow();
         break;
     default:
         QDialog::keyPressEvent(event);

@@ -12,7 +12,6 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _robotPose(4, 0.0),
     _mapOrigin(3, 0.0)
 {
-    i=0;
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
@@ -42,6 +41,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_stopPushBtn_->setFocusPolicy(Qt::NoFocus);
     _backToOrigin_->setFocusPolicy(Qt::NoFocus);
+    ui->_full_->setFocusPolicy(Qt::NoFocus);
     _backToOrigin_->setText("回到原点");
     _backToOrigin_->setStyleSheet("border-image:url(:/Pictures/clearPath.png)");
     ui->_stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/mainWindow_stop.png);}"
@@ -197,7 +197,10 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
         _scale = _mapHeight / _realHeight;
         _mapWidth = _scale * _realWidth;
     }
-    qDebug() << "_mapWidth" << _mapWidth << "_mapHeight" << _mapHeight << "_scale" << _scale;
+    ui->_full_->setGeometry(_mapStartX,
+                            _mapStartY,
+                            this->width()*0.025,
+                            this->width()*0.025);
     _startX = 0;
     _startY = 0;
     _startXCurrent = 0;
@@ -278,8 +281,10 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin);
     connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    connect(ui->_full_, &QPushButton::clicked, this, &T3_AF_map::fullScreenMap);
     //日志
     T3LOG("7+ 导航界面构造");
+    //new
 }
 
 void T3_AF_map::lowBatt()
@@ -464,7 +469,6 @@ void T3_AF_map::autoMode()
     }
 }
 
-
 void T3_AF_map::stopRobot()
 {
     _qnode->setOperationMode(rosgui::QNode::Manual);
@@ -524,8 +528,6 @@ void T3_AF_map::paintEvent(QPaintEvent *)
         paint_.drawLine(_arrow_[2], _arrow_[3], _arrow_[4], _arrow_[5]);
         paint_.drawLine(_arrow_[4], _arrow_[5], _arrow_[0], _arrow_[1]);
     }
-
-
     showSpeed();
     battery();
 }
@@ -735,12 +737,9 @@ void T3_AF_map::closeEvent(QCloseEvent *event)
 
 void T3_AF_map::fullScreenMap()
 {
-    qDebug() << "show full";
-}
-
-void T3_AF_map::exitFullScreenMap()
-{
-    qDebug() << "exit full";
+    T3_AF_mapOnly *_mapOnly = new T3_AF_mapOnly(this);
+    _mapOnly->show();
+    this->hide();
 }
 
 //press
@@ -749,12 +748,13 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
-        exitFullScreenMap();
+        exitToMainWindow();
         break;
     case Qt::Key_W:
         if(_forwardPusbBtn_->isEnabled())
         {
             _forwardPusbBtn_->setStyleSheet("border-image:url(:/Pictures/forward_false.png)");
+            qDebug() << "www";
         }
         break;
     case Qt::Key_X:
