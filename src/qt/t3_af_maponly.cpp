@@ -67,13 +67,12 @@ T3_AF_mapOnly::T3_AF_mapOnly(T3_AF_map *map, QWidget *parent) :
     _Hcenter = this->width() * 0.5;
     _Vcenter = this->height() * 0.5;
     getMapGeometry();
-    clearPath();
     arrowUpdate();
     _originX = 0.0;
     _originY = 0.0;
     //LOG
     T3LOG("** mapOnly created");
-    qDebug() << _map->x << _map->y << _map->a;
+    clearPath();
 }
 
 void T3_AF_mapOnly::exitUI()
@@ -85,10 +84,20 @@ void T3_AF_mapOnly::exitUI()
 
 void T3_AF_mapOnly::clearPath()
 {
-    if(_map->ifClear == true)
+    if(true == _map->ifClear)
     {
-        _pos_.clear();
-        _arrow_.clear();
+        _pos_[0] = -3.0;
+        _pos_[1] = -3.0;
+        _pos_[2] = -3.0;
+        _pos_[3] = -3.0;
+        _pos_[4] = -3.0;
+        _pos_[5] = -3.0;
+        _arrow_[0] = 0.0;
+        _arrow_[1] = 0.0;
+        _arrow_[2] = 0.0;
+        _arrow_[3] = 0.0;
+        _arrow_[4] = 0.0;
+        _arrow_[5] = 0.0;
         _pathX.clear();
         _pathY.clear();
         _route.clear();
@@ -177,15 +186,16 @@ void T3_AF_mapOnly::paintEvent(QPaintEvent *)
         }
     }
     //arrow
-    paint_.setPen(QPen(Qt::green, 2));
+    paint_.setPen(QPen(Qt::white, 2));
     if((_arrow_[0] > 0) && (_arrow_[1] > 0) && (_arrow_[2] > 0) && (_arrow_[3] > 0) && (_arrow_[4] > 0) && (_arrow_[5] > 0))
     {
         paint_.drawLine(_arrow_[0], _arrow_[1], _arrow_[2], _arrow_[3]);
         paint_.drawLine(_arrow_[2], _arrow_[3], _arrow_[4], _arrow_[5]);
         paint_.drawLine(_arrow_[4], _arrow_[5], _arrow_[0], _arrow_[1]);
     }
+
     //route
-    paint_.setPen(QPen(Qt::green, 4));
+    paint_.setPen(QPen(Qt::white, 4));
     if(_route.size() > 1)
     {
             for(int i = 0; i<_route.size()-1; i++)
@@ -228,18 +238,20 @@ void T3_AF_mapOnly::posUpdate()
 //weiceshi
 void T3_AF_mapOnly::arrowUpdate()
 {
-    float ax = _mapX + (_map->x - _originX) * _scale;
-    float ay = _mapY + _mapHeight - (_map->y - _originY) * _scale;
-    float aShort = 4.5;
-    float aLong = 15.0;
-    _arrow_[0] = ax - aShort*sin(_map->a);
-    _arrow_[1] = ay - aShort*cos(_map->a);
-    _arrow_[2] = ax + aLong*cos(_map->a);
-    _arrow_[3] = ay - aLong*sin(_map->a);
-    _arrow_[4] = ax + aShort*sin(_map->a);
-    _arrow_[5] = ay + aShort*cos(_map->a);
-    qDebug() << "arrow update";
-    update();
+    if((_map->x > 0.001) && (_map->y > 0.001))
+    {
+        float ax = _mapX + (_map->x - _originX) * _scale;
+        float ay = _mapY + _mapHeight - (_map->y - _originY) * _scale;
+        float aShort = 4.5;
+        float aLong = 15.0;
+        _arrow_[0] = ax - aShort*sin(_map->a);
+        _arrow_[1] = ay - aShort*cos(_map->a);
+        _arrow_[2] = ax + aLong*cos(_map->a);
+        _arrow_[3] = ay - aLong*sin(_map->a);
+        _arrow_[4] = ax + aShort*sin(_map->a);
+        _arrow_[5] = ay + aShort*cos(_map->a);
+        update();
+    }
 }
 
 //weiceshi
