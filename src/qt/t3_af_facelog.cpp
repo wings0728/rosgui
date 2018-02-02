@@ -227,23 +227,23 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     initUserTypeComboBox();
     //日志
     T3LOG("9+ 人脸日志界面构造");
-    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
 }
 
-void T3_AF_faceLog::lowBatt()
-{
-    emit lowBattSignal();
-    if(rosgui::QNode::Auto == _qnode->getOprationMode())
-    {
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-    else
-    {
-        _qnode->setManualCmd(rosgui::QNode::Stop);
-        _qnode->setOperationMode(rosgui::QNode::Auto);
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-}
+//void T3_AF_faceLog::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
+
 //显示时间
 void T3_AF_faceLog::timeUpdate()
 {

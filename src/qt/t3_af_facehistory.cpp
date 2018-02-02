@@ -72,23 +72,22 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
 
     T3LOG("faceHis created");
     _qnode = rosgui::QNode::getInstance();
-    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
 }
 
-void T3_AF_faceHistory::lowBatt()
-{
-    emit lowBattSignal();
-    if(rosgui::QNode::Auto == _qnode->getOprationMode())
-    {
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-    else
-    {
-        _qnode->setManualCmd(rosgui::QNode::Stop);
-        _qnode->setOperationMode(rosgui::QNode::Auto);
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-}
+//void T3_AF_faceHistory::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
 
 void T3_AF_faceHistory::exitFaceHistory()
 {

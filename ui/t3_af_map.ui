@@ -208,6 +208,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Pictures/map_full.png)</string>
+   </property>
    <property name="text">
     <string/>
    </property>

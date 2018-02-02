@@ -30,10 +30,7 @@ public:
 
 private slots:
     void on__clearPushBtn__clicked();
-    void lowBatt();
-
-signals:
-    void lowBattSignal();
+//    void lowBatt();
 
 private Q_SLOTS:
     void timeUpdate();

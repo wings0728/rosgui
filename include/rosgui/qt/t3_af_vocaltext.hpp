@@ -23,11 +23,8 @@ public:
 
     void exitVocalText();
 
-signals:
-    void lowBattSignal();
-
 private slots:
-    void lowBatt();
+//    void lowBatt();
 
 private slots:
     void on__delete__clicked();

@@ -72,5 +72,6 @@
         <file>Pictures/batt_2.png</file>
         <file>Pictures/batt_3.png</file>
         <file>Pictures/batt_4.gif</file>
+        <file>Pictures/map_full.png</file>
     </qresource>
 </RCC>

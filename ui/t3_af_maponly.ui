@@ -14,45 +14,51 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">border-image:url(:/Pictures/map_background.png)</string>
+   <string notr="true"/>
   </property>
   <widget class="QLabel" name="_dateTimeLabel_">
    <property name="geometry">
     <rect>
-     <x>700</x>
-     <y>410</y>
+     <x>630</x>
+     <y>290</y>
      <width>54</width>
      <height>18</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:white</string>
+    <string notr="true">color:rgb(7, 221, 225)</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
    </property>
   </widget>
   <widget class="QLabel" name="_battery_">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>400</y>
+     <x>350</x>
+     <y>320</y>
      <width>54</width>
      <height>18</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:white</string>
+    <string notr="true">color:rgb(7, 221, 225)</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
    </property>
   </widget>
   <widget class="QLabel" name="_battIMG_">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>410</y>
+     <x>580</x>
+     <y>240</y>
      <width>54</width>
      <height>18</height>
     </rect>
