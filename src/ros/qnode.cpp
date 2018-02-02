@@ -141,7 +141,7 @@ void QNode::getStateCallback(const SensorState &msg)
   _battPer = (int)msg.battery;
   if(_battPer < kLowPowerLimit)
   {
-    Q_EMIT lowPower();
+//    Q_EMIT lowPower();
   }
 }
 
