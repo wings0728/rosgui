@@ -60,6 +60,7 @@ private:
 
     FILE *fp_in;
     FILE *fp_out;
+    FILE *_outFile;
     AVFrame	*pFrame;
     AVFrame *pFrameRGB;
     uint8_t * out_buffer;

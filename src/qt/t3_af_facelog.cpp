@@ -458,6 +458,10 @@ void T3_AF_faceLog::initUserTypeComboBox()
   while(query_.next())
   {
     QString userType_ = query_.value(0).toString();
-    ui->_userTypeComboBox_->addItem(userType_);
+    if(userType_!="未注册")
+    {
+      ui->_userTypeComboBox_->addItem(userType_);
+    }
+
   }
 }

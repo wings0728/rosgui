@@ -47,7 +47,8 @@ QNode::QNode():
   _angularZ(0.0),
   _battPer(100),
   _OdomLinearX(0.0),
-  _OdomAngularZ(0.0)
+  _OdomAngularZ(0.0),
+  _isLowPower(false)
 {
 }
 
@@ -82,7 +83,7 @@ bool QNode::init(int argc, char** argv ) {
   _odomSub = n.subscribe("odom", 100, &QNode::getOdomCallback, this);
   _globalPlanSub = n.subscribe(_globalPlanTopicName.c_str(), 1000, &QNode::getGlobalPlanCallback, this);
   _batterySub = n.subscribe("sensor_state",100, &QNode::getStateCallback, this);
-
+  _isAbortedSub = n.subscribe("actionStateIsAborted", 2, &QNode::getActionStateCallback, this);
 	start();
 	return true;
 }
@@ -136,12 +137,34 @@ void QNode::shutDownRos()
 }
 
 //**********************call back********************//
+void QNode::getActionStateCallback(const std_msgs::Bool& msg)
+{
+  bool isAborted;
+  isAborted = msg.data;
+  _isAborted = isAborted;
+  emit isAbortedSignal(isAborted);
+}
+
 void QNode::getStateCallback(const SensorState &msg)
 {
   _battPer = (int)msg.battery;
+  //lowPower process
   if(_battPer < kLowPowerLimit)
   {
     Q_EMIT lowPower();
+    _isLowPower = true;
+    if(Auto)
+    {
+      goalUpdate(0.0, 0.0, 0.0);
+    }else
+    {
+      setManualCmd(Stop);
+      _oprationMode = Auto;
+      goalUpdate(0.0, 0.0, 0.0);
+    }
+  }else
+  {
+    _isLowPower = false;
   }
 }
 
@@ -283,6 +306,15 @@ void QNode::pubRobotSpeed()
 
 
 //***********************get set*********************//
+bool QNode::isAborted()
+{
+  return _isAborted;
+}
+
+bool QNode::isLowPower()
+{
+  return _isLowPower;
+}
 
 void QNode::getRobotSpeed(double* linearX, double* anglarZ)
 {

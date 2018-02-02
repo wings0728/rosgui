@@ -26,6 +26,9 @@
 > `void lowPower();`
 *低电量*
 
+> `void isAbortedSignal(bool a);`
+*机器人是否陷入危险区域*
+
 
 ### 初始化：
 - 包含qnode.hpp
@@ -130,6 +133,23 @@ void getRobotSpeed(double* linearX, double* anglarZ);
 > 返回值为电量百分比。
 ```cpp
 int getBatt();
+```
+
+### 低电量
+> 当电池电量低时，会发送信号`lowPower()`，同时可以调用函数`bool isLowPower()`来判断现在是否电量过低。
+```cpp
+Q_SINGAL
+	void lowPower();
+
+bool isLowPower();
+```
+
+### 将要碰撞状态读取
+```cpp
+Q_SINGAL
+	void isAbortedSignal(bool a);
+
+bool isAborted();
 ```
 
 ### 关闭ros
