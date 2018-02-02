@@ -197,8 +197,8 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
         _scale = _mapHeight / _realHeight;
         _mapWidth = _scale * _realWidth;
     }
-    ui->_full_->setGeometry(_mapStartX,
-                            _mapStartY,
+    ui->_full_->setGeometry(_mapStartX + _mapWidth - (this->width() * 0.025),
+                            _mapStartY + _mapHeight,
                             this->width()*0.025,
                             this->width()*0.025);
     connectStatus = "";
@@ -500,7 +500,7 @@ void T3_AF_map::paintEvent(QPaintEvent *)
     paint_.drawLine(_pos_[2], _pos_[3], _pos_[4], _pos_[5]);
     paint_.drawLine(_pos_[4], _pos_[5], _pos_[0], _pos_[1]);
     //route
-    paint_.setPen(QPen(Qt::green, 3));
+    paint_.setPen(QPen(Qt::white, 3));
     if(_route.size() > 1)
     {
             for(int i = 0; i<_route.size()-1; i++)
@@ -519,12 +519,9 @@ void T3_AF_map::paintEvent(QPaintEvent *)
         }
     }
     //arrow
-    paint_.setPen(QPen(Qt::green, 2));
+    paint_.setPen(QPen(Qt::white, 2));
     if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)))
     {
-//        paint_.drawLine(_startX, _startY, _moveX, _moveY);
-//        paint_.drawLine(_startX, _startY, _arrow_[0], _arrow_[1]);
-//        paint_.drawLine(_startX, _startY, _arrow_[2], _arrow_[3]);
         paint_.drawLine(_arrow_[0], _arrow_[1], _arrow_[2], _arrow_[3]);
         paint_.drawLine(_arrow_[2], _arrow_[3], _arrow_[4], _arrow_[5]);
         paint_.drawLine(_arrow_[4], _arrow_[5], _arrow_[0], _arrow_[1]);
@@ -631,7 +628,7 @@ void T3_AF_map::getTarget()
           a = -3.140;
         }
         _qnode->goalUpdate(x, y, a);
-        qDebug() << x << y << a ;
+        qDebug() <<"focus"<< x << y << a ;
     }
 }
 
@@ -690,7 +687,6 @@ void T3_AF_map::getPoint()
     //---------jason end
     float px = _mapStartX + (x - _originX) * _scale;
     float py = _mapStartY + _mapHeight - (y - _originY)*_scale;
-    qDebug() << "px:" << px << "py:" << py << "_mapStartX:" << _mapStartX << "_mapStartY:" << _mapStartY << "_mapWidth:" <<_mapWidth << "_mapHeight:" << _mapHeight;
     _pathX.append(px);
     _pathY.append(py);
     float angle = atan2(2 * w * z, 1 - 2 * z * z);
@@ -706,13 +702,6 @@ void T3_AF_map::getPoint()
     _pos_[3] = py - cLong*sin(angle);
     _pos_[4] = px + cShort*sin(angle);
     _pos_[5] = py + cShort*cos(angle);
-//    qDebug() <<"angle:" << angle <<"\n"
-//             <<"ax:" << _pos_[0] <<"\n"
-//             <<"ay:" << _pos_[1] <<"\n"
-//             <<"bx:" << _pos_[2] <<"\n"
-//             <<"by:" << _pos_[3] <<"\n"
-//             <<"cx:" << _pos_[4] <<"\n"
-//             <<"cy:" << _pos_[5] <<"\n" <<"\n";
     _connect->stop();
     _connect->start(5000);
     ui->_showConnectStatus_->setText("        已连接");
