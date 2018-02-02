@@ -26,6 +26,9 @@
 > `void lowPower();`
 *低电量*
 
+> `void isAbortedSignal(bool a);`
+*机器人是否陷入危险区域*
+
 
 ### 初始化：
 - 包含qnode.hpp
@@ -139,6 +142,14 @@ Q_SINGAL
 	void lowPower();
 
 bool isLowPower();
+```
+
+### 将要碰撞状态读取
+```cpp
+Q_SINGAL
+	void isAbortedSignal(bool a);
+
+bool isAborted();
 ```
 
 ### 关闭ros
