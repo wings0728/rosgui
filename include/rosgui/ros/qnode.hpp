@@ -82,6 +82,7 @@ public:
   OprationMode getOprationMode();
   int getBatt();
   void getRobotSpeed(double* linearX, double* anglarZ);
+  bool isLowPower();
 Q_SIGNALS:
 	void loggingUpdated();
   void rosShutdown();
@@ -118,7 +119,7 @@ private:
   double _maxLinearX;
   double _maxAngularZ;
   int _battPer;
-
+  bool _isLowPower;
   OprationMode _oprationMode;
   QNode();
   virtual ~QNode();

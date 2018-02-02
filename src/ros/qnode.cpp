@@ -47,7 +47,8 @@ QNode::QNode():
   _angularZ(0.0),
   _battPer(100),
   _OdomLinearX(0.0),
-  _OdomAngularZ(0.0)
+  _OdomAngularZ(0.0),
+  _isLowPower(false)
 {
 }
 
@@ -139,9 +140,23 @@ void QNode::shutDownRos()
 void QNode::getStateCallback(const SensorState &msg)
 {
   _battPer = (int)msg.battery;
+  //lowPower process
   if(_battPer < kLowPowerLimit)
   {
-//    Q_EMIT lowPower();
+    Q_EMIT lowPower();
+    _isLowPower = true;
+    if(Auto)
+    {
+      goalUpdate(0.0, 0.0, 0.0);
+    }else
+    {
+      setManualCmd(Stop);
+      _oprationMode = Auto;
+      goalUpdate(0.0, 0.0, 0.0);
+    }
+  }else
+  {
+    _isLowPower = false;
   }
 }
 
@@ -283,6 +298,11 @@ void QNode::pubRobotSpeed()
 
 
 //***********************get set*********************//
+
+bool QNode::isLowPower()
+{
+  return _isLowPower;
+}
 
 void QNode::getRobotSpeed(double* linearX, double* anglarZ)
 {
