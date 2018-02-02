@@ -6,6 +6,7 @@
 #include "t3_af_warning.hpp"
 #include "t3_face_network.hpp"
 #include "t3_af_mainwindow.hpp"
+#include "t3_af_maponly.hpp"
 
 #include <QTime>
 #include <QList>
@@ -29,6 +30,8 @@ public:
     explicit T3_AF_map(T3Dialog *mainWindow, QWidget *parent = 0);
     ~T3_AF_map();
 
+    bool ifClear;
+
     void exitToMainWindow();
     void getPoint();
     void getTarget();
@@ -50,11 +53,12 @@ public:
     void backToOrigin();
 
     void showSpeed();
+    QString connectStatus;
 
+    float x;
+    float y;
+    float a;
 
-
-signals:
-    void lowBattSignal();
 
 private slots:
     void timeUpdate();
@@ -63,11 +67,11 @@ private slots:
     void printVideo(QImage faceImage);
     void ifConnected();
     void networkDisconnected();
-    void lowBatt();
+//    void lowBatt();
     void fullScreenMap();
-    void exitFullScreenMap();
 
-
+signals:
+    void offline();
 
 private:
     Ui::T3_AF_map *ui;
@@ -111,6 +115,7 @@ private:
 
 
 
+
     T3_Face_Network *_netWork;
     Decoder *_decoder;
     FrameLineData *_frameLineData;
@@ -129,7 +134,7 @@ private:
     QLabel *_angleSLabel_;
     int _battInt;
     QString _battQString;
-    int i;
+
 
 
 };

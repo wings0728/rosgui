@@ -30,14 +30,13 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string, BgType bgType) :
                                    this->height()*1.0000);
     //font
     QFont warningLabelFont_;
-    warningLabelFont_.setPointSize(ui->_warningLabel_->height() * kLabelFontScal);
+    warningLabelFont_.setPointSize(ui->_warningLabel_->height() * kLabelFontScal *0.6);
     ui->_warningLabel_->setFont(warningLabelFont_);
     //func
     connect(ui->_exitPushBtn_, SIGNAL(clicked()), this, SLOT(closeThis()));
 //    QPropertyAnimation *animation_ = new QPropertyAnimation(this, "windowOpacity");
 //    animation_->setDuration(50);
 //    animation_->setStartValue(0);
-//    //
 //    animation_->setEndValue(0.9);
 //    animation_->start();
     //
@@ -51,7 +50,23 @@ T3_AF_warning::T3_AF_warning(QWidget *parent , QString string, BgType bgType) :
     default:
       break;
     }
+    _qnode = rosgui::QNode::getInstance();
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
 }
+
+//void T3_AF_warning::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
 
 void T3_AF_warning::paintEvent(QPaintEvent *)
 {
@@ -75,6 +90,7 @@ void T3_AF_warning::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        closeThis();
         break;
     default:
         QDialog::keyPressEvent(event);
