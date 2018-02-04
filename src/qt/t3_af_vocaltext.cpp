@@ -178,9 +178,10 @@ void T3_AF_vocalText::on__saveBtn__clicked()
 
 void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
 {
+    QString role = ui->_userTypeComboBox_->currentText();
     QSqlQuery query_;
-    query_.prepare("select voice from T3FaceUserType where id = ?");
-    query_.bindValue(0,index + 1);
+    query_.prepare("select voice from T3FaceUserType where UserType = ?");
+    query_.bindValue(0,role);
     query_.exec();
     query_.next();
     QString voice_ = query_.value(0).toString();
@@ -241,6 +242,7 @@ void T3_AF_vocalText::on__add__clicked()
       warning_->show();
       ui->_groupName_->clear();
       initUserTypeListView();
+      initUserTypeComboBox();
     }
 
 

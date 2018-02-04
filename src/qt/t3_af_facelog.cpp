@@ -223,6 +223,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     //人脸识别引擎
     _faceEngine = new FaceEngine();
     _network = T3_Face_Network::getT3FaceNetwork();
+    _newFaceTimer = new QTimer();
+    connect(_newFaceTimer,&QTimer::timeout,this,&T3_AF_faceLog::sendTheNewFaceSingal);
     //相关控件设置初始化
     initUserTypeComboBox();
     //日志
@@ -334,7 +336,9 @@ void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
           on__clearPushBtn__clicked();
           if(_network->_isNetworkConnected_)
           {
-            _network->updateClientDataBase();
+              _newFaceTimer->start(100);
+              _sign = 1;
+
           }
 
         }
@@ -446,7 +450,9 @@ void T3_AF_faceLog::deletePushBtn__clicked()
   _model->submitAll();
   if(_network->_isNetworkConnected_)
   {
-    _network->sendDeteleFaceInfoById(data.toInt());
+    _newFaceTimer->start(100);
+    _id = data.toInt();
+    _sign = 2;
   }
 }
 
@@ -463,4 +469,14 @@ void T3_AF_faceLog::initUserTypeComboBox()
     }
 
   }
+}
+void T3_AF_faceLog::sendTheNewFaceSingal()
+{
+
+  _newFaceTimer->stop();
+  if(_sign == 1)
+  _network->updateClientDataBase();
+  if(_sign == 2)
+  _network->sendDeteleFaceInfoById(_id);
+
 }

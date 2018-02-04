@@ -908,7 +908,7 @@ void T3_AF_map::keyReleaseEvent(QKeyEvent *event)
 
 void T3_AF_map::printVideo(QImage faceImage)
 {
-  qDebug() << "+++++++++++++++++++++++++++++++++++++++++++++++";
+
   //faceImage = faceImage.mirrored(true,false);
   QPainter paint(&faceImage);
   QPen pen(Qt::yellow,2);

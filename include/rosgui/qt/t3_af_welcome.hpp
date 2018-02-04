@@ -9,6 +9,7 @@
 #include "t3_af_common.hpp"
 
 #include "../ros/qnode.hpp"
+#include "t3_face_network.hpp"
 
 
 namespace Ui {
@@ -38,6 +39,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void paintEvent(QPaintEvent *event);
+    T3_Face_Network *_network;
     T3Dialog *_father;
     T3Dialog *_common;
     rosgui::QNode *_qnode;

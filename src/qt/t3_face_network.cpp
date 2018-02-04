@@ -13,11 +13,17 @@ T3_Face_Network::T3_Face_Network()
     _udpSocket->bind(8888,QUdpSocket::ShareAddress);
     _videoTimer = new QTimer();
     _getVideotimer = new QTimer();
+    _sendTimer = new QTimer();
+    _heartBeatNetwork = new QTimer();
     connect(_getVideotimer,&QTimer::timeout,this,&T3_Face_Network::reGetTheVideo);
     connect(_udpSocket,&QUdpSocket::readyRead,this,&T3_Face_Network::processUDPData);
     connect(_decoder_,&Decoder::newFrame,this,&T3_Face_Network::stopVideoTimer);
     connect(_videoTimer,&QTimer::timeout,this,&T3_Face_Network::resendTheVideo);
     connect(_node,&rosgui::QNode::lowPower,this,&T3_Face_Network::sendLowPowerSingle);
+    connect(_sendTimer,&QTimer::timeout,this,&T3_Face_Network::sendMessage);
+    connect(_heartBeatNetwork,&QTimer::timeout,this,&T3_Face_Network::HeartBeat);
+    qDebug() << "network init";
+
 }
 T3_Face_Network::~T3_Face_Network()
 {
@@ -38,7 +44,13 @@ void T3_Face_Network::getSocket()
     connect(_socket,&QTcpSocket::readyRead,this,&T3_Face_Network::analyzeNetworkData);
     connect(_socket,&QTcpSocket::disconnected,this,&T3_Face_Network::socketDisconnected);
     _decoder_->initDecoder();
+    if(!_heartBeatNetwork->isActive())
+    {
+      _heartBeatNetwork->start(30000);
+    }
+
     getVideo();
+
 }
 
 void T3_Face_Network::analyzeNetworkData()
@@ -155,6 +167,8 @@ void T3_Face_Network::getVideo()
     stream_ << (quint32)sizeof(quint32);
     stream_ << (quint32)_sign;
     _socket->write(block_);
+    qDebug() << "get video";
+    processUDPData();
 
 }
 
@@ -171,13 +185,8 @@ void T3_Face_Network::closeVideo()
 
 void T3_Face_Network::updateClientDataBase()
 {
-    _sign = 1;
-    QByteArray block_ ;
-    QDataStream stream_(&block_,QIODevice::WriteOnly);
-    stream_.setVersion(QDataStream::Qt_5_5);
-    stream_ << (quint32)sizeof(quint32);
-    stream_ << (quint32)_sign ;
-    _socket->write(block_);
+    _sendTimer->start(5000);
+    _sendSign = 1;
 
 }
 
@@ -215,14 +224,9 @@ void T3_Face_Network::processUDPData()
 
 void T3_Face_Network::sendDeteleFaceInfoById(int id)
 {
-    _sign = 4;
-    QByteArray block_ ;
-    QDataStream stream_(&block_,QIODevice::WriteOnly);
-    stream_.setVersion(QDataStream::Qt_5_5);
-    stream_ << (quint32)sizeof(quint32);
-    stream_ << (quint32)_sign ;
-    stream_ << (quint32)id;
-    _socket->write(block_);
+   _sendTimer->start(5000);
+   _sendID = id;
+   _sendSign = 4;
 }
 
 void T3_Face_Network::sendLowPowerSingle()
@@ -304,3 +308,49 @@ void T3_Face_Network::readTheUDPData(QByteArray data)
   }
 }
 
+void T3_Face_Network::sendMessage()
+{
+  if(_sendSign == 1)
+  {
+    _sign = 1;
+    _sendTimer->stop();
+    QByteArray block_ ;
+    QDataStream stream_(&block_,QIODevice::WriteOnly);
+    stream_.setVersion(QDataStream::Qt_5_5);
+    stream_ << (quint32)sizeof(quint32);
+    stream_ << (quint32)_sign ;
+    _socket->write(block_);
+
+    qDebug() << "newFace";
+  }
+  if(_sendSign == 4)
+  {
+    _sign = 4;
+    _sendTimer->stop();
+    QByteArray block_ ;
+    QDataStream stream_(&block_,QIODevice::WriteOnly);
+    stream_.setVersion(QDataStream::Qt_5_5);
+    stream_ << (quint32)sizeof(quint32);
+    stream_ << (quint32)_sign ;
+    stream_ << (quint32)_sendID ;
+    _socket->write(block_);
+    qDebug() << "deleteface";
+
+  }
+
+
+
+}
+
+
+void T3_Face_Network::HeartBeat()
+{
+  _sign = 10;
+  QByteArray block_ ;
+  QDataStream stream_(&block_,QIODevice::WriteOnly);
+  stream_.setVersion(QDataStream::Qt_5_5);
+  stream_ << (quint32)sizeof(quint32);
+  stream_ << (quint32)_sign ;
+  _socket->write(block_);
+  qDebug() << "hearBeat";
+}

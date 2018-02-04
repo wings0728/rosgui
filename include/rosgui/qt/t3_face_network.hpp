@@ -73,6 +73,10 @@ private:
     //quint32 _id;
     QTimer *_videoTimer;
     QTimer *_getVideotimer;
+    QTimer *_sendTimer;
+    QTimer *_heartBeatNetwork;
+    int _sendSign ;
+    int _sendID;
     void readFrameData();
     void processUDPData();
 
@@ -86,6 +90,8 @@ private slots:
     void resendTheVideo();
     void reGetTheVideo();
     void sendLowPowerSingle();
+    void sendMessage();
+     void HeartBeat();
 
 signals:
     void getLog(int id);
