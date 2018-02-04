@@ -13,7 +13,6 @@ T3_AF_map::T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent) :
     _robotPose(4, 0.0),
     _mapOrigin(3, 0.0)
 {
-    i=0;
     _father = new T3Dialog;
     //界面布局初始化
     ui->setupUi(this);
@@ -43,6 +42,7 @@ T3_AF_map::T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent) :
     _stopPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_stopPushBtn_->setFocusPolicy(Qt::NoFocus);
     _backToOrigin_->setFocusPolicy(Qt::NoFocus);
+    ui->_full_->setFocusPolicy(Qt::NoFocus);
     _backToOrigin_->setText("回到原点");
     _backToOrigin_->setStyleSheet("border-image:url(:/Pictures/clearPath.png)");
     ui->_stopPushBtn_->setStyleSheet("QPushButton{border-image:url(:/Pictures/mainWindow_stop.png);}"
@@ -198,7 +198,11 @@ T3_AF_map::T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent) :
         _scale = _mapHeight / _realHeight;
         _mapWidth = _scale * _realWidth;
     }
-    qDebug() << "_mapWidth" << _mapWidth << "_mapHeight" << _mapHeight << "_scale" << _scale;
+    ui->_full_->setGeometry(_mapStartX + _mapWidth - (this->width() * 0.025),
+                            _mapStartY + _mapHeight,
+                            this->width()*0.025,
+                            this->width()*0.025);
+    connectStatus = "";
     _startX = 0;
     _startY = 0;
     _startXCurrent = 0;
@@ -215,6 +219,7 @@ T3_AF_map::T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent) :
     _angleSText = "";
     _battInt = 0;
     _battQString = "";
+    ifClear = false;
     checkMode();
 //    if(_qnode->getOprationMode() == rosgui::QNode::Manual)
 //    {
@@ -266,16 +271,17 @@ T3_AF_map::T3_AF_map(T3_AF_mainWindow *mainWindow, QWidget *parent) :
     connect(_leftTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_rightTurnPushBtn_, &QPushButton::clicked, this, &T3_AF_map::manualCmd);
     connect(_backToOrigin_, &QPushButton::clicked, this, &T3_AF_map::backToOrigin);
-    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    connect(ui->_full_, &QPushButton::clicked, this, &T3_AF_map::fullScreenMap);
     //日志
     T3LOG("7+ 导航界面构造");
+    //new
 }
 
-void T3_AF_map::lowBatt()
-{
-    emit lowBattSignal();
-    backToOrigin();
-}
+//void T3_AF_map::lowBatt()
+//{
+//    backToOrigin();
+//}
 
 void T3_AF_map::checkMode()
 {
@@ -453,7 +459,6 @@ void T3_AF_map::autoMode()
     }
 }
 
-
 void T3_AF_map::stopRobot()
 {
     _qnode->setOperationMode(rosgui::QNode::Manual);
@@ -484,7 +489,7 @@ void T3_AF_map::paintEvent(QPaintEvent *)
     paint_.drawLine(_pos_[2], _pos_[3], _pos_[4], _pos_[5]);
     paint_.drawLine(_pos_[4], _pos_[5], _pos_[0], _pos_[1]);
     //route
-    paint_.setPen(QPen(Qt::green, 3));
+    paint_.setPen(QPen(Qt::white, 3));
     if(_route.size() > 1)
     {
             for(int i = 0; i<_route.size()-1; i++)
@@ -503,18 +508,13 @@ void T3_AF_map::paintEvent(QPaintEvent *)
         }
     }
     //arrow
-    paint_.setPen(QPen(Qt::green, 2));
+    paint_.setPen(QPen(Qt::white, 2));
     if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)))
     {
-//        paint_.drawLine(_startX, _startY, _moveX, _moveY);
-//        paint_.drawLine(_startX, _startY, _arrow_[0], _arrow_[1]);
-//        paint_.drawLine(_startX, _startY, _arrow_[2], _arrow_[3]);
         paint_.drawLine(_arrow_[0], _arrow_[1], _arrow_[2], _arrow_[3]);
         paint_.drawLine(_arrow_[2], _arrow_[3], _arrow_[4], _arrow_[5]);
         paint_.drawLine(_arrow_[4], _arrow_[5], _arrow_[0], _arrow_[1]);
     }
-
-
     showSpeed();
     battery();
 }
@@ -533,6 +533,7 @@ void T3_AF_map::showSpeed()
 
 void T3_AF_map::pathClear()
 {
+    ifClear = true;
     _pathX.clear();
     _pathY.clear();
     _route.clear();
@@ -608,15 +609,15 @@ void T3_AF_map::getTarget()
 {
     if((_startX > _mapStartX) & (_startY > _mapStartY) & (_moveX > 0) & (_moveY) > 0 & (_startX < (_mapStartX + _mapWidth)) & (_startY < (_mapStartY + _mapHeight)) & (_startX == _startXCurrent) & (_startY == _startYcurrent))
     {
-        float x = (_startX - _mapStartX)/_scale + _originX;
-        float y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
-        float a = atan2(_startY - _moveY, _moveX - _startX);
+        x = (_startX - _mapStartX)/_scale + _originX;
+        y = (_mapStartY + _mapHeight - _startY)/_scale + _originY;
+        a = atan2(_startY - _moveY, _moveX - _startX);
         if((a >= 3.14) || (a < -3.14))
         {
           a = -3.140;
         }
         _qnode->goalUpdate(x, y, a);
-//        qDebug() << _startX << _startY << _startXCurrent << _startYcurrent << _moveX << _moveY << x << y << a;
+        qDebug() <<"focus"<< x << y << a ;
     }
 }
 
@@ -675,7 +676,6 @@ void T3_AF_map::getPoint()
     //---------jason end
     float px = _mapStartX + (x - _originX) * _scale;
     float py = _mapStartY + _mapHeight - (y - _originY)*_scale;
-    qDebug() << "px:" << px << "py:" << py << "_mapStartX:" << _mapStartX << "_mapStartY:" << _mapStartY << "_mapWidth:" <<_mapWidth << "_mapHeight:" << _mapHeight;
     _pathX.append(px);
     _pathY.append(py);
     float angle = atan2(2 * w * z, 1 - 2 * z * z);
@@ -691,16 +691,10 @@ void T3_AF_map::getPoint()
     _pos_[3] = py - cLong*sin(angle);
     _pos_[4] = px + cShort*sin(angle);
     _pos_[5] = py + cShort*cos(angle);
-//    qDebug() <<"angle:" << angle <<"\n"
-//             <<"ax:" << _pos_[0] <<"\n"
-//             <<"ay:" << _pos_[1] <<"\n"
-//             <<"bx:" << _pos_[2] <<"\n"
-//             <<"by:" << _pos_[3] <<"\n"
-//             <<"cx:" << _pos_[4] <<"\n"
-//             <<"cy:" << _pos_[5] <<"\n" <<"\n";
     _connect->stop();
     _connect->start(5000);
     ui->_showConnectStatus_->setText("        已连接");
+    connectStatus = ui->_showConnectStatus_->text();
     ui->_showConnectStatus_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/on.png);color:black");
     update();
@@ -724,12 +718,9 @@ void T3_AF_map::closeEvent(QCloseEvent *event)
 
 void T3_AF_map::fullScreenMap()
 {
-    qDebug() << "show full";
-}
-
-void T3_AF_map::exitFullScreenMap()
-{
-    qDebug() << "exit full";
+    T3_AF_mapOnly *_mapOnly = new T3_AF_mapOnly(this);
+    _mapOnly->show();
+    this->hide();
 }
 
 //press
@@ -738,7 +729,7 @@ void T3_AF_map::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
-        exitFullScreenMap();
+        exitToMainWindow();
         break;
     case Qt::Key_W:
         if(_forwardPusbBtn_->isEnabled())
@@ -947,6 +938,7 @@ void T3_AF_map::ifConnected()
     ui->_showConnectStatus_->setText("未连接        ");
     ui->_showConnectStatus_->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     ui->_showConnectStatus_->setStyleSheet("border-image:url(:/Pictures/off.png)");
+    emit offline();
 }
 
 void T3_AF_map::sleepBtn(int delayTime)

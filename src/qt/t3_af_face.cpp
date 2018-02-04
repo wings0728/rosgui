@@ -196,23 +196,23 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
      _battInt = 0;
     //日志
     T3LOG("5+ 人脸界面构造");
-    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
 }
 
-void T3_AF_face::lowBatt()
-{
-    emit lowBattSignal();
-    if(rosgui::QNode::Auto == _qnode->getOprationMode())
-    {
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-    else
-    {
-        _qnode->setManualCmd(rosgui::QNode::Stop);
-        _qnode->setOperationMode(rosgui::QNode::Auto);
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-}
+//void T3_AF_face::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
+
 //显示时间
 void T3_AF_face::timeUpdate()
 {
@@ -304,6 +304,7 @@ void T3_AF_face::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        exitToMainWindow();
         break;
     default:
         QDialog::keyPressEvent(event);

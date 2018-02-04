@@ -252,28 +252,26 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     //connect(ui->_robotInfoPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::toRobotInfo);
     connect(_weather, &T3_AF_getWeather::getReady, this, &T3_AF_mainWindow::weatherUpdate);
     connect(_stopPushBtn_, &QPushButton::clicked, this, &T3_AF_mainWindow::stopRobot);
-    connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
     //
     _qnode = rosgui::QNode::getInstance();
+    //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
     //日志
     T3LOG("3+ 主界面构造");
-
 }
 
-void T3_AF_mainWindow::lowBatt()
-{
-    emit lowBattSignal();
-    if(rosgui::QNode::Auto == _qnode->getOprationMode())
-    {
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-    else
-    {
-        _qnode->setManualCmd(rosgui::QNode::Stop);
-        _qnode->setOperationMode(rosgui::QNode::Auto);
-        _qnode->goalUpdate(0.0, 0.0, 0.0);
-    }
-}
+//void T3_AF_mainWindow::lowBatt()
+//{
+//    if(rosgui::QNode::Auto == _qnode->getOprationMode())
+//    {
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//    else
+//    {
+//        _qnode->setManualCmd(rosgui::QNode::Stop);
+//        _qnode->setOperationMode(rosgui::QNode::Auto);
+//        _qnode->goalUpdate(0.0, 0.0, 0.0);
+//    }
+//}
 
 //显示时间
 void T3_AF_mainWindow::timeUpdate()
@@ -392,6 +390,7 @@ void T3_AF_mainWindow::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Escape:
+        exitToWelcome();
         break;
     default:
         QDialog::keyPressEvent(event);

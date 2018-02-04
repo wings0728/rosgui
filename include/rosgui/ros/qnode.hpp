@@ -22,6 +22,7 @@
 #include <QStringListModel>
 #include <vector>
 #include <nav_msgs/Odometry.h>
+#include <std_msgs/Bool.h>
 #include "../qt/t3_af_config.hpp"
 #include "nav_msgs/Path.h"
 #include "rosgui/SensorState.h"
@@ -82,13 +83,15 @@ public:
   OprationMode getOprationMode();
   int getBatt();
   void getRobotSpeed(double* linearX, double* anglarZ);
+  bool isLowPower();
+  bool isAborted();
 Q_SIGNALS:
 	void loggingUpdated();
   void rosShutdown();
   void poseUpdated();
   void globalPlanGet();
   void lowPower();
-
+  void isAbortedSignal(bool a);
 
 
 private:
@@ -102,6 +105,7 @@ private:
   ros::Subscriber _odomSub;
   ros::Subscriber _globalPlanSub;
   ros::Subscriber _batterySub;
+  ros::Subscriber _isAbortedSub;
   QStringListModel logging_model;
   //robot pose
   std::vector<double> _robotPose;
@@ -118,7 +122,8 @@ private:
   double _maxLinearX;
   double _maxAngularZ;
   int _battPer;
-
+  bool _isLowPower;
+  bool _isAborted;
   OprationMode _oprationMode;
   QNode();
   virtual ~QNode();
@@ -130,7 +135,7 @@ private:
     void getOdomCallback(const nav_msgs::Odometry& msg);
     void getGlobalPlanCallback(const nav_msgs::Path& pathMsg);
     void getStateCallback(const rosgui::SensorState& msg);
-
+    void getActionStateCallback(const std_msgs::Bool& msg);
 };
 
 }  // namespace rosgui
