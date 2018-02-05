@@ -31,7 +31,7 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/face_back.png)");
     ui->_faceGifLabel_->setText("");
-    ui->_faceGifLabel_->setStyleSheet("border-image:url(:/Pictures/face_gif.png)");
+    //ui->_faceGifLabel_->setStyleSheet("border-image:url(:/Pictures/face_gif.png)");
     ui->_textLabel_->setText("");
     ui->_textLabel_->setStyleSheet("border-image:url(:/Pictures/face_text.png)");
     ui->_squareLabel_->setText("");
@@ -123,6 +123,17 @@ T3_AF_face::T3_AF_face(T3Dialog *mainWindow, QWidget *parent) :
     battLow_->setSpeed(130);
     ui->_battGIF_->setMovie(battLow_);
     battLow_->start();
+    QMovie *faceGIF_ = new QMovie(":/Pictures/face_gif.gif");
+    faceGIF_->setScaledSize(QSize(ui->_faceGifLabel_->width(), ui->_faceGifLabel_->height()));
+    faceGIF_->setSpeed(100);
+    ui->_faceGifLabel_->setMovie(faceGIF_);
+    faceGIF_->start();
+    QMovie *headGIF_ = new QMovie(":/Pictures/face_head.gif");
+    headGIF_->setScaledSize(QSize(ui->_headLabel_->width(), ui->_headLabel_->height()));
+    headGIF_->setSpeed(140);
+    ui->_headLabel_->setMovie(headGIF_);
+    headGIF_->start();
+    //font
 
     //font
     QFont dateLabelFont_;

@@ -41,6 +41,10 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
                                this->height()*0.0222,
                                this->width()*0.1288,
                                this->height()*0.0444);
+    ui->_logo_->setGeometry(this->width()*0.3055,
+                            this->height()*0.17,
+                            this->width()*0.389,
+                            this->height()*0.6056);
     QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
     battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
     battLow_->setSpeed(130);
@@ -66,6 +70,11 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     welcomeBackground_->setSpeed(90);
     ui->_gifLabel_->setMovie(welcomeBackground_);
     welcomeBackground_->start();
+    QMovie *logo_ = new QMovie(":/Pictures/welcome_Logo.gif");
+    logo_->setScaledSize(QSize(ui->_logo_->width(), ui->_logo_->height()));
+    logo_->setSpeed(100);
+    ui->_logo_->setMovie(logo_);
+    logo_->start();
     //定时器
     QTimer *timer_ = new QTimer(this);
     timer_->start(100);
@@ -137,18 +146,22 @@ void T3_AF_welcome::battery()
     if(_battInt <= 30)
     {
         ui->_battIMG_->setStyleSheet("");
+        ui->_battery_->setStyleSheet("color:rgb(238,9,8)");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+        ui->_battery_->setStyleSheet("color:rgb(200,125,80)");
     }
     else if(_battInt > 60 && _battInt <= 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+        ui->_battery_->setStyleSheet("color:rgb(10,255,100)");
     }
     else if(_battInt > 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+        ui->_battery_->setStyleSheet("color:rgb(10,255,100)");
     }
     update();
 }

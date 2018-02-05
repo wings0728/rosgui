@@ -447,11 +447,11 @@ color:black;
   <zorder>_dateTimeLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_getImagePushBtn_</zorder>
-  <zorder>_userTypeComboBox_</zorder>
   <zorder>_faceInfoTableView_</zorder>
   <zorder>_battery_</zorder>
   <zorder>_battGIF_</zorder>
   <zorder>_battIMG_</zorder>
+  <zorder>_userTypeComboBox_</zorder>
  </widget>
  <resources/>
  <connections/>
