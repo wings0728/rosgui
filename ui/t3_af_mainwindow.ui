@@ -545,9 +545,21 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="_robotLabel_">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>370</y>
+     <width>54</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>_tempraturePushBtn_</zorder>
   <zorder>_exitPushBtn_</zorder>
-  <zorder>_robotInfoPushBtn_</zorder>
   <zorder>_textLabel_</zorder>
   <zorder>_dateLabel_</zorder>
   <zorder>_timeLabel_</zorder>
@@ -571,6 +583,8 @@
   <zorder>_battIMG_</zorder>
   <zorder>_faceGIF_</zorder>
   <zorder>_facePushBtn_</zorder>
+  <zorder>_robotLabel_</zorder>
+  <zorder>_robotInfoPushBtn_</zorder>
  </widget>
  <resources/>
  <connections/>
