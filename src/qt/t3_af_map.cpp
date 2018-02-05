@@ -219,6 +219,7 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     _battInt = 0;
     _battQString = "";
     ifClear = false;
+    _powerCheck = false;
     checkMode();
 //    if(_qnode->getOprationMode() == rosgui::QNode::Manual)
 //    {
@@ -286,7 +287,9 @@ T3_AF_map::T3_AF_map(T3Dialog *mainWindow, QWidget *parent) :
     connect(ui->_full_, &QPushButton::clicked, this, &T3_AF_map::fullScreenMap);
     //日志
     T3LOG("7+ 导航界面构造");
-    //new
+    //draw low batt destination
+//    _powerCheck = _qnode->isLowPower();
+//    lowBattBackToOrigin();
 }
 
 //void T3_AF_map::lowBatt()
@@ -318,21 +321,35 @@ void T3_AF_map::battery()
     if(_battInt <= 30)
     {
         ui->_battIMG_->setStyleSheet("");
+        ui->_battery_->setStyleSheet("color:rgb(252,34,32)");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+        ui->_battery_->setStyleSheet("color:rgb(254,249,19)");
     }
     else if(_battInt > 60 && _battInt <= 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+        ui->_battery_->setStyleSheet("color:rgb(46,254,19)");
     }
     else if(_battInt > 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+        ui->_battery_->setStyleSheet("color:rgb(46,254,19)");
     }
     update();
 }
+
+//void T3_AF_map::lowBattBackToOrigin()
+//{
+//    if(_powerCheck == true)
+//    {
+//        backToOrigin();
+//        routeUpdate();
+//        _powerCheck = false;
+//    }
+//}
 
 void T3_AF_map::backToOrigin()
 {

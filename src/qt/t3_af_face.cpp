@@ -261,18 +261,22 @@ void T3_AF_face::battery()
     if(_battInt <= 30)
     {
         ui->_battIMG_->setStyleSheet("");
+        ui->_battery_->setStyleSheet("color:rgb(252,34,32)");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+        ui->_battery_->setStyleSheet("color:rgb(254,249,19)");
     }
     else if(_battInt > 60 && _battInt <= 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+        ui->_battery_->setStyleSheet("color:rgb(46,254,19)");
     }
     else if(_battInt > 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+        ui->_battery_->setStyleSheet("color:rgb(46,254,19)");
     }
     update();
 }
