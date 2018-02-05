@@ -71,11 +71,10 @@ private slots:
     void networkDisconnected();
 //    void lowBatt();
     void fullScreenMap();
-<<<<<<< HEAD
+
     void exitFullScreenMap();
     void getVideo();
-=======
->>>>>>> 25f811bd157a9a28001891a591c762ba2a9c838e
+
 
 signals:
     void offline();

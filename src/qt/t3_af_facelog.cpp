@@ -24,8 +24,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_addNewUserPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_faceInfoTableView_->setStyleSheet("background:transparent;border-width:0;color:white");
-    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:black");
-    ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
+    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:white");
+    //ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
     //size
     ui->_addNewUserPushBtn_->setGeometry(this->width()*0.9375,
                                          this->height()*0.556,
@@ -104,7 +104,7 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                      this->width()*0.1000,
                                      this->height()*0.0889);
     ui->_userTypeComboBox_->setGeometry(this->width()*0.7438,
-                                        this->height()*0.4156,
+                                        this->height()*0.41,
                                         this->width()*0.2013,
                                         this->height()*0.0556);
     ui->_faceInfoTableView_->setGeometry(this->width() * 0.0413,

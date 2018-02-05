@@ -207,6 +207,7 @@ void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
 
 void T3_AF_vocalText::initUserTypeComboBox()
 {
+  ui->_userTypeComboBox_->clear();
   QSqlQuery query_;
   query_.exec("select UserType from T3FaceUserType");
   while(query_.next())
@@ -220,6 +221,7 @@ void T3_AF_vocalText::initUserTypeComboBox()
 }
 void T3_AF_vocalText::initUserTypeListView()
 {
+
   QSqlQuery query_;
   query_.exec("select UserType from T3FaceUserType");
   QStringList strList ;
