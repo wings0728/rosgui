@@ -34,7 +34,8 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     ui->_exitPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_back.png)");
     ui->_facePushBtn_->setText("");
     ui->_facePushBtn_->setFocusPolicy(Qt::NoFocus);
-    ui->_facePushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_face.png)");
+    //ui->_facePushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_face.png)");
+    ui->_facePushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
     ui->_mapBackgroundLabel_->setText("");
     ui->_mapBackgroundLabel_->setStyleSheet("border-image:url(:/Pictures/mainWindow_mapBackground.png)");
     ui->_robotInfoPushBtn_->setText("");
@@ -84,6 +85,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                    this->width()*0.0375,
                                    this->height()*0.0600);
     ui->_facePushBtn_->setGeometry(this->width()*0.0375,
+                                   this->height()*0.3111,
+                                   this->width()*0.2000,
+                                   this->height()*0.4222);
+    ui->_faceGIF_->setGeometry(this->width()*0.0375,
                                    this->height()*0.3111,
                                    this->width()*0.2000,
                                    this->height()*0.4222);
@@ -185,6 +190,11 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     battLow_->setSpeed(130);
     ui->_battGIF_->setMovie(battLow_);
     battLow_->start();
+    QMovie *faceGIF_ = new QMovie(":/Pictures/face_gif.gif");
+    faceGIF_->setScaledSize(QSize(ui->_faceGIF_->width(), ui->_faceGIF_->height()));
+    faceGIF_->setSpeed(100);
+    ui->_faceGIF_->setMovie(faceGIF_);
+    faceGIF_->start();
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
