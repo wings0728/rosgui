@@ -41,9 +41,9 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
                                this->height()*0.0222,
                                this->width()*0.1288,
                                this->height()*0.0444);
-    ui->_logo_->setGeometry(this->width()*0.3055,
+    ui->_logo_->setGeometry(this->width()*0.2755,
                             this->height()*0.17,
-                            this->width()*0.389,
+                            this->width()*0.449,
                             this->height()*0.6056);
     QMovie *battLow_ = new QMovie(":/Pictures/batt_4.gif");
     battLow_->setScaledSize(QSize(ui->_battGIF_->width(), ui->_battGIF_->height()));
@@ -72,7 +72,7 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     welcomeBackground_->start();
     QMovie *logo_ = new QMovie(":/Pictures/welcome_Logo.gif");
     logo_->setScaledSize(QSize(ui->_logo_->width(), ui->_logo_->height()));
-    logo_->setSpeed(100);
+    logo_->setSpeed(120);
     ui->_logo_->setMovie(logo_);
     logo_->start();
     //定时器

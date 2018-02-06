@@ -74,7 +74,8 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     ui->_qualityTitleLabel_->setStyleSheet("color:white");
     ui->_mapPushBtn_->setText("");
     ui->_mapPushBtn_->setFocusPolicy(Qt::NoFocus);
-    ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
+    //ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
+    ui->_mapPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
     ui->_battery_->setText(_battQString);
     //size
     ui->_dateLabel_->setGeometry(this->width()*0.0688,
@@ -101,6 +102,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                   this->height()*0.2778,
                                   this->width()*0.4125,
                                   this->height()*0.5111);
+    ui->_mapLabel_->setGeometry(this->width()*0.3000,
+                                  this->height()*0.32,
+                                  this->width()*0.4125,
+                                  this->height()*0.4);
     ui->_pm25Label_->setGeometry(this->width()*0.6688,
                                  this->height()*0.0778,
                                  this->width()*0.0625,
@@ -205,6 +210,11 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     robotGIF_->setSpeed(80);
     ui->_robotLabel_->setMovie(robotGIF_);
     robotGIF_->start();
+    QMovie *mapGIF_ = new QMovie(":/Pictures/map.gif");
+    mapGIF_->setScaledSize(QSize(ui->_mapLabel_->width(), ui->_mapLabel_->height()));
+    mapGIF_->setSpeed(80);
+    ui->_mapLabel_->setMovie(mapGIF_);
+    mapGIF_->start();
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
