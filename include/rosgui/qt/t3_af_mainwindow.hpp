@@ -34,12 +34,9 @@ public:
 
 signals:
     void updateMode();
-<<<<<<< HEAD
     void lowBattSignal();
     void showMap();
 
-=======
->>>>>>> 25f811bd157a9a28001891a591c762ba2a9c838e
 
 private slots:
     void timeUpdate();

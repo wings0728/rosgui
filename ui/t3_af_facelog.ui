@@ -381,7 +381,24 @@ color:black;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
+    <string notr="true">QTableView
+{
+background:transparent;
+border-width:0;
+border-style:outset;
+color:white;
+}
+QHeaderView {
+    color: white;
+    font: bold 10pt;
+    background-color: rgb(108, 108, 108);
+    border: 0px solid rgb(144, 144, 144);
+    border:0px solid rgb(191,191,191);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-radius:0px;
+    min-height:29px;
+}</string>
    </property>
   </widget>
   <widget class="QLabel" name="_battery_">

@@ -31,15 +31,13 @@ public:
 
 private slots:
     void on__clearPushBtn__clicked();
-<<<<<<< HEAD
     void lowBatt();
     void sendTheNewFaceSingal();
 
 signals:
     void lowBattSignal();
-=======
 //    void lowBatt();
->>>>>>> 25f811bd157a9a28001891a591c762ba2a9c838e
+
 
 private Q_SLOTS:
     void timeUpdate();
