@@ -366,9 +366,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:transparent;
-color:black;
-</string>
+    <string notr="true">background:white;
+color:gray;
+selection-color:red;</string>
    </property>
   </widget>
   <widget class="QTableView" name="_faceInfoTableView_">
@@ -388,17 +388,7 @@ border-width:0;
 border-style:outset;
 color:white;
 }
-QHeaderView {
-    color: white;
-    font: bold 10pt;
-    background-color: rgb(108, 108, 108);
-    border: 0px solid rgb(144, 144, 144);
-    border:0px solid rgb(191,191,191);
-    border-left-color: rgba(255, 255, 255, 0);
-    border-top-color: rgba(255, 255, 255, 0);
-    border-radius:0px;
-    min-height:29px;
-}</string>
+</string>
    </property>
   </widget>
   <widget class="QLabel" name="_battery_">
@@ -464,11 +454,11 @@ QHeaderView {
   <zorder>_dateTimeLabel_</zorder>
   <zorder>_exitPushBtn_</zorder>
   <zorder>_getImagePushBtn_</zorder>
-  <zorder>_userTypeComboBox_</zorder>
   <zorder>_faceInfoTableView_</zorder>
   <zorder>_battery_</zorder>
   <zorder>_battGIF_</zorder>
   <zorder>_battIMG_</zorder>
+  <zorder>_userTypeComboBox_</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -216,7 +216,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/Pictures/face_head.png)</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>

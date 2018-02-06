@@ -168,7 +168,7 @@ void T3_Face_Network::getVideo()
     stream_ << (quint32)_sign;
     _socket->write(block_);
     qDebug() << "get video";
-    processUDPData();
+
 
 }
 
@@ -205,6 +205,7 @@ void T3_Face_Network::sendTTS(int sign, QString string)
 
 void T3_Face_Network::processUDPData()
 {
+
     if(!_videoTimer->isActive())
     {
       _videoTimer->start(4000);
@@ -262,6 +263,7 @@ void T3_Face_Network::reGetTheVideo()
 
 void T3_Face_Network::readTheUDPData(QByteArray data)
 {
+
   if(true)
   {
       QDataStream stream_(&data,QIODevice::ReadOnly);

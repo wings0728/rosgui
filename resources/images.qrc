@@ -10,7 +10,6 @@
         <file>Pictures/face_gif.png</file>
         <file>Pictures/face_logBackground.png</file>
         <file>Pictures/face_square.png</file>
-        <file>Pictures/face_text.png</file>
         <file>Pictures/logIn_background.png</file>
         <file>Pictures/logIn_logBackground.png</file>
         <file>Pictures/mainWindow_back.png</file>
@@ -27,7 +26,6 @@
         <file>Pictures/robotInfo_background.png</file>
         <file>Pictures/weatherForecast_back.png</file>
         <file>Pictures/weatherForecast_background.png</file>
-        <file>Pictures/welcome_background.gif</file>
         <file>Pictures/faceLog_addUserBackground.png</file>
         <file>Pictures/faceLog_background.png</file>
         <file>Pictures/faceLog_button.png</file>
@@ -73,5 +71,11 @@
         <file>Pictures/batt_3.png</file>
         <file>Pictures/batt_4.gif</file>
         <file>Pictures/map_full.png</file>
+        <file>Pictures/welcome_background.gif</file>
+        <file>Pictures/welcome_Logo.gif</file>
+        <file>Pictures/face_gif.gif</file>
+        <file>Pictures/face_head.gif</file>
+        <file>Pictures/face_text.png</file>
     </qresource>
+    <qresource prefix="/new/prefix1"/>
 </RCC>
