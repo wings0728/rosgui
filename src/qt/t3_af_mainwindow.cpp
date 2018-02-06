@@ -40,7 +40,8 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     ui->_mapBackgroundLabel_->setStyleSheet("border-image:url(:/Pictures/mainWindow_mapBackground.png)");
     ui->_robotInfoPushBtn_->setText("");
     ui->_robotInfoPushBtn_->setFocusPolicy(Qt::NoFocus);
-    ui->_robotInfoPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_robotInfo.png)");
+    //ui->_robotInfoPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_robotInfo.png)");
+    ui->_robotInfoPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
     ui->_textLabel_->setText("");
     ui->_textLabel_->setStyleSheet("border-image:url(:/Pictures/mainWindow_text.png)");
     ui->_tempraturePushBtn_->setText("");
@@ -73,7 +74,8 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     ui->_qualityTitleLabel_->setStyleSheet("color:white");
     ui->_mapPushBtn_->setText("");
     ui->_mapPushBtn_->setFocusPolicy(Qt::NoFocus);
-    ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
+    //ui->_mapPushBtn_->setStyleSheet("border-image:url(:/Pictures/mainWindow_map.png)");
+    ui->_mapPushBtn_->setStyleSheet("background:transparent;border-width:0;border-style:outset;color:white");
     ui->_battery_->setText(_battQString);
     //size
     ui->_dateLabel_->setGeometry(this->width()*0.0688,
@@ -100,6 +102,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                   this->height()*0.2778,
                                   this->width()*0.4125,
                                   this->height()*0.5111);
+    ui->_mapLabel_->setGeometry(this->width()*0.3000,
+                                  this->height()*0.32,
+                                  this->width()*0.4125,
+                                  this->height()*0.4);
     ui->_pm25Label_->setGeometry(this->width()*0.6688,
                                  this->height()*0.0778,
                                  this->width()*0.0625,
@@ -120,6 +126,10 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
                                           this->height()*0.0889,
                                           this->width()*0.2000,
                                           this->height()*0.6222);
+    ui->_robotLabel_->setGeometry(this->width()*0.75,
+                                  this->height()*0.12,
+                                  this->width()*0.2000,
+                                  this->height()*0.6222);
     ui->_sunriseLabel_->setGeometry(this->width()*0.3375,
                                     this->height()*0.0778,
                                     this->width()*0.0625,
@@ -195,6 +205,16 @@ T3_AF_mainWindow::T3_AF_mainWindow(T3Dialog *welcome, QWidget *parent) :
     faceGIF_->setSpeed(100);
     ui->_faceGIF_->setMovie(faceGIF_);
     faceGIF_->start();
+    QMovie *robotGIF_ = new QMovie(":/Pictures/robot.gif");
+    robotGIF_->setScaledSize(QSize(ui->_robotLabel_->width(), ui->_robotLabel_->height()));
+    robotGIF_->setSpeed(80);
+    ui->_robotLabel_->setMovie(robotGIF_);
+    robotGIF_->start();
+    QMovie *mapGIF_ = new QMovie(":/Pictures/map.gif");
+    mapGIF_->setScaledSize(QSize(ui->_mapLabel_->width(), ui->_mapLabel_->height()));
+    mapGIF_->setSpeed(80);
+    ui->_mapLabel_->setMovie(mapGIF_);
+    mapGIF_->start();
     //font
     QFont dateLabelFont_;
     dateLabelFont_.setPointSize(ui->_dateLabel_->height() * kLabelFontScal*0.55);
@@ -301,18 +321,22 @@ void T3_AF_mainWindow::battery()
     if(_battInt <= 30)
     {
         ui->_battIMG_->setStyleSheet("");
+        ui->_battery_->setStyleSheet("color:rgb(252,34,32)");
     }
     else if(_battInt > 30 && _battInt <= 60)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_3.png)");
+        ui->_battery_->setStyleSheet("color:rgb(254,249,19)");
     }
     else if(_battInt > 60 && _battInt <= 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_2.png)");
+        ui->_battery_->setStyleSheet("color:rgb(46,254,19)");
     }
     else if(_battInt > 90)
     {
         ui->_battIMG_->setStyleSheet("border-image:url(:/Pictures/batt_1.png)");
+        ui->_battery_->setStyleSheet("color:rgb(46,254,19)");
     }
     update();
 }

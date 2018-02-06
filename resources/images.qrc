@@ -76,6 +76,8 @@
         <file>Pictures/face_gif.gif</file>
         <file>Pictures/face_head.gif</file>
         <file>Pictures/face_text.png</file>
+        <file>Pictures/robot.gif</file>
+        <file>Pictures/map.gif</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

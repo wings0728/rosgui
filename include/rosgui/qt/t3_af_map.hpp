@@ -60,7 +60,7 @@ public:
     float x;
     float y;
     float a;
-
+    void lowBattBackToOrigin();
 
 private slots:
     void timeUpdate();
@@ -139,9 +139,7 @@ private:
     QLabel *_angleSLabel_;
     int _battInt;
     QString _battQString;
-
-
-
+    bool _powerCheck;
 };
 
 #endif // T3_AF_MAP_H
