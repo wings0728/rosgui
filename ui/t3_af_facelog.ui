@@ -366,9 +366,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:transparent;
-color:black;
-</string>
+    <string notr="true">background:white;
+color:gray;
+selection-color:red;</string>
    </property>
   </widget>
   <widget class="QTableView" name="_faceInfoTableView_">
@@ -381,7 +381,14 @@ color:black;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:transparent;border-width:0;border-style:outset;color:white</string>
+    <string notr="true">QTableView
+{
+background:transparent;
+border-width:0;
+border-style:outset;
+color:white;
+}
+</string>
    </property>
   </widget>
   <widget class="QLabel" name="_battery_">

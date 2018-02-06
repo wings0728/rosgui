@@ -398,8 +398,10 @@ void T3_AF_mainWindow::toWeatherForecast()
 //进入map
 void T3_AF_mainWindow::toMap()
 {
+
     _map->show();
     emit updateMode();
+    emit showMap();
     this->hide();
 }
 

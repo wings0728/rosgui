@@ -24,8 +24,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_addNewUserPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_faceInfoTableView_->setStyleSheet("background:transparent;border-width:0;color:white");
-    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:black");
-    ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
+    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:white");
+    //ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
     //size
     ui->_addNewUserPushBtn_->setGeometry(this->width()*0.9375,
                                          this->height()*0.556,
@@ -104,7 +104,7 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
                                      this->width()*0.1000,
                                      this->height()*0.0889);
     ui->_userTypeComboBox_->setGeometry(this->width()*0.7438,
-                                        this->height()*0.4156,
+                                        this->height()*0.41,
                                         this->width()*0.2013,
                                         this->height()*0.0556);
     ui->_faceInfoTableView_->setGeometry(this->width() * 0.0413,
@@ -223,6 +223,8 @@ T3_AF_faceLog::T3_AF_faceLog(T3Dialog *face, QWidget *parent) :
     //人脸识别引擎
     _faceEngine = new FaceEngine();
     _network = T3_Face_Network::getT3FaceNetwork();
+    _newFaceTimer = new QTimer();
+    connect(_newFaceTimer,&QTimer::timeout,this,&T3_AF_faceLog::sendTheNewFaceSingal);
     //相关控件设置初始化
     initUserTypeComboBox();
     //日志
@@ -335,7 +337,9 @@ void T3_AF_faceLog::on__addNewUserPushBtn__clicked()
           on__clearPushBtn__clicked();
           if(_network->_isNetworkConnected_)
           {
-            _network->updateClientDataBase();
+              _newFaceTimer->start(100);
+              _sign = 1;
+
           }
 
         }
@@ -451,7 +455,9 @@ void T3_AF_faceLog::deletePushBtn__clicked()
   _model->submitAll();
   if(_network->_isNetworkConnected_)
   {
-    _network->sendDeteleFaceInfoById(data.toInt());
+    _newFaceTimer->start(100);
+    _id = data.toInt();
+    _sign = 2;
   }
 }
 
@@ -468,4 +474,14 @@ void T3_AF_faceLog::initUserTypeComboBox()
     }
 
   }
+}
+void T3_AF_faceLog::sendTheNewFaceSingal()
+{
+
+  _newFaceTimer->stop();
+  if(_sign == 1)
+  _network->updateClientDataBase();
+  if(_sign == 2)
+  _network->sendDeteleFaceInfoById(_id);
+
 }

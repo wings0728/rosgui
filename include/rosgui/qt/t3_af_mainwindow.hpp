@@ -34,6 +34,9 @@ public:
 
 signals:
     void updateMode();
+    void lowBattSignal();
+    void showMap();
+
 
 private slots:
     void timeUpdate();

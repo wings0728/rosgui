@@ -10,6 +10,9 @@
 #include "t3_af_config.hpp"
 #include "t3_library.hpp"
 #include "t3_face_decoder.hpp"
+#include "../ros/qnode.hpp"
+
+
 class FrameLineData
 {
 public :
@@ -47,6 +50,7 @@ private:
     QByteArray _networkDataBuffer;//
     QByteArray _frameData;
     QUdpSocket *_udpSocket;
+    rosgui::QNode *_node;
 
     quint32 _blockSize = 0;
     quint32 _readSign = 0;//读数据标识符 ,1表示传过来的数据为帧数据,2表示传过来的数据为新注册的用户数据.
@@ -69,6 +73,10 @@ private:
     //quint32 _id;
     QTimer *_videoTimer;
     QTimer *_getVideotimer;
+    QTimer *_sendTimer;
+    QTimer *_heartBeatNetwork;
+    int _sendSign ;
+    int _sendID;
     void readFrameData();
     void processUDPData();
 
@@ -81,6 +89,9 @@ private slots:
     void stopVideoTimer();
     void resendTheVideo();
     void reGetTheVideo();
+    void sendLowPowerSingle();
+    void sendMessage();
+     void HeartBeat();
 
 signals:
     void getLog(int id);

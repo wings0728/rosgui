@@ -15,8 +15,8 @@ T3_AF_faceHistory::T3_AF_faceHistory(QWidget *parent) :
     this->showFullScreen();
     ui->_exitPushBtn_->setFocusPolicy(Qt::NoFocus);
     ui->_faceInfoTableView_->setStyleSheet("background:transparent;border-width:0;color:white");
-    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:black");
-    ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
+    ui->_faceInfoTableView_->horizontalHeader()->setStyleSheet("color:white");
+    //ui->_faceInfoTableView_->verticalHeader()->setStyleSheet("QHeaderView::section {background-color: rgba(232, 255, 213, 5);}");
     //size
     ui->_backgroungLabel_->setGeometry(this->width()*0.4625,
                                        this->height()*0.0889,

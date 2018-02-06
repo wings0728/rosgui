@@ -84,6 +84,7 @@ T3_AF_welcome::T3_AF_welcome(QWidget *parent) :
     //connect(_qnode, SIGNAL(lowPower()), this, SLOT(lowBatt()));
     //日志
     T3LOG("1+ 欢迎界面构造");
+    _network = T3_Face_Network::getT3FaceNetwork();
 }
 
 //void T3_AF_welcome::lowBatt()

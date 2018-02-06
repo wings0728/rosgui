@@ -4,6 +4,7 @@
 #include <QSqlTableModel>
 #include <QSqlQueryModel>
 #include <QFileDialog>
+#include <QTimer>
 #include "t3_af_config.hpp"
 #include "T3Dialog.hpp"
 #include "t3_face_faceengine.hpp"
@@ -30,7 +31,13 @@ public:
 
 private slots:
     void on__clearPushBtn__clicked();
+
+    void sendTheNewFaceSingal();
+
+signals:
+    void lowBattSignal();
 //    void lowBatt();
+
 
 private Q_SLOTS:
     void timeUpdate();
@@ -53,6 +60,9 @@ private:
   QSqlTableModel *_model;
   int _ret;
   bool _readyAddNewFace = false;
+  QTimer *_newFaceTimer;
+  int _id;
+  int _sign = 0;
 
   void initUserTypeComboBox();
 
