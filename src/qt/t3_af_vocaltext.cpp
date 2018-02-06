@@ -195,9 +195,10 @@ void T3_AF_vocalText::on__saveBtn__clicked()
 
 void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
 {
+    QString role = ui->_userTypeComboBox_->currentText();
     QSqlQuery query_;
-    query_.prepare("select voice from T3FaceUserType where id = ?");
-    query_.bindValue(0,index + 1);
+    query_.prepare("select voice from T3FaceUserType where UserType = ?");
+    query_.bindValue(0,role);
     query_.exec();
     query_.next();
     QString voice_ = query_.value(0).toString();
@@ -206,28 +207,31 @@ void T3_AF_vocalText::on__userTypeComboBox__currentIndexChanged(int index)
 
 void T3_AF_vocalText::initUserTypeComboBox()
 {
+  ui->_userTypeComboBox_->clear();
   QSqlQuery query_;
   query_.exec("select UserType from T3FaceUserType");
   while(query_.next())
   {
     QString userType_ = query_.value(0).toString();
-    if("未注册" == userType_)
-    {
+
       ui->_userTypeComboBox_->addItem(userType_);
-    }
+
 
   }
 }
 void T3_AF_vocalText::initUserTypeListView()
 {
+
   QSqlQuery query_;
   query_.exec("select UserType from T3FaceUserType");
   QStringList strList ;
   while(query_.next())
   {
     QString userType_ = query_.value(0).toString();
+    if("未注册" != userType_)
+    {
     strList.append(userType_);
-
+    }
 
   }
   _stringListModel = new QStringListModel(strList);
@@ -257,6 +261,7 @@ void T3_AF_vocalText::on__add__clicked()
       warning_->show();
       ui->_groupName_->clear();
       initUserTypeListView();
+      initUserTypeComboBox();
     }
 
 

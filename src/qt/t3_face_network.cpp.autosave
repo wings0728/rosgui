@@ -263,7 +263,7 @@ void T3_Face_Network::reGetTheVideo()
 
 void T3_Face_Network::readTheUDPData(QByteArray data)
 {
-
+`
   if(true)
   {
       QDataStream stream_(&data,QIODevice::ReadOnly);

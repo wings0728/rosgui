@@ -1,5 +1,6 @@
 #include "../../include/rosgui/qt/t3_af_face.hpp"
 #include "ui_t3_af_face.h"
+#include <QDateTime>
 
 
 
@@ -382,12 +383,12 @@ void T3_AF_face::log(int id)
   QString name = query_.value(0).toString();
   QString time = QTime::currentTime().toString("hh:mm:ss");
   QString showString = time +"    "+ name;
-
+  QString dateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
   query_.prepare("insert into T3FaceRecord values(NULL,?,?,?,?)");
   query_.bindValue(0,id);
   query_.bindValue(1,name);
   query_.bindValue(2,"");
-  query_.bindValue(3,time);
+  query_.bindValue(3,dateTime);
   bool ret = query_.exec();
   if(!ret)
   {
