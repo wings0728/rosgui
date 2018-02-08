@@ -142,12 +142,6 @@ int Decoder::decoderFrame(char *data, int dataSize)
                     //image.mirrored (true,false);
                    emit newFrame(image);
 
-
-
-
-
-
-
                }
            }
 

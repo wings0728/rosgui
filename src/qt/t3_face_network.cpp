@@ -38,7 +38,7 @@ T3_Face_Network* T3_Face_Network::getT3FaceNetwork()
 
 void T3_Face_Network::getSocket()
 {
-    qDebug() << "network";
+    qDebug() << "network t3_face_network 41";
     _socket = _server->nextPendingConnection();
     _isNetworkConnected_ = true;
     connect(_socket,&QTcpSocket::readyRead,this,&T3_Face_Network::analyzeNetworkData);
@@ -205,7 +205,6 @@ void T3_Face_Network::sendTTS(int sign, QString string)
 
 void T3_Face_Network::processUDPData()
 {
-
     if(!_videoTimer->isActive())
     {
       _videoTimer->start(4000);
@@ -244,6 +243,7 @@ void T3_Face_Network::sendLowPowerSingle()
 void T3_Face_Network::stopVideoTimer()
 {
   _videoTimer->stop();
+  _isNetworkConnected_ = true;
 }
 
 void T3_Face_Network::resendTheVideo()
