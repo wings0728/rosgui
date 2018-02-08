@@ -13,7 +13,7 @@ T3_AF_getWeather::T3_AF_getWeather(QWidget *parent) :
     ui->setupUi(this);
     //连接网络和信号收发
     _manager = new QNetworkAccessManager;
-    _url1 = "http://wthrcdn.etouch.cn/WeatherApi?citykey=101020100";
+    _url1 = "http://wthrcdn.etouch.cn/WeatherApi?citykey=101280601";
     _manager->get(QNetworkRequest(QUrl(_url1)));
     connect(_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replayFinished(QNetworkReply*)));
     //日志
